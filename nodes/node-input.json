@@ -1,0 +1,12 @@
+{
+  "id": "node-input",
+  "name": "Input",
+  "description": "Entry point — receives the request body. Always exactly one per rule.",
+  "category": "input",
+  "ports": {
+    "outputs": [{ "name": "out", "branch": "default" }]
+  },
+  "ui": { "badge": "IN", "icon": "log-in", "accent": "#2e7d4f" },
+  "tags": ["terminal", "system"],
+  "updatedAt": "2026-05-06T00:00:00.000Z"
+}

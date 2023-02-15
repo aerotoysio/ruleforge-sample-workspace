@@ -1,0 +1,8 @@
+{
+  "instanceId": "n11",
+  "ruleId": "pax-validation",
+  "bindings": {
+    "from": { "kind": "context", "key":   "pax" },
+    "mode": { "kind": "literal", "value": "collect" }
+  }
+}

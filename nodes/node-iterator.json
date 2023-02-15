@@ -1,0 +1,39 @@
+{
+  "id": "node-iterator",
+  "name": "For each item",
+  "description": "Loops over an array (passengers, segments, bundles…). Downstream nodes run once per item, with the current item available as $pax / $bound / etc.",
+  "category": "iterator",
+  "ports": {
+    "inputs": [
+      {
+        "name": "source",
+        "type": "object-array",
+        "required": true,
+        "description": "Which list to loop over — pick an array from your request (passengers, journeys, bundles, segments, etc.).",
+        "hint": { "shape": "array-of-objects", "namePattern": "(pax|passenger|traveller|guests|journeys|bounds|segments|bundles|items)" },
+        "bindingKinds": ["path"]
+      }
+    ],
+    "params": [
+      {
+        "name": "as",
+        "type": "string",
+        "required": true,
+        "description": "What name to call each item inside the loop. Downstream nodes refer to the current item as $<this name> (e.g. $pax.id).",
+        "enum": [
+          { "value": "pax",     "label": "pax",     "description": "Best when iterating passengers — read fields as $pax.id, $pax.paxType, …" },
+          { "value": "bound",   "label": "bound",   "description": "Iterating direction-of-travel chunks (e.g. outbound, return)." },
+          { "value": "segment", "label": "segment", "description": "Iterating individual flight legs." },
+          { "value": "bundle",  "label": "bundle",  "description": "Iterating fare bundles / SKUs." },
+          { "value": "item",    "label": "item",    "description": "Generic catch-all when none of the above fit." }
+        ]
+      }
+    ],
+    "outputs": [
+      { "name": "next", "branch": "default", "description": "Per-element pass — fires once per array element." }
+    ]
+  },
+  "ui": { "badge": "ITER", "icon": "list", "accent": "#0f5b66" },
+  "tags": ["control-flow"],
+  "updatedAt": "2026-05-06T00:00:00.000Z"
+}

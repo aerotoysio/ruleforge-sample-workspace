@@ -1,0 +1,44 @@
+{
+  "id": "04-ancillary-only-bag-bundle",
+  "name": "04 · Ancillary-only · bag bundle, no flights",
+  "description": "An ancillary-only purchase: passenger buys a 2-bag bundle without a fare. No journeys, no bounds — bundles[].boundIds is empty. Tests rules that need to gracefully handle the no-flights case (most fare taxes won't apply; bag-fee VAT might).",
+  "tags": ["ancillary-only", "no-flights", "single-pax"],
+  "payload": {
+    "offer": {
+      "id": "OFF-S04",
+      "createdAt": "2026-05-04T10:00:00Z",
+      "expiresAt": "2026-05-04T11:00:00Z",
+      "currency": "GBP",
+      "pointOfSale": "GB",
+      "channel": "WEB",
+      "pax": [
+        { "id": "p1", "ageCategory": "ADT", "dateOfBirth": "1985-03-14", "residency": "GB" }
+      ],
+      "journeys": [],
+      "bundles": [
+        {
+          "id": "bd1",
+          "name": "Bag pack",
+          "brand": "ANCILLARY_BAG",
+          "paxId": "p1",
+          "boundIds": [],
+          "baseAmount": { "amount": 60, "currency": "GBP" },
+          "taxes": [],
+          "fees": [],
+          "charges": [],
+          "products": [
+            { "code": "BAG_HOLD_23", "name": "Hold bag 23kg", "included": false, "quantity": 2, "fee": { "amount": 30, "currency": "GBP" } }
+          ]
+        }
+      ],
+      "totals": {
+        "baseAmount": { "amount": 60, "currency": "GBP" },
+        "taxes":      { "amount":  0, "currency": "GBP" },
+        "fees":       { "amount":  0, "currency": "GBP" },
+        "charges":    { "amount":  0, "currency": "GBP" },
+        "grandTotal": { "amount": 60, "currency": "GBP" }
+      }
+    }
+  },
+  "updatedAt": "2026-05-04T00:00:00.000Z"
+}

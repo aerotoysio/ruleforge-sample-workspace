@@ -1,0 +1,45 @@
+{
+  "id": "node-filter-markets",
+  "name": "Filter — markets (location)",
+  "description": "Branches pass / fail. Pass when a 'location' field on the request matches a curated market — e.g. 'every airport in the USA except Texas, plus GVA'. Compiles down to a string-IN filter at evaluation time. Source field must be a string field whose name contains 'location' (reserved word).",
+  "category": "filter",
+  "ports": {
+    "inputs": [
+      {
+        "name": "source",
+        "type": "string",
+        "required": true,
+        "description": "The location field to test — pick a string field from your request whose name contains 'location'.",
+        "hint": { "shape": "scalar", "namePattern": "(location)", "schemaTypes": ["string"] },
+        "bindingKinds": ["path", "context"]
+      }
+    ],
+    "params": [
+      {
+        "name": "literal",
+        "type": "string-array",
+        "required": true,
+        "description": "The market — author by including/excluding hierarchy levels (continent, country, state, city) plus single airport codes.",
+        "bindingKinds": ["markets-select"]
+      },
+      {
+        "name": "onMissing",
+        "type": "string",
+        "description": "What to do when the source path isn't in the request.",
+        "enum": [
+          { "value": "fail", "label": "Fail", "description": "Treat as not matching." },
+          { "value": "skip", "label": "Skip", "description": "Stop and move on." },
+          { "value": "pass", "label": "Pass", "description": "Treat as matching." }
+        ]
+      }
+    ],
+    "outputs": [
+      { "name": "pass", "branch": "pass" },
+      { "name": "fail", "branch": "fail" }
+    ]
+  },
+  "defaults": { "operator": "in", "arraySelector": "any", "onMissing": "fail", "caseInsensitive": true, "trim": true },
+  "ui": { "badge": "MKT", "icon": "map-pin", "accent": "#1f4a6b" },
+  "tags": ["filter", "markets", "aviation", "business-friendly"],
+  "updatedAt": "2026-05-07T00:00:00.000Z"
+}

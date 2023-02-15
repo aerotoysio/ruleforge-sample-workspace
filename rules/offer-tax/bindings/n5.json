@@ -1,0 +1,18 @@
+{
+  "instanceId": "n5",
+  "ruleId": "offer-tax",
+  "bindings": {
+    "target":      { "kind": "literal",   "value": "code" },
+    "referenceId": { "kind": "reference", "referenceId": "ref-offer-tax-rates" },
+    "valueColumn": { "kind": "literal",   "value": "code" },
+    "onMissing":   { "kind": "literal",   "value": "leave" }
+  },
+  "extras": {
+    "matchOn": {
+      "origin":      { "kind": "path",    "path": "$.offer.journeys[0].bounds[0].segments[0].origin" },
+      "destination": { "kind": "path",    "path": "$.offer.journeys[0].bounds[0].segments[0].destination" },
+      "cabin":       { "kind": "path",    "path": "$.offer.journeys[0].bounds[0].segments[0].cabin" },
+      "ageCategory": { "kind": "context", "key":  "pax.ageCategory" }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "instanceId": "n8",
+  "ruleId": "pax-validation",
+  "bindings": {
+    "source":  { "kind": "context", "key":   "pax.paxType" },
+    "literal": { "kind": "literal", "value": ["INF"] }
+  }
+}

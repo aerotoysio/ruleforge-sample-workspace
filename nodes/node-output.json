@@ -1,0 +1,14 @@
+{
+  "id": "node-output",
+  "name": "Output",
+  "description": "Exit — writes the engine's response. Always exactly one per rule.",
+  "category": "output",
+  "ports": {
+    "inputs": [
+      { "name": "in", "type": "any", "required": true, "description": "Final value to return as the rule's response." }
+    ]
+  },
+  "ui": { "badge": "OUT", "icon": "log-out", "accent": "#5b3a72" },
+  "tags": ["terminal", "system"],
+  "updatedAt": "2026-05-06T00:00:00.000Z"
+}

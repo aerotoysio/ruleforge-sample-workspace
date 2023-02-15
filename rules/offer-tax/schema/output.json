@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rules/offer-tax/schema/output.json",
+  "title": "OfferTaxResponse",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["paxId", "code", "amount", "currency"],
+    "properties": {
+      "paxId": { "type": "string" },
+      "code": { "type": "string" },
+      "amount": { "type": "number" },
+      "currency": { "type": "string" }
+    }
+  }
+}

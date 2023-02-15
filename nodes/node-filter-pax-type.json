@@ -1,0 +1,45 @@
+{
+  "id": "node-filter-pax-type",
+  "name": "Filter — passenger type",
+  "description": "Branches pass / fail. Pass when the passenger's type (ADT, CHD, INF, …) is one of the selected types. Pre-suggests choices from the ref-pax-types reference table.",
+  "category": "filter",
+  "ports": {
+    "inputs": [
+      {
+        "name": "source",
+        "type": "string",
+        "required": true,
+        "description": "The passenger-type field — pick from your request (e.g. paxType, ageCategory).",
+        "hint": { "shape": "scalar", "namePattern": "(paxType|passengerType|type|ageCategory)", "schemaTypes": ["string"] },
+        "bindingKinds": ["path", "context"]
+      }
+    ],
+    "params": [
+      {
+        "name": "literal",
+        "type": "string-array",
+        "required": true,
+        "description": "Which passenger types should pass — type your own list, or use 'From Ref' to pick rows from the ref-pax-types reference table.",
+        "bindingKinds": ["literal", "ref-select"]
+      },
+      {
+        "name": "onMissing",
+        "type": "string",
+        "description": "What to do when the passenger has no type set.",
+        "enum": [
+          { "value": "fail", "label": "Fail", "description": "Treat as not matching." },
+          { "value": "skip", "label": "Skip", "description": "Stop and move on." },
+          { "value": "pass", "label": "Pass", "description": "Treat as matching." }
+        ]
+      }
+    ],
+    "outputs": [
+      { "name": "pass", "branch": "pass" },
+      { "name": "fail", "branch": "fail" }
+    ]
+  },
+  "defaults": { "operator": "in", "arraySelector": "any", "onMissing": "fail", "caseInsensitive": true, "trim": true },
+  "ui": { "badge": "PAX", "icon": "users", "accent": "#5b3a72" },
+  "tags": ["filter", "passenger", "business-friendly"],
+  "updatedAt": "2026-05-07T00:00:00.000Z"
+}

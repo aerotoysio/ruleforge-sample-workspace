@@ -1,0 +1,39 @@
+{
+  "id": "node-filter-day-of-week",
+  "name": "Filter — day of week",
+  "description": "Branches pass / fail. Pass when the source date falls on one of the selected weekdays (e.g. Mon-Wed). Wraps the date-mode 'day-of-week' binding so users get a 7-button day picker without thinking about modes.",
+  "category": "filter",
+  "ports": {
+    "inputs": [
+      {
+        "name": "source",
+        "type": "date",
+        "required": true,
+        "description": "Pick a date field from your request — departure, booking, etc.",
+        "hint": { "shape": "scalar", "namePattern": "(depart|departure|arrival|booking|At|Date|Time)" },
+        "bindingKinds": ["path", "context"]
+      }
+    ],
+    "params": [
+      { "name": "days", "type": "number-array", "required": true, "description": "Which weekdays match. 1=Mon … 7=Sun." },
+      {
+        "name": "onMissing",
+        "type": "string",
+        "description": "What to do when the source date isn't in the request.",
+        "enum": [
+          { "value": "fail", "label": "Fail", "description": "Treat as not matching." },
+          { "value": "skip", "label": "Skip", "description": "Stop this rule and move on without a verdict." },
+          { "value": "pass", "label": "Pass", "description": "Treat as matching." }
+        ]
+      }
+    ],
+    "outputs": [
+      { "name": "pass", "branch": "pass" },
+      { "name": "fail", "branch": "fail" }
+    ]
+  },
+  "defaults": { "onMissing": "fail" },
+  "ui": { "badge": "DOW", "icon": "calendar-days", "accent": "#1f4a6b" },
+  "tags": ["filter", "date", "business-friendly"],
+  "updatedAt": "2026-05-07T00:00:00.000Z"
+}

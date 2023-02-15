@@ -1,0 +1,19 @@
+{
+  "id": "ref-pax-types",
+  "name": "Passenger types",
+  "description": "Maps IATA passenger type codes (paxType) to a human label and a billing category. Used both as a name lookup (mutator-lookup) and as a multi-select source for filters (ref-select binding) — e.g. 'all paying adults' = paxType IN [code where category = paying].",
+  "currentVersion": 1,
+  "columns": ["code", "name", "category", "ageMin", "ageMax"],
+  "rows": [
+    { "code": "ADT", "name": "Adult",                   "category": "paying",   "ageMin": 12, "ageMax": null },
+    { "code": "YTH", "name": "Youth",                   "category": "paying",   "ageMin": 12, "ageMax": 24   },
+    { "code": "STU", "name": "Student",                 "category": "paying",   "ageMin": 12, "ageMax": 25   },
+    { "code": "SRC", "name": "Senior",                  "category": "paying",   "ageMin": 65, "ageMax": null },
+    { "code": "MIL", "name": "Military",                "category": "paying",   "ageMin": 18, "ageMax": null },
+    { "code": "CHD", "name": "Child",                   "category": "paying",   "ageMin": 2,  "ageMax": 11   },
+    { "code": "CNN", "name": "Child (alt code)",        "category": "paying",   "ageMin": 2,  "ageMax": 11   },
+    { "code": "INF", "name": "Infant on lap",           "category": "free",     "ageMin": 0,  "ageMax": 1    },
+    { "code": "INS", "name": "Infant with seat",        "category": "paying",   "ageMin": 0,  "ageMax": 1    }
+  ],
+  "updatedAt": "2026-05-06T00:00:00.000Z"
+}

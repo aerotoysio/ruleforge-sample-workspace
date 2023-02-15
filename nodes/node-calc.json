@@ -1,0 +1,16 @@
+{
+  "id": "node-calc",
+  "name": "Calculate a value",
+  "description": "Computes a value from an expression and writes it to a target field — arithmetic, dates (yearsBetween, addDays, dayOfWeek), strings (concat, upper).",
+  "category": "calc",
+  "ports": {
+    "params": [
+      { "name": "target", "type": "string", "required": true, "description": "Field on the current record (or context key) to write the computed value into." },
+      { "name": "expression", "type": "string", "required": true, "description": "Expression — paths and iteration vars are allowed: yearsBetween(now(), $pax.dateOfBirth)" }
+    ],
+    "outputs": [{ "name": "out", "branch": "default" }]
+  },
+  "ui": { "badge": "CALC", "icon": "calculator", "accent": "#6b3a1f" },
+  "tags": ["data", "compute"],
+  "updatedAt": "2026-05-06T00:00:00.000Z"
+}

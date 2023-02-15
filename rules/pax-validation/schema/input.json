@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rules/pax-validation/schema/input.json",
+  "title": "PaxValidationRequest",
+  "type": "object",
+  "required": ["passengers"],
+  "properties": {
+    "passengers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "paxType", "dateOfBirth"],
+        "properties": {
+          "id":          { "type": "string", "description": "Stable passenger identifier (e.g. PAX1)." },
+          "paxType":     { "type": "string", "enum": ["ADT", "CHD", "INF"], "description": "ADT = Adult (12+), CHD = Child (2-11), INF = Infant (0-1)." },
+          "dateOfBirth": { "type": "string", "format": "date", "description": "ISO date YYYY-MM-DD." },
+          "givenName":   { "type": "string" },
+          "familyName":  { "type": "string" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "id": "ref-offer-tax-rates",
+  "name": "Offer per-pax tax rates",
+  "description": "Demo APD/PSC/IT rates keyed by (origin, destination, cabin, ageCategory). Children and infants are exempt from APD bands. Real production data would have many more rows + per-effective-date versioning.",
+  "currentVersion": 1,
+  "columns": ["origin", "destination", "cabin", "ageCategory", "code", "amount", "currency"],
+  "rows": [
+    { "origin": "LHR", "destination": "DXB", "cabin": "Y", "ageCategory": "ADT", "code": "GB-APD-RED", "amount": 13,  "currency": "GBP" },
+    { "origin": "LHR", "destination": "DXB", "cabin": "Y", "ageCategory": "CHD", "code": "GB-APD-RED", "amount": 0,   "currency": "GBP" },
+    { "origin": "LHR", "destination": "DXB", "cabin": "Y", "ageCategory": "INF", "code": "GB-APD-RED", "amount": 0,   "currency": "GBP" },
+    { "origin": "LHR", "destination": "DXB", "cabin": "W", "ageCategory": "ADT", "code": "GB-APD-RED", "amount": 13,  "currency": "GBP" },
+    { "origin": "LHR", "destination": "DXB", "cabin": "J", "ageCategory": "ADT", "code": "GB-APD-STD", "amount": 91,  "currency": "GBP" },
+    { "origin": "LHR", "destination": "DXB", "cabin": "F", "ageCategory": "ADT", "code": "GB-APD-STD", "amount": 91,  "currency": "GBP" },
+
+    { "origin": "LHR", "destination": "JFK", "cabin": "Y", "ageCategory": "ADT", "code": "GB-APD-RED", "amount": 13,  "currency": "GBP" },
+    { "origin": "LHR", "destination": "JFK", "cabin": "Y", "ageCategory": "CHD", "code": "GB-APD-RED", "amount": 0,   "currency": "GBP" },
+    { "origin": "LHR", "destination": "JFK", "cabin": "J", "ageCategory": "ADT", "code": "GB-APD-STD", "amount": 91,  "currency": "GBP" },
+
+    { "origin": "LHR", "destination": "SYD", "cabin": "Y", "ageCategory": "ADT", "code": "GB-APD-LD",  "amount": 87,  "currency": "GBP" },
+    { "origin": "LHR", "destination": "SYD", "cabin": "Y", "ageCategory": "CHD", "code": "GB-APD-LD",  "amount": 0,   "currency": "GBP" },
+    { "origin": "LHR", "destination": "SYD", "cabin": "J", "ageCategory": "ADT", "code": "GB-APD-LD-STD","amount": 200,"currency": "GBP" },
+
+    { "origin": "DXB", "destination": "SYD", "cabin": "Y", "ageCategory": "ADT", "code": "AE-PSC",     "amount": 35,  "currency": "AED" },
+    { "origin": "DXB", "destination": "SYD", "cabin": "Y", "ageCategory": "CHD", "code": "AE-PSC",     "amount": 35,  "currency": "AED" },
+    { "origin": "DXB", "destination": "SYD", "cabin": "J", "ageCategory": "ADT", "code": "AE-PSC",     "amount": 35,  "currency": "AED" },
+
+    { "origin": "JFK", "destination": "LHR", "cabin": "Y", "ageCategory": "ADT", "code": "US-IT",      "amount": 21,  "currency": "USD" },
+    { "origin": "JFK", "destination": "LHR", "cabin": "Y", "ageCategory": "CHD", "code": "US-IT",      "amount": 21,  "currency": "USD" },
+    { "origin": "JFK", "destination": "LHR", "cabin": "J", "ageCategory": "ADT", "code": "US-IT",      "amount": 21,  "currency": "USD" }
+  ],
+  "updatedAt": "2026-05-04T00:00:00.000Z"
+}

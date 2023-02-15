@@ -1,0 +1,27 @@
+{
+  "id": "jfk-lhr-mixed",
+  "ruleId": "rule-offer-tax",
+  "name": "JFK→LHR · 2 ADT economy",
+  "description": "US-departure flight — US International Transportation tax applies to both adults at $21 each.",
+  "payload": {
+    "offer": {
+      "id": "off-003",
+      "currency": "USD",
+      "pax": [
+        { "id": "p1", "ageCategory": "ADT", "fareBasis": "Y" },
+        { "id": "p2", "ageCategory": "ADT", "fareBasis": "Y" }
+      ],
+      "itinerary": [
+        {
+          "id": "s1",
+          "origin": "JFK",
+          "destination": "LHR",
+          "cabin": "Y",
+          "departureAt": "2026-09-10T22:30:00Z"
+        }
+      ],
+      "bundles": []
+    }
+  },
+  "updatedAt": "2026-05-04T00:00:00.000Z"
+}

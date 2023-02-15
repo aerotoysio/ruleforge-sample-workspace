@@ -1,0 +1,58 @@
+{
+  "id": "03-multicity-lhr-jfk-lax-lhr",
+  "name": "03 · Multi-city LHR→JFK→LAX→LHR · 1 ADT",
+  "description": "Three bounds for a single passenger. Tests rules that need to walk every bound (some taxes apply per departure airport, not per outbound-only). Also exercises the kind=leg-N bound pattern for non-return trips.",
+  "tags": ["multi-city", "single-pax", "premium-economy"],
+  "payload": {
+    "offer": {
+      "id": "OFF-S03",
+      "createdAt": "2026-05-04T10:00:00Z",
+      "expiresAt": "2026-05-04T11:00:00Z",
+      "currency": "GBP",
+      "pointOfSale": "GB",
+      "channel": "WEB",
+      "pax": [
+        { "id": "p1", "ageCategory": "ADT", "dateOfBirth": "1979-11-22", "residency": "GB" }
+      ],
+      "journeys": [
+        {
+          "id": "j1",
+          "paxIds": ["p1"],
+          "bounds": [
+            {
+              "id": "leg1", "kind": "leg-1", "origin": "LHR", "destination": "JFK",
+              "segments": [
+                { "id": "s1", "marketingCarrier": "AER", "operatingCarrier": "AER", "flightNumber": "AER101", "origin": "LHR", "destination": "JFK", "cabin": "W", "bookingClass": "P", "fareBasis": "PLOW", "departureAt": "2026-09-01T11:00:00Z", "arrivalAt": "2026-09-01T14:30:00-04:00", "stopover": true }
+              ]
+            },
+            {
+              "id": "leg2", "kind": "leg-2", "origin": "JFK", "destination": "LAX",
+              "segments": [
+                { "id": "s2", "marketingCarrier": "AER", "operatingCarrier": "AER", "flightNumber": "AER201", "origin": "JFK", "destination": "LAX", "cabin": "W", "bookingClass": "P", "fareBasis": "PLOW", "departureAt": "2026-09-04T08:00:00-04:00", "arrivalAt": "2026-09-04T11:15:00-07:00", "stopover": true }
+              ]
+            },
+            {
+              "id": "leg3", "kind": "leg-3", "origin": "LAX", "destination": "LHR",
+              "segments": [
+                { "id": "s3", "marketingCarrier": "AER", "operatingCarrier": "AER", "flightNumber": "AER102", "origin": "LAX", "destination": "LHR", "cabin": "W", "bookingClass": "P", "fareBasis": "PLOW", "departureAt": "2026-09-08T19:30:00-07:00", "arrivalAt": "2026-09-09T13:50:00Z", "stopover": false }
+              ]
+            }
+          ]
+        }
+      ],
+      "bundles": [
+        { "id": "bd1", "name": "Premium Economy", "brand": "PREMIUM_ECON", "paxId": "p1", "boundIds": ["leg1"], "baseAmount": { "amount": 1450, "currency": "GBP" }, "taxes": [], "fees": [], "charges": [], "products": [] },
+        { "id": "bd2", "name": "Premium Economy", "brand": "PREMIUM_ECON", "paxId": "p1", "boundIds": ["leg2"], "baseAmount": { "amount":  380, "currency": "GBP" }, "taxes": [], "fees": [], "charges": [], "products": [] },
+        { "id": "bd3", "name": "Premium Economy", "brand": "PREMIUM_ECON", "paxId": "p1", "boundIds": ["leg3"], "baseAmount": { "amount": 1620, "currency": "GBP" }, "taxes": [], "fees": [], "charges": [], "products": [] }
+      ],
+      "totals": {
+        "baseAmount": { "amount": 3450, "currency": "GBP" },
+        "taxes":      { "amount":    0, "currency": "GBP" },
+        "fees":       { "amount":    0, "currency": "GBP" },
+        "charges":    { "amount":    0, "currency": "GBP" },
+        "grandTotal": { "amount": 3450, "currency": "GBP" }
+      }
+    }
+  },
+  "updatedAt": "2026-05-04T00:00:00.000Z"
+}

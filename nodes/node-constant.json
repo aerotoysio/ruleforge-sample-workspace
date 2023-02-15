@@ -1,0 +1,15 @@
+{
+  "id": "node-constant",
+  "name": "Starter value",
+  "description": "Emits a fixed value or empty record that downstream nodes fill in. Often used as the shell of an output object — e.g. {\"paxId\":\"\", \"amount\":0, \"currency\":\"\"}.",
+  "category": "constant",
+  "ports": {
+    "params": [
+      { "name": "value", "type": "any", "required": true, "description": "The literal value to emit." }
+    ],
+    "outputs": [{ "name": "out", "branch": "default" }]
+  },
+  "ui": { "badge": "CONST", "icon": "package", "accent": "#3a3a3a" },
+  "tags": ["data"],
+  "updatedAt": "2026-05-06T00:00:00.000Z"
+}

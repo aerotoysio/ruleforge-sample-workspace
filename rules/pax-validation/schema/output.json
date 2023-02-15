@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rules/pax-validation/schema/output.json",
+  "title": "PaxValidationResponse",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["paxId", "paxType", "computedAge", "valid"],
+    "properties": {
+      "paxId":       { "type": "string" },
+      "paxType":     { "type": "string", "enum": ["ADT", "CHD", "INF"] },
+      "computedAge": { "type": "number" },
+      "valid":       { "type": "boolean" },
+      "reason":      { "type": "string", "description": "Human-readable cause when valid=false." }
+    }
+  }
+}

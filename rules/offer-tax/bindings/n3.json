@@ -1,0 +1,10 @@
+{
+  "instanceId": "n3",
+  "ruleId": "offer-tax",
+  "bindings": {
+    "value": {
+      "kind": "literal",
+      "value": { "paxId": "", "code": "?", "amount": 0, "currency": "" }
+    }
+  }
+}

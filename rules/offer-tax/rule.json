@@ -1,0 +1,34 @@
+{
+  "id": "offer-tax",
+  "name": "Offer tax — per-pax demo",
+  "description": "Iterate over offer.pax. For each pax, look up tax based on the first journey's first bound's first segment (origin, destination, cabin) plus the pax's ageCategory. Returns one tax line per pax. Multi-bound granularity is a follow-up — would wrap the inner sub-graph in an outer iterator over $.offer.journeys[*].bounds[*].",
+  "endpoint": "/v1/offer/tax",
+  "method": "POST",
+  "status": "draft",
+  "currentVersion": 1,
+  "tags": ["offer", "tax", "demo"],
+  "category": "Tax",
+  "instances": [
+    { "instanceId": "n1", "nodeId": "node-input",           "position": { "x": 80,   "y": 240 }, "label": "Offer" },
+    { "instanceId": "n2", "nodeId": "node-iterator",        "position": { "x": 280,  "y": 240 }, "label": "For each pax" },
+    { "instanceId": "n3", "nodeId": "node-constant",        "position": { "x": 500,  "y": 240 }, "label": "Tax line shell" },
+    { "instanceId": "n4", "nodeId": "node-mutator-set",     "position": { "x": 720,  "y": 240 }, "label": "Set paxId" },
+    { "instanceId": "n5", "nodeId": "node-mutator-lookup",  "position": { "x": 940,  "y": 240 }, "label": "Lookup tax code" },
+    { "instanceId": "n6", "nodeId": "node-mutator-lookup",  "position": { "x": 1160, "y": 240 }, "label": "Lookup amount" },
+    { "instanceId": "n7", "nodeId": "node-mutator-lookup",  "position": { "x": 1380, "y": 240 }, "label": "Lookup currency" },
+    { "instanceId": "n8", "nodeId": "node-merge",           "position": { "x": 1600, "y": 240 }, "label": "Collect tax lines" },
+    { "instanceId": "n9", "nodeId": "node-output",          "position": { "x": 1820, "y": 240 }, "label": "Result" }
+  ],
+  "edges": [
+    { "id": "e1", "source": "n1", "target": "n2", "branch": "default" },
+    { "id": "e2", "source": "n2", "target": "n3", "branch": "default" },
+    { "id": "e3", "source": "n3", "target": "n4", "branch": "default" },
+    { "id": "e4", "source": "n4", "target": "n5", "branch": "default" },
+    { "id": "e5", "source": "n5", "target": "n6", "branch": "default" },
+    { "id": "e6", "source": "n6", "target": "n7", "branch": "default" },
+    { "id": "e7", "source": "n7", "target": "n8", "branch": "default" },
+    { "id": "e8", "source": "n8", "target": "n9", "branch": "default" }
+  ],
+  "updatedAt": "2026-05-06T00:00:00.000Z",
+  "updatedBy": "demo-bootstrap"
+}

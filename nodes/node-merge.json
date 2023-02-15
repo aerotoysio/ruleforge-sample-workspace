@@ -1,0 +1,32 @@
+{
+  "id": "node-merge",
+  "name": "Collect results",
+  "description": "Closes a 'For each' loop. Pick a mode: collect (gather into an array), sum (add numbers), first (first non-null), last.",
+  "category": "merge",
+  "ports": {
+    "inputs": [
+      { "name": "from", "type": "any", "required": true, "description": "The per-iteration value being collected." }
+    ],
+    "params": [
+      {
+        "name": "mode",
+        "type": "string",
+        "required": true,
+        "description": "How to combine the per-iteration values.",
+        "enum": [
+          { "value": "collect", "label": "Collect",        "description": "Gather every iteration's value into an array." },
+          { "value": "sum",     "label": "Sum",            "description": "Add the numeric values together (numbers only)." },
+          { "value": "first",   "label": "First non-null", "description": "Stop at the first iteration that produced a value." },
+          { "value": "last",    "label": "Last",           "description": "Use only the value from the final iteration." }
+        ]
+      }
+    ],
+    "outputs": [
+      { "name": "out", "branch": "default" }
+    ]
+  },
+  "defaults": { "mode": "collect" },
+  "ui": { "badge": "MRG", "icon": "git-merge", "accent": "#0f5b66" },
+  "tags": ["control-flow"],
+  "updatedAt": "2026-05-06T00:00:00.000Z"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "pax-val-02-mismatched",
+  "name": "Mismatched types — 1-year-old ADT, 30-year-old INF",
+  "description": "Two passengers with paxType inconsistent with age. Rule should flag PAX1 and PAX2 as invalid; PAX3 is fine.",
+  "tags": ["invalid", "edge-cases"],
+  "payload": {
+    "passengers": [
+      { "id": "PAX1", "paxType": "ADT", "dateOfBirth": "2025-01-15", "givenName": "Tiny",   "familyName": "Adult"  },
+      { "id": "PAX2", "paxType": "INF", "dateOfBirth": "1996-07-22", "givenName": "Giant",  "familyName": "Infant" },
+      { "id": "PAX3", "paxType": "CHD", "dateOfBirth": "2017-11-30", "givenName": "Normal", "familyName": "Kid"    }
+    ]
+  },
+  "updatedAt": "2026-05-06T00:00:00.000Z"
+}

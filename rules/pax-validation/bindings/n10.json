@@ -1,0 +1,16 @@
+{
+  "instanceId": "n10",
+  "ruleId": "pax-validation",
+  "bindings": {
+    "value": {
+      "kind": "literal",
+      "value": {
+        "paxId":       "$pax.id",
+        "paxType":     "$pax.paxType",
+        "computedAge": "$ctx.computedAge",
+        "valid":       "$branch.equals('pass')",
+        "reason":      "$branch.equals('fail') ? format('paxType {0} inconsistent with age {1}', $pax.paxType, $ctx.computedAge) : null"
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "id": "ref-cabin-classes",
+  "name": "Cabin classes",
+  "description": "Booking-class codes grouped by cabin tier. Use ref-select binding to author rules like 'all premium cabins' without hand-typing the codes.",
+  "currentVersion": 1,
+  "columns": ["code", "name", "cabin", "tier"],
+  "rows": [
+    { "code": "F", "name": "First",          "cabin": "First",    "tier": "premium" },
+    { "code": "P", "name": "Premium First",  "cabin": "First",    "tier": "premium" },
+    { "code": "J", "name": "Business",       "cabin": "Business", "tier": "premium" },
+    { "code": "C", "name": "Business",       "cabin": "Business", "tier": "premium" },
+    { "code": "D", "name": "Business",       "cabin": "Business", "tier": "premium" },
+    { "code": "I", "name": "Business",       "cabin": "Business", "tier": "premium" },
+    { "code": "Z", "name": "Business",       "cabin": "Business", "tier": "premium" },
+    { "code": "W", "name": "Premium Economy","cabin": "Premium",  "tier": "premium" },
+    { "code": "E", "name": "Premium Economy","cabin": "Premium",  "tier": "premium" },
+    { "code": "S", "name": "Premium Economy","cabin": "Premium",  "tier": "premium" },
+    { "code": "Y", "name": "Economy",        "cabin": "Economy",  "tier": "standard" },
+    { "code": "M", "name": "Economy",        "cabin": "Economy",  "tier": "standard" },
+    { "code": "B", "name": "Economy",        "cabin": "Economy",  "tier": "standard" },
+    { "code": "H", "name": "Economy",        "cabin": "Economy",  "tier": "standard" },
+    { "code": "K", "name": "Economy",        "cabin": "Economy",  "tier": "standard" },
+    { "code": "L", "name": "Economy basic",  "cabin": "Economy",  "tier": "saver"   },
+    { "code": "Q", "name": "Economy basic",  "cabin": "Economy",  "tier": "saver"   },
+    { "code": "T", "name": "Economy basic",  "cabin": "Economy",  "tier": "saver"   },
+    { "code": "V", "name": "Economy basic",  "cabin": "Economy",  "tier": "saver"   },
+    { "code": "X", "name": "Economy basic",  "cabin": "Economy",  "tier": "saver"   }
+  ],
+  "updatedAt": "2026-05-06T00:00:00.000Z"
+}

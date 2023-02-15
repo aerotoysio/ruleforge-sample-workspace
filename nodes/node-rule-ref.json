@@ -1,0 +1,19 @@
+{
+  "id": "node-rule-ref",
+  "name": "Call another rule",
+  "description": "Runs a different rule and uses its result. Useful for breaking a big problem into reusable smaller rules — e.g. a façade rule that fans out to 1,500 small ones.",
+  "category": "ruleRef",
+  "ports": {
+    "inputs": [
+      { "name": "payload", "type": "any", "required": true, "description": "Body to send to the sub-rule." }
+    ],
+    "params": [
+      { "name": "ruleId", "type": "string", "required": true, "description": "ID of the rule to invoke." },
+      { "name": "version", "type": "string", "description": "Optional version pin. Latest published if omitted." }
+    ],
+    "outputs": [{ "name": "out", "branch": "default" }]
+  },
+  "ui": { "badge": "RULE", "icon": "share-2", "accent": "#444444" },
+  "tags": ["control-flow", "composition"],
+  "updatedAt": "2026-05-06T00:00:00.000Z"
+}

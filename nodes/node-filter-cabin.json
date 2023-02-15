@@ -1,0 +1,45 @@
+{
+  "id": "node-filter-cabin",
+  "name": "Filter — cabin class",
+  "description": "Branches pass / fail. Pass when the request's cabin field matches one of the selected cabin tiers. Compiles down to a string-IN filter at evaluation time. Source field is restricted to fields whose name contains 'cabin' or 'class'.",
+  "category": "filter",
+  "ports": {
+    "inputs": [
+      {
+        "name": "source",
+        "type": "string",
+        "required": true,
+        "description": "The cabin field — pick a string field from your request whose name contains 'cabin' or 'class'.",
+        "hint": { "shape": "scalar", "namePattern": "(cabin|class|fareClass|cabinClass|bookingClass)", "schemaTypes": ["string"] },
+        "bindingKinds": ["path", "context"]
+      }
+    ],
+    "params": [
+      {
+        "name": "literal",
+        "type": "string-array",
+        "required": true,
+        "description": "Which cabins should pass. Pick rows from ref-cabin-classes — by code (Y, J, F) or by tier (premium, standard, saver).",
+        "bindingKinds": ["ref-select", "literal"]
+      },
+      {
+        "name": "onMissing",
+        "type": "string",
+        "description": "What to do when the source path isn't in the request.",
+        "enum": [
+          { "value": "fail", "label": "Fail", "description": "Treat as not matching." },
+          { "value": "skip", "label": "Skip", "description": "Stop and move on." },
+          { "value": "pass", "label": "Pass", "description": "Treat as matching." }
+        ]
+      }
+    ],
+    "outputs": [
+      { "name": "pass", "branch": "pass" },
+      { "name": "fail", "branch": "fail" }
+    ]
+  },
+  "defaults": { "operator": "in", "arraySelector": "any", "onMissing": "fail", "caseInsensitive": true, "trim": true },
+  "ui": { "badge": "CAB", "icon": "armchair", "accent": "#1f4a6b" },
+  "tags": ["filter", "cabin", "aviation", "business-friendly"],
+  "updatedAt": "2026-05-07T00:00:00.000Z"
+}

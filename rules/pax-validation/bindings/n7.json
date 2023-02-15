@@ -1,0 +1,9 @@
+{
+  "instanceId": "n7",
+  "ruleId": "pax-validation",
+  "bindings": {
+    "source": { "kind": "context", "key":   "computedAge" },
+    "min":    { "kind": "literal", "value": 2 },
+    "max":    { "kind": "literal", "value": 11 }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "id": "01-single-adt-oneway-lhr-dxb",
+  "name": "01 · Single ADT one-way LHR→DXB",
+  "description": "Simplest case. One adult, one bound, one segment, one bundle. Useful baseline for any rule that operates per pax.",
+  "tags": ["one-way", "single-pax", "economy"],
+  "payload": {
+    "offer": {
+      "id": "OFF-S01",
+      "createdAt": "2026-05-04T10:00:00Z",
+      "expiresAt": "2026-05-04T11:00:00Z",
+      "currency": "GBP",
+      "pointOfSale": "GB",
+      "channel": "WEB",
+      "pax": [
+        { "id": "p1", "ageCategory": "ADT", "dateOfBirth": "1985-03-14", "residency": "GB" }
+      ],
+      "journeys": [
+        {
+          "id": "j1",
+          "paxIds": ["p1"],
+          "bounds": [
+            {
+              "id": "ob1",
+              "kind": "outbound",
+              "origin": "LHR",
+              "destination": "DXB",
+              "segments": [
+                {
+                  "id": "s1",
+                  "marketingCarrier": "AER",
+                  "operatingCarrier": "AER",
+                  "flightNumber": "AER123",
+                  "origin": "LHR",
+                  "destination": "DXB",
+                  "cabin": "Y",
+                  "bookingClass": "M",
+                  "fareBasis": "MLOW",
+                  "departureAt": "2026-06-15T08:00:00Z",
+                  "arrivalAt": "2026-06-15T19:30:00+04:00",
+                  "stopover": false
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "bundles": [
+        {
+          "id": "bd1",
+          "name": "Economy Light",
+          "brand": "ECONOMY_LIGHT",
+          "paxId": "p1",
+          "boundIds": ["ob1"],
+          "baseAmount": { "amount": 520, "currency": "GBP" },
+          "taxes": [],
+          "fees": [],
+          "charges": [],
+          "products": []
+        }
+      ],
+      "totals": {
+        "baseAmount": { "amount": 520, "currency": "GBP" },
+        "taxes":      { "amount": 0,   "currency": "GBP" },
+        "fees":       { "amount": 0,   "currency": "GBP" },
+        "charges":    { "amount": 0,   "currency": "GBP" },
+        "grandTotal": { "amount": 520, "currency": "GBP" }
+      }
+    }
+  },
+  "updatedAt": "2026-05-04T00:00:00.000Z"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "pax-val-01-all-valid",
+  "name": "All valid — typical family",
+  "description": "Two adults, one child, one infant — all DOB / paxType consistent.",
+  "tags": ["valid", "happy-path"],
+  "payload": {
+    "passengers": [
+      { "id": "PAX1", "paxType": "ADT", "dateOfBirth": "1985-04-12", "givenName": "Sarah", "familyName": "Patel" },
+      { "id": "PAX2", "paxType": "ADT", "dateOfBirth": "1987-09-03", "givenName": "Anand", "familyName": "Patel" },
+      { "id": "PAX3", "paxType": "CHD", "dateOfBirth": "2018-06-20", "givenName": "Maya",  "familyName": "Patel" },
+      { "id": "PAX4", "paxType": "INF", "dateOfBirth": "2025-02-14", "givenName": "Arjun", "familyName": "Patel" }
+    ]
+  },
+  "updatedAt": "2026-05-06T00:00:00.000Z"
+}

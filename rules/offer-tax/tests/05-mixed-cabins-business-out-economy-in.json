@@ -1,0 +1,71 @@
+{
+  "id": "05-mixed-cabins-business-out-economy-in",
+  "name": "05 · Mixed cabins · J outbound + Y inbound",
+  "description": "Single pax on a return where the outbound is business (J) and the inbound is economy (Y). Each direction is a separate bundle so cabin-bracketed taxes can differ per bound. Loyalty: GOLD tier — useful for tier-waiver rules.",
+  "tags": ["return", "mixed-cabin", "loyalty", "single-pax"],
+  "payload": {
+    "offer": {
+      "id": "OFF-S05",
+      "createdAt": "2026-05-04T10:00:00Z",
+      "expiresAt": "2026-05-04T11:00:00Z",
+      "currency": "GBP",
+      "pointOfSale": "GB",
+      "channel": "WEB",
+      "pax": [
+        {
+          "id": "p1",
+          "ageCategory": "ADT",
+          "dateOfBirth": "1980-04-30",
+          "residency": "GB",
+          "loyalty": { "programme": "AERO", "tier": "GOLD", "number": "AT99001" }
+        }
+      ],
+      "journeys": [
+        {
+          "id": "j1",
+          "paxIds": ["p1"],
+          "bounds": [
+            {
+              "id": "ob1", "kind": "outbound", "origin": "LHR", "destination": "DXB",
+              "segments": [
+                { "id": "s1", "marketingCarrier": "AER", "operatingCarrier": "AER", "flightNumber": "AER123", "origin": "LHR", "destination": "DXB", "cabin": "J", "bookingClass": "C", "fareBasis": "CFLEX", "departureAt": "2026-10-12T08:00:00Z", "arrivalAt": "2026-10-12T19:30:00+04:00", "stopover": false }
+              ]
+            },
+            {
+              "id": "ib1", "kind": "inbound", "origin": "DXB", "destination": "LHR",
+              "segments": [
+                { "id": "s2", "marketingCarrier": "AER", "operatingCarrier": "AER", "flightNumber": "AER124", "origin": "DXB", "destination": "LHR", "cabin": "Y", "bookingClass": "M", "fareBasis": "MLOW", "departureAt": "2026-10-19T08:30:00+04:00", "arrivalAt": "2026-10-19T13:00:00Z", "stopover": false }
+              ]
+            }
+          ]
+        }
+      ],
+      "bundles": [
+        {
+          "id": "bd1", "name": "Business Flex", "brand": "BUSINESS_FLEX",
+          "paxId": "p1", "boundIds": ["ob1"],
+          "baseAmount": { "amount": 2800, "currency": "GBP" },
+          "taxes": [], "fees": [], "charges": [],
+          "products": [
+            { "code": "LOUNGE", "name": "Lounge access", "boundId": "ob1", "included": true, "fee": { "amount": 0, "currency": "GBP" } }
+          ]
+        },
+        {
+          "id": "bd2", "name": "Economy Light", "brand": "ECONOMY_LIGHT",
+          "paxId": "p1", "boundIds": ["ib1"],
+          "baseAmount": { "amount": 580, "currency": "GBP" },
+          "taxes": [], "fees": [], "charges": [],
+          "products": []
+        }
+      ],
+      "totals": {
+        "baseAmount": { "amount": 3380, "currency": "GBP" },
+        "taxes":      { "amount":    0, "currency": "GBP" },
+        "fees":       { "amount":    0, "currency": "GBP" },
+        "charges":    { "amount":    0, "currency": "GBP" },
+        "grandTotal": { "amount": 3380, "currency": "GBP" }
+      }
+    }
+  },
+  "updatedAt": "2026-05-04T00:00:00.000Z"
+}

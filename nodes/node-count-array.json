@@ -1,0 +1,20 @@
+{
+  "id": "node-count-array",
+  "name": "Count items in array",
+  "description": "Writes the number of items at an array path into a target field. Use for 'how many adults?' / 'how many flights?' / 'how many bundles?' patterns. Pair with a number filter to express 'if there are 2+ adults'.",
+  "category": "calc",
+  "ports": {
+    "inputs": [
+      { "name": "source", "type": "object-array", "required": true, "description": "Path to the array to count.", "hint": { "shape": "array-of-objects" } }
+    ],
+    "params": [
+      { "name": "target", "type": "string", "required": true, "description": "Field on the current record (or context key) to write the count into." }
+    ],
+    "outputs": [
+      { "name": "out", "branch": "default" }
+    ]
+  },
+  "ui": { "badge": "COUNT", "icon": "hash", "accent": "#6b3a1f" },
+  "tags": ["compute", "collection", "business-friendly"],
+  "updatedAt": "2026-05-07T00:00:00.000Z"
+}

@@ -1,0 +1,8 @@
+{
+  "instanceId": "n2",
+  "ruleId": "offer-tax",
+  "bindings": {
+    "source": { "kind": "path",    "path": "$.offer.pax" },
+    "as":     { "kind": "literal", "value": "pax" }
+  }
+}

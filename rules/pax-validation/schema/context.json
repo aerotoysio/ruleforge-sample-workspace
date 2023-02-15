@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rules/pax-validation/schema/context.json",
+  "title": "PaxValidationContext",
+  "description": "Per-evaluation context. Iterator opens a $pax frame; calc node writes computedAge into $ctx.",
+  "type": "object",
+  "properties": {
+    "computedAge": { "type": "number", "description": "Age in years derived from $pax.dateOfBirth." }
+  }
+}

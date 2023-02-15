@@ -1,0 +1,18 @@
+{
+  "id": "node-mutator-set",
+  "name": "Set a field",
+  "description": "Writes a value into a field on the current record — from a path, an iteration variable, or a literal you type.",
+  "category": "mutator",
+  "ports": {
+    "inputs": [
+      { "name": "from", "type": "any", "required": true, "description": "Where the value comes from (path or iteration frame)." }
+    ],
+    "params": [
+      { "name": "target", "type": "string", "required": true, "description": "Field name on the current record to write to." }
+    ],
+    "outputs": [{ "name": "out", "branch": "default" }]
+  },
+  "ui": { "badge": "SET", "icon": "edit-3", "accent": "#8a5a00" },
+  "tags": ["data", "mutator"],
+  "updatedAt": "2026-05-06T00:00:00.000Z"
+}

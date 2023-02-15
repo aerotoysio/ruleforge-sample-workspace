@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rules/offer-tax/schema/context.json",
+  "title": "OfferTaxContext",
+  "description": "Per-evaluation context. The iterator opens a $pax frame; downstream nodes can also write to and read from $ctx.",
+  "type": "object",
+  "properties": {}
+}

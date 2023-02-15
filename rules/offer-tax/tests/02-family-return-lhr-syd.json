@@ -1,0 +1,62 @@
+{
+  "id": "02-family-return-lhr-syd",
+  "name": "02 · Family return LHR↔SYD · 2 ADT + 1 CHD + 1 INF",
+  "description": "Mixed-pax-type family on a long-haul return. Tests age-bracketed taxes (UK APD reduces for CHD/INF, AU PMC differs) and per-bound bundle pricing (each pax has 2 bundles, one per direction).",
+  "tags": ["return", "multi-pax", "long-haul", "age-brackets"],
+  "payload": {
+    "offer": {
+      "id": "OFF-S02",
+      "createdAt": "2026-05-04T10:00:00Z",
+      "expiresAt": "2026-05-04T11:00:00Z",
+      "currency": "GBP",
+      "pointOfSale": "GB",
+      "channel": "WEB",
+      "pax": [
+        { "id": "p1", "ageCategory": "ADT", "dateOfBirth": "1985-03-14", "residency": "GB" },
+        { "id": "p2", "ageCategory": "ADT", "dateOfBirth": "1987-08-02", "residency": "GB" },
+        { "id": "p3", "ageCategory": "CHD", "dateOfBirth": "2018-06-21", "residency": "GB" },
+        { "id": "p4", "ageCategory": "INF", "dateOfBirth": "2025-02-10", "residency": "GB" }
+      ],
+      "journeys": [
+        {
+          "id": "j1",
+          "paxIds": ["p1", "p2", "p3", "p4"],
+          "bounds": [
+            {
+              "id": "ob1", "kind": "outbound", "origin": "LHR", "destination": "SYD",
+              "segments": [
+                { "id": "s1", "marketingCarrier": "AER", "operatingCarrier": "AER", "flightNumber": "AER123", "origin": "LHR", "destination": "DXB", "cabin": "Y", "bookingClass": "M", "fareBasis": "MLOW", "departureAt": "2026-06-15T08:00:00Z", "arrivalAt": "2026-06-15T19:30:00+04:00", "stopover": false },
+                { "id": "s2", "marketingCarrier": "AER", "operatingCarrier": "AER", "flightNumber": "AER412", "origin": "DXB", "destination": "SYD", "cabin": "Y", "bookingClass": "M", "fareBasis": "MLOW", "departureAt": "2026-06-15T22:30:00+04:00", "arrivalAt": "2026-06-16T18:15:00+10:00", "stopover": false }
+              ]
+            },
+            {
+              "id": "ib1", "kind": "inbound", "origin": "SYD", "destination": "LHR",
+              "segments": [
+                { "id": "s3", "marketingCarrier": "AER", "operatingCarrier": "AER", "flightNumber": "AER411", "origin": "SYD", "destination": "DXB", "cabin": "Y", "bookingClass": "M", "fareBasis": "MLOW", "departureAt": "2026-06-30T20:45:00+10:00", "arrivalAt": "2026-07-01T05:00:00+04:00", "stopover": false },
+                { "id": "s4", "marketingCarrier": "AER", "operatingCarrier": "AER", "flightNumber": "AER124", "origin": "DXB", "destination": "LHR", "cabin": "Y", "bookingClass": "M", "fareBasis": "MLOW", "departureAt": "2026-07-01T08:30:00+04:00", "arrivalAt": "2026-07-01T13:00:00Z", "stopover": false }
+              ]
+            }
+          ]
+        }
+      ],
+      "bundles": [
+        { "id": "bd1", "name": "Economy Light", "brand": "ECONOMY_LIGHT", "paxId": "p1", "boundIds": ["ob1"], "baseAmount": { "amount": 1050, "currency": "GBP" }, "taxes": [], "fees": [], "charges": [], "products": [] },
+        { "id": "bd2", "name": "Economy Light", "brand": "ECONOMY_LIGHT", "paxId": "p1", "boundIds": ["ib1"], "baseAmount": { "amount": 1050, "currency": "GBP" }, "taxes": [], "fees": [], "charges": [], "products": [] },
+        { "id": "bd3", "name": "Economy Light", "brand": "ECONOMY_LIGHT", "paxId": "p2", "boundIds": ["ob1"], "baseAmount": { "amount": 1050, "currency": "GBP" }, "taxes": [], "fees": [], "charges": [], "products": [] },
+        { "id": "bd4", "name": "Economy Light", "brand": "ECONOMY_LIGHT", "paxId": "p2", "boundIds": ["ib1"], "baseAmount": { "amount": 1050, "currency": "GBP" }, "taxes": [], "fees": [], "charges": [], "products": [] },
+        { "id": "bd5", "name": "Child fare",    "brand": "ECONOMY_CHILD", "paxId": "p3", "boundIds": ["ob1"], "baseAmount": { "amount":  790, "currency": "GBP" }, "taxes": [], "fees": [], "charges": [], "products": [] },
+        { "id": "bd6", "name": "Child fare",    "brand": "ECONOMY_CHILD", "paxId": "p3", "boundIds": ["ib1"], "baseAmount": { "amount":  790, "currency": "GBP" }, "taxes": [], "fees": [], "charges": [], "products": [] },
+        { "id": "bd7", "name": "Infant on lap", "brand": "ECONOMY_INFANT","paxId": "p4", "boundIds": ["ob1"], "baseAmount": { "amount":  105, "currency": "GBP" }, "taxes": [], "fees": [], "charges": [], "products": [] },
+        { "id": "bd8", "name": "Infant on lap", "brand": "ECONOMY_INFANT","paxId": "p4", "boundIds": ["ib1"], "baseAmount": { "amount":  105, "currency": "GBP" }, "taxes": [], "fees": [], "charges": [], "products": [] }
+      ],
+      "totals": {
+        "baseAmount": { "amount": 5990, "currency": "GBP" },
+        "taxes":      { "amount":    0, "currency": "GBP" },
+        "fees":       { "amount":    0, "currency": "GBP" },
+        "charges":    { "amount":    0, "currency": "GBP" },
+        "grandTotal": { "amount": 5990, "currency": "GBP" }
+      }
+    }
+  },
+  "updatedAt": "2026-05-04T00:00:00.000Z"
+}

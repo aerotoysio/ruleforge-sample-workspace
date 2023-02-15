@@ -1,0 +1,40 @@
+{
+  "id": "node-filter-number-range",
+  "name": "Filter — number in range",
+  "description": "Branches pass / fail. Pass when the source number is within [min, max] (inclusive). Use the 'count' binding kind on source for 'if there are 2+ adults' patterns.",
+  "category": "filter",
+  "ports": {
+    "inputs": [
+      {
+        "name": "source",
+        "type": "number",
+        "required": true,
+        "description": "The number you want to test — pick a numeric field from the request, or use 'Count of' to count items in an array.",
+        "hint": { "shape": "scalar", "schemaTypes": ["number", "integer"] },
+        "bindingKinds": ["path", "context", "count-of"]
+      }
+    ],
+    "params": [
+      { "name": "min", "type": "number", "description": "Lower bound (inclusive). Omit for no lower bound." },
+      { "name": "max", "type": "number", "description": "Upper bound (inclusive). Omit for no upper bound." },
+      {
+        "name": "onMissing",
+        "type": "string",
+        "description": "What to do when the source path isn't in the request.",
+        "enum": [
+          { "value": "fail", "label": "Fail", "description": "Treat as not matching." },
+          { "value": "skip", "label": "Skip", "description": "Stop this rule and move on without a verdict." },
+          { "value": "pass", "label": "Pass", "description": "Treat as matching." }
+        ]
+      }
+    ],
+    "outputs": [
+      { "name": "pass", "branch": "pass" },
+      { "name": "fail", "branch": "fail" }
+    ]
+  },
+  "defaults": { "operator": "between", "arraySelector": "any", "onMissing": "fail" },
+  "ui": { "badge": "NUM", "icon": "ruler", "accent": "#1f4a6b" },
+  "tags": ["filter", "number"],
+  "updatedAt": "2026-05-06T00:00:00.000Z"
+}

@@ -1,0 +1,8 @@
+{
+  "instanceId": "n3",
+  "ruleId": "pax-validation",
+  "bindings": {
+    "target":     { "kind": "context", "key":   "computedAge" },
+    "expression": { "kind": "literal", "value": "yearsBetween(now(), $pax.dateOfBirth)" }
+  }
+}

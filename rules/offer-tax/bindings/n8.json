@@ -1,0 +1,8 @@
+{
+  "instanceId": "n8",
+  "ruleId": "offer-tax",
+  "bindings": {
+    "from": { "kind": "context", "key":   "pax" },
+    "mode": { "kind": "literal", "value": "collect" }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "id": "node-filter-string-in",
+  "name": "Filter — match against a list",
+  "description": "Branches pass / fail. Pass when the source field matches one of the chosen values. Use 'from ref' on the values port to pick from a reference table (e.g. all airports in a country).",
+  "category": "filter",
+  "ports": {
+    "inputs": [
+      {
+        "name": "source",
+        "type": "string",
+        "required": true,
+        "description": "The text field you want to check — pick one from the request.",
+        "hint": { "shape": "scalar", "schemaTypes": ["string"] },
+        "bindingKinds": ["path", "context"]
+      }
+    ],
+    "params": [
+      {
+        "name": "literal",
+        "type": "string-array",
+        "required": true,
+        "description": "The values that pass — type your own list (one per line), or use 'From Ref' to pick rows from a reference table.",
+        "bindingKinds": ["literal", "ref-select"]
+      },
+      {
+        "name": "arraySelector",
+        "type": "string",
+        "description": "When the source path resolves to multiple values, which element decides pass/fail.",
+        "enum": [
+          { "value": "any",   "label": "Any match",   "description": "Pass if at least one element satisfies the test." },
+          { "value": "all",   "label": "All match",   "description": "Pass only if every element satisfies the test." },
+          { "value": "first", "label": "First only",  "description": "Test the first element and ignore the rest." },
+          { "value": "last",  "label": "Last only",   "description": "Test the last element only." }
+        ]
+      },
+      {
+        "name": "onMissing",
+        "type": "string",
+        "description": "What to do when the source path isn't in the request.",
+        "enum": [
+          { "value": "fail", "label": "Fail",     "description": "Treat as not matching (most common)." },
+          { "value": "skip", "label": "Skip",     "description": "Stop this rule and move on without a verdict." },
+          { "value": "pass", "label": "Pass",     "description": "Treat as matching (lenient)." }
+        ]
+      },
+      { "name": "caseInsensitive", "type": "boolean" },
+      { "name": "trim", "type": "boolean" }
+    ],
+    "outputs": [
+      { "name": "pass", "branch": "pass", "description": "Fires when the test passes." },
+      { "name": "fail", "branch": "fail", "description": "Fires when the test fails." }
+    ]
+  },
+  "defaults": { "operator": "in", "arraySelector": "any", "onMissing": "fail", "caseInsensitive": true, "trim": true },
+  "ui": { "badge": "STR", "icon": "filter", "accent": "#1f4a6b" },
+  "tags": ["filter", "string"],
+  "updatedAt": "2026-05-06T00:00:00.000Z"
+}

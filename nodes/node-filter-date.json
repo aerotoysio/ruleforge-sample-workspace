@@ -1,0 +1,45 @@
+{
+  "id": "node-filter-date",
+  "name": "Filter — date matches",
+  "description": "Branches pass / fail. Pass when the source date matches the calendar criteria you pick: specific date, relative window (next 7 days), day of week (Mon–Sun), day or month of year, or weekend/weekday.",
+  "category": "filter",
+  "ports": {
+    "inputs": [
+      {
+        "name": "source",
+        "type": "date",
+        "required": true,
+        "description": "The date you want to check — pick a date field from your request (e.g. departure, booking, dateOfBirth).",
+        "hint": { "shape": "scalar", "namePattern": "(depart|departure|arrival|booking|dateOfBirth|dob|created|valid|effective|At|Date|Time)" },
+        "bindingKinds": ["path", "context"]
+      },
+      {
+        "name": "match",
+        "type": "date",
+        "required": true,
+        "description": "What it should match — choose a specific date, a window like 'next 7 days', a particular weekday, weekend vs weekday, or a month.",
+        "bindingKinds": ["date", "path", "context"]
+      }
+    ],
+    "params": [
+      {
+        "name": "onMissing",
+        "type": "string",
+        "description": "What to do when the source date isn't in the request.",
+        "enum": [
+          { "value": "fail", "label": "Fail", "description": "Treat as not matching." },
+          { "value": "skip", "label": "Skip", "description": "Stop this rule and move on without a verdict." },
+          { "value": "pass", "label": "Pass", "description": "Treat as matching." }
+        ]
+      }
+    ],
+    "outputs": [
+      { "name": "pass", "branch": "pass" },
+      { "name": "fail", "branch": "fail" }
+    ]
+  },
+  "defaults": { "onMissing": "fail" },
+  "ui": { "badge": "DATE", "icon": "calendar", "accent": "#1f4a6b" },
+  "tags": ["filter", "date"],
+  "updatedAt": "2026-05-06T00:00:00.000Z"
+}
