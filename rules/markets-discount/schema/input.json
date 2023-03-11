@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rules/markets-discount/schema/input.json",
+  "title": "MarketsDiscountRequest",
+  "type": "object",
+  "required": ["booking"],
+  "properties": {
+    "booking": {
+      "type": "object",
+      "required": ["bookingRef", "destination"],
+      "properties": {
+        "bookingRef": { "type": "string", "description": "Booking reference / PNR." },
+        "fareAmount": { "type": "number", "description": "Total fare before discount, in pointOfSale currency." },
+        "currency":   { "type": "string", "description": "ISO 4217 currency code, e.g. USD." },
+        "destination": {
+          "type": "object",
+          "required": ["location"],
+          "properties": {
+            "location": { "type": "string", "description": "Destination IATA airport code — the 'location' field the markets filter targets." },
+            "city":     { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

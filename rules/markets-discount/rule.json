@@ -1,0 +1,29 @@
+{
+  "id": "markets-discount",
+  "name": "Markets discount — USA except Texas, plus GVA",
+  "description": "Apply a $50 discount to bookings whose destination is in a curated market: every airport in the USA except Texas, plus Geneva (GVA). Showcases the markets filter — destination is bound to a 'location' field on the request, the values list is authored as a hierarchical include/exclude.",
+  "endpoint": "/v1/discount/markets",
+  "method": "POST",
+  "status": "draft",
+  "currentVersion": 1,
+  "tags": ["discount", "markets", "demo"],
+  "category": "Discount",
+  "instances": [
+    { "instanceId": "n1", "nodeId": "node-input",          "position": { "x": 80,   "y": 240 }, "label": "Booking" },
+    { "instanceId": "n2", "nodeId": "node-filter-markets", "position": { "x": 320,  "y": 240 }, "label": "Eligible market?" },
+    { "instanceId": "n3", "nodeId": "node-constant",       "position": { "x": 600,  "y": 140 }, "label": "Discount line" },
+    { "instanceId": "n4", "nodeId": "node-constant",       "position": { "x": 600,  "y": 340 }, "label": "No discount" },
+    { "instanceId": "n5", "nodeId": "node-merge",          "position": { "x": 880,  "y": 240 }, "label": "Combine outcomes" },
+    { "instanceId": "n6", "nodeId": "node-output",         "position": { "x": 1120, "y": 240 }, "label": "Result" }
+  ],
+  "edges": [
+    { "id": "e1", "source": "n1", "target": "n2", "branch": "default" },
+    { "id": "e2", "source": "n2", "target": "n3", "branch": "pass"    },
+    { "id": "e3", "source": "n2", "target": "n4", "branch": "fail"    },
+    { "id": "e4", "source": "n3", "target": "n5", "branch": "default" },
+    { "id": "e5", "source": "n4", "target": "n5", "branch": "default" },
+    { "id": "e6", "source": "n5", "target": "n6", "branch": "default" }
+  ],
+  "updatedAt": "2026-05-07T00:00:00.000Z",
+  "updatedBy": "demo-bootstrap"
+}

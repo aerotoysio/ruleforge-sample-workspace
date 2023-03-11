@@ -1,0 +1,25 @@
+{
+  "id": "markets-disc-04-lhr-not-eligible",
+  "name": "LHR destination — not in market",
+  "description": "London Heathrow isn't in the USA and isn't in the explicit-include list. Filter fails. No discount.",
+  "tags": ["happy-path", "outside-market"],
+  "payload": {
+    "booking": {
+      "bookingRef": "DEF111",
+      "fareAmount": 700,
+      "currency": "GBP",
+      "destination": {
+        "location": "LHR",
+        "city": "London"
+      }
+    }
+  },
+  "expected": {
+    "bookingRef": "DEF111",
+    "discountApplied": false,
+    "discountAmount": 0,
+    "currency": "GBP",
+    "reason": "destination not in eligible market"
+  },
+  "updatedAt": "2026-05-08T00:00:00.000Z"
+}

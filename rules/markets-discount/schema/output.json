@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rules/markets-discount/schema/output.json",
+  "title": "MarketsDiscountResponse",
+  "type": "object",
+  "required": ["bookingRef", "discountApplied"],
+  "properties": {
+    "bookingRef":      { "type": "string" },
+    "discountApplied": { "type": "boolean" },
+    "discountAmount":  { "type": "number",  "description": "0 when no discount applied." },
+    "currency":        { "type": "string" },
+    "reason":          { "type": "string",  "description": "Human-readable note: 'destination in eligible market' / 'destination not in eligible market'." }
+  }
+}

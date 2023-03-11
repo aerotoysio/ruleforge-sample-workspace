@@ -1,0 +1,20 @@
+{
+  "instanceId": "n2",
+  "ruleId": "markets-discount",
+  "bindings": {
+    "source": { "kind": "path", "path": "$.booking.destination.location" },
+    "literal": {
+      "kind": "markets-select",
+      "referenceId": "ref-airports",
+      "valueColumn": "code",
+      "include": [
+        { "column": "country", "value": "United States" },
+        { "column": "code",    "value": "GVA" }
+      ],
+      "exclude": [
+        { "column": "state",   "value": "Texas" }
+      ]
+    },
+    "onMissing": { "kind": "literal", "value": "fail" }
+  }
+}

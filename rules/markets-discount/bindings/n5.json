@@ -1,0 +1,8 @@
+{
+  "instanceId": "n5",
+  "ruleId": "markets-discount",
+  "bindings": {
+    "from": { "kind": "context", "key":   "discount" },
+    "mode": { "kind": "literal", "value": "first" }
+  }
+}

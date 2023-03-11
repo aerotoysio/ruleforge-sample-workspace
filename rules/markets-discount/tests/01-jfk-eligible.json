@@ -1,0 +1,25 @@
+{
+  "id": "markets-disc-01-jfk-eligible",
+  "name": "JFK destination — discount applies",
+  "description": "JFK is in the United States and not in Texas, so the markets filter passes and the $50 discount is applied.",
+  "tags": ["happy-path", "include"],
+  "payload": {
+    "booking": {
+      "bookingRef": "ABC123",
+      "fareAmount": 480,
+      "currency": "USD",
+      "destination": {
+        "location": "JFK",
+        "city": "New York"
+      }
+    }
+  },
+  "expected": {
+    "bookingRef": "ABC123",
+    "discountApplied": true,
+    "discountAmount": 50,
+    "currency": "USD",
+    "reason": "destination in eligible market"
+  },
+  "updatedAt": "2026-05-08T00:00:00.000Z"
+}

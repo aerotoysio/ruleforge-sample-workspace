@@ -1,0 +1,16 @@
+{
+  "instanceId": "n3",
+  "ruleId": "markets-discount",
+  "bindings": {
+    "value": {
+      "kind": "literal",
+      "value": {
+        "bookingRef":      "$.booking.bookingRef",
+        "discountApplied": true,
+        "discountAmount":  50,
+        "currency":        "$.booking.currency",
+        "reason":          "destination in eligible market"
+      }
+    }
+  }
+}

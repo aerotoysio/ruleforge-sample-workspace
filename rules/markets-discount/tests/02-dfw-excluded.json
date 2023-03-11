@@ -1,0 +1,25 @@
+{
+  "id": "markets-disc-02-dfw-excluded",
+  "name": "DFW destination — Texas excluded",
+  "description": "DFW is in the United States BUT in Texas, which the markets filter excludes. No discount applied.",
+  "tags": ["edge-case", "exclude"],
+  "payload": {
+    "booking": {
+      "bookingRef": "ABC456",
+      "fareAmount": 320,
+      "currency": "USD",
+      "destination": {
+        "location": "DFW",
+        "city": "Dallas"
+      }
+    }
+  },
+  "expected": {
+    "bookingRef": "ABC456",
+    "discountApplied": false,
+    "discountAmount": 0,
+    "currency": "USD",
+    "reason": "destination not in eligible market"
+  },
+  "updatedAt": "2026-05-08T00:00:00.000Z"
+}
