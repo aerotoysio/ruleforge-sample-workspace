@@ -5,7 +5,7 @@
   "category": "output",
   "ports": {
     "inputs": [
-      { "name": "in", "type": "any", "required": true, "description": "Final value to return as the rule's response." }
+      { "name": "in", "type": "any", "description": "Final value to return as the rule's response. Supplied by the incoming edge — not a binding." }
     ]
   },
   "ui": { "badge": "OUT", "icon": "log-out", "accent": "#5b3a72" },

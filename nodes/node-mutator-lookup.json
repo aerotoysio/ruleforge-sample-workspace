@@ -5,7 +5,7 @@
   "category": "mutator",
   "ports": {
     "inputs": [
-      { "name": "matchOn", "type": "object", "required": true, "description": "Map of reference-column → JSONPath whose values must match (e.g. { code: $.flight.origin })." }
+      { "name": "matchOn", "type": "object", "description": "Map of reference-column → JSONPath whose values must match (e.g. { code: $.flight.origin }). Authored via the binding's extras.matchOn field, not as a regular port binding." }
     ],
     "params": [
       { "name": "target", "type": "string", "required": true, "description": "Field on the current record to write the looked-up value into." },
