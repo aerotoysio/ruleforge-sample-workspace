@@ -20,7 +20,8 @@
         "type": "string-array",
         "required": true,
         "description": "Which cabins should pass. Pick rows from ref-cabin-classes — by code (Y, J, F) or by tier (premium, standard, saver).",
-        "bindingKinds": ["ref-select", "literal"]
+        "bindingKinds": ["ref-select", "literal"],
+        "defaultRef": { "referenceId": "ref-cabin-classes", "valueColumn": "code" }
       },
       {
         "name": "onMissing",

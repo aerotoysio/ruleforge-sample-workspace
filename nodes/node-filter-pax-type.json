@@ -20,7 +20,8 @@
         "type": "string-array",
         "required": true,
         "description": "Which passenger types should pass — type your own list, or use 'From Ref' to pick rows from the ref-pax-types reference table.",
-        "bindingKinds": ["literal", "ref-select"]
+        "bindingKinds": ["literal", "ref-select"],
+        "defaultRef": { "referenceId": "ref-pax-types", "valueColumn": "code" }
       },
       {
         "name": "onMissing",
