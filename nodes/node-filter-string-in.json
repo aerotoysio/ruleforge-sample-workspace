@@ -29,6 +29,7 @@
         "enum": [
           { "value": "any",   "label": "Any match",   "description": "Pass if at least one element satisfies the test." },
           { "value": "all",   "label": "All match",   "description": "Pass only if every element satisfies the test." },
+          { "value": "none",  "label": "None match",  "description": "Pass only when ZERO elements satisfy the test (logical NOT-any)." },
           { "value": "first", "label": "First only",  "description": "Test the first element and ignore the rest." },
           { "value": "last",  "label": "Last only",   "description": "Test the last element only." }
         ]

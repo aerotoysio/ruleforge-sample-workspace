@@ -1,0 +1,77 @@
+{
+  "id": "node-filter-number-compare",
+  "name": "Filter — number compares",
+  "description": "Branches pass / fail. Compare the source number against a single value (= ≠ < ≤ > ≥). Use 'Filter — number in range' for [min,max] ranges. Pair with a Count of binding on source to write 'if there are exactly 2 adults'.",
+  "category": "filter",
+  "ports": {
+    "inputs": [
+      {
+        "name": "source",
+        "type": "number",
+        "required": true,
+        "description": "The number to test — pick a numeric field from the request, or use 'Count of' to count items in an array.",
+        "hint": { "shape": "scalar", "schemaTypes": ["number", "integer"] },
+        "bindingKinds": ["path", "context", "count-of"]
+      }
+    ],
+    "params": [
+      {
+        "name": "operator",
+        "type": "string",
+        "required": true,
+        "description": "How to compare the source against the value.",
+        "enum": [
+          { "value": "eq",  "label": "= equals",          "description": "Source is exactly equal to value." },
+          { "value": "ne",  "label": "≠ not equal",       "description": "Source differs from value." },
+          { "value": "lt",  "label": "< less than",       "description": "Source is strictly less than value." },
+          { "value": "le",  "label": "≤ less or equal",   "description": "Source is less than or equal to value." },
+          { "value": "gt",  "label": "> greater than",    "description": "Source is strictly greater than value." },
+          { "value": "ge",  "label": "≥ greater or equal","description": "Source is greater than or equal to value." }
+        ]
+      },
+      {
+        "name": "value",
+        "type": "number",
+        "required": true,
+        "description": "The number to compare against.",
+        "bindingKinds": ["literal", "path", "context"]
+      },
+      {
+        "name": "tolerance",
+        "type": "number",
+        "description": "Optional rounding tolerance for floating-point fields — passes when |source - value| ≤ tolerance. Leave blank for exact match.",
+        "bindingKinds": ["literal"]
+      },
+      {
+        "name": "arraySelector",
+        "type": "string",
+        "description": "When the source resolves to multiple numbers, which match decides pass/fail.",
+        "enum": [
+          { "value": "any",   "label": "Any match",   "description": "Pass if at least one element satisfies the test." },
+          { "value": "all",   "label": "All match",   "description": "Pass only if every element satisfies the test." },
+          { "value": "none",  "label": "None match",  "description": "Pass only when zero elements satisfy the test." },
+          { "value": "first", "label": "First only",  "description": "Test the first element only." },
+          { "value": "last",  "label": "Last only",   "description": "Test the last element only." }
+        ]
+      },
+      {
+        "name": "onMissing",
+        "type": "string",
+        "description": "What to do when the source path isn't in the request.",
+        "enum": [
+          { "value": "fail", "label": "Fail", "description": "Treat as not matching." },
+          { "value": "skip", "label": "Skip", "description": "Stop this rule and move on." },
+          { "value": "pass", "label": "Pass", "description": "Treat as matching." }
+        ]
+      }
+    ],
+    "outputs": [
+      { "name": "pass", "branch": "pass" },
+      { "name": "fail", "branch": "fail" }
+    ]
+  },
+  "defaults": { "operator": "eq", "arraySelector": "any", "onMissing": "fail" },
+  "ui": { "badge": "NUM=", "icon": "equal", "accent": "#1f4a6b" },
+  "tags": ["filter", "number", "compare"],
+  "updatedAt": "2026-05-09T00:00:00.000Z"
+}
