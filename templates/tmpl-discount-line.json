@@ -1,0 +1,29 @@
+{
+  "id": "tmpl-discount-line",
+  "name": "Discount line",
+  "description": "Promotional discount applied to the fare or a specific service. Negative monetary impact — aggregated separately from positive surcharges/taxes.",
+  "category": "discount",
+  "fields": [
+    { "name": "code",       "type": "string",  "required": true,
+      "description": "Discount programme code (LOYALTY-GOLD, MARKETS-AU, …)." },
+    { "name": "amount",     "type": "number",  "required": true,
+      "description": "Discount value in pointOfSale currency. Stored positive — engine flips the sign at totalisation time." },
+    { "name": "currency",   "type": "string",  "required": true,
+      "description": "ISO 4217." },
+    { "name": "appliesTo",  "type": "string",
+      "description": "What the discount is reducing — \"fare\", \"bag\", \"meal\", … . Defaults to fare." },
+    { "name": "reason",     "type": "string",
+      "description": "Human-readable note shown alongside the rule's verdict (e.g. \"destination in eligible market\")." },
+    { "name": "paxId",      "type": "string",
+      "description": "Optional — pax-scoped discount." }
+  ],
+  "example": {
+    "code": "MARKETS-AU",
+    "amount": 50.00,
+    "currency": "USD",
+    "appliesTo": "fare",
+    "reason": "destination in eligible market",
+    "paxId": "pax-1"
+  },
+  "updatedAt": "2026-05-09T00:00:00.000Z"
+}

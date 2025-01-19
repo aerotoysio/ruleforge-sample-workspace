@@ -1,0 +1,29 @@
+{
+  "id": "tmpl-tax-line",
+  "name": "Tax line",
+  "description": "Per-passenger tax line item. One entry per pax × tax-code, summed by the offer aggregator. Maps directly to NDC OrderTotal.Taxes.Tax.",
+  "category": "tax",
+  "fields": [
+    { "name": "code",      "type": "string",  "required": true,
+      "description": "Tax code per the route table — IATA short code (US, AY, ZP, GST, …)." },
+    { "name": "amount",    "type": "number",  "required": true,
+      "description": "Tax amount per passenger in pointOfSale currency." },
+    { "name": "currency",  "type": "string",  "required": true,
+      "description": "ISO 4217." },
+    { "name": "paxId",     "type": "string",  "required": true,
+      "description": "Which passenger this line is for." },
+    { "name": "appliesTo", "type": "string",
+      "description": "Optional segment identifier when the tax is segment-scoped." },
+    { "name": "rateKind",  "type": "string",
+      "description": "Optional — \"flat\" / \"percent\" / \"per-segment\". Authored by the lookup row." }
+  ],
+  "example": {
+    "code": "US",
+    "amount": 18.20,
+    "currency": "USD",
+    "paxId": "pax-1",
+    "appliesTo": "outbound",
+    "rateKind": "percent"
+  },
+  "updatedAt": "2026-05-09T00:00:00.000Z"
+}

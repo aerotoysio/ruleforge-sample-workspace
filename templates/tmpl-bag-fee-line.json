@@ -1,0 +1,32 @@
+{
+  "id": "tmpl-bag-fee-line",
+  "name": "Bag fee line",
+  "description": "Standard ancillary bag-fee line item — one entry per chargeable bag. Pair with an iterator over bag selections to emit one of these per bag.",
+  "category": "ancillary",
+  "fields": [
+    { "name": "type",     "type": "string",  "required": true,  "default": "BAG",
+      "description": "Always \"BAG\" — distinguishes from other ancillary types." },
+    { "name": "code",     "type": "string",  "required": true,
+      "description": "IATA SSR / ATPCO sub-code (e.g. EXTRA_BAG_1, OVERWEIGHT)." },
+    { "name": "weightKg", "type": "number",
+      "description": "Bag weight in kilograms (where applicable)." },
+    { "name": "amount",   "type": "number",  "required": true,
+      "description": "Charge in pointOfSale currency, post-tax unless taxIncluded=false." },
+    { "name": "currency", "type": "string",  "required": true,
+      "description": "ISO 4217 — should match the rest of the offer." },
+    { "name": "label",    "type": "string",
+      "description": "Customer-facing label (e.g. \"Second checked bag\")." },
+    { "name": "paxId",    "type": "string",
+      "description": "Optional — links the bag fee to a specific passenger." }
+  ],
+  "example": {
+    "type": "BAG",
+    "code": "EXTRA_BAG_1",
+    "weightKg": 23,
+    "amount": 65.00,
+    "currency": "USD",
+    "label": "Second checked bag",
+    "paxId": "pax-1"
+  },
+  "updatedAt": "2026-05-09T00:00:00.000Z"
+}
