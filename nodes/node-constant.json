@@ -1,15 +1,21 @@
 {
   "id": "node-constant",
   "name": "Starter value",
-  "description": "Emits a fixed value or empty record that downstream nodes fill in. Often used as the shell of an output object — e.g. {\"paxId\":\"\", \"amount\":0, \"currency\":\"\"}.",
+  "description": "Emits a fixed value or a filled-in template. Either author a free-form literal, or pick a template (Bag fee line, Tax line, …) and bind each field one at a time — handy for the shell of an output object whose fields come from different parts of the request.",
   "category": "constant",
   "ports": {
     "params": [
-      { "name": "value", "type": "any", "required": true, "description": "The literal value to emit." }
+      {
+        "name": "value",
+        "type": "any",
+        "required": true,
+        "description": "The value to emit. Pick a template to fill its fields one at a time, or author a free-form literal.",
+        "bindingKinds": ["template-fill", "literal"]
+      }
     ],
     "outputs": [{ "name": "out", "branch": "default" }]
   },
   "ui": { "badge": "CONST", "icon": "package", "accent": "#3a3a3a" },
   "tags": ["data"],
-  "updatedAt": "2026-05-06T00:00:00.000Z"
+  "updatedAt": "2026-05-09T00:00:00.000Z"
 }
