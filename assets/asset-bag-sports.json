@@ -1,0 +1,15 @@
+{
+  "id": "asset-bag-sports",
+  "templateId": "tmpl-bag-fee-line",
+  "name": "Sports equipment",
+  "description": "Bicycle, golf clubs, skis, surfboard, etc. Single per-item charge regardless of weight.",
+  "category": "sports",
+  "values": {
+    "type": "BAG",
+    "code": "SPORTS_EQUIP",
+    "amount": 150,
+    "currency": "USD",
+    "label": "Sports equipment"
+  },
+  "updatedAt": "2026-05-09T00:00:00.000Z"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "asset-bag-musical",
+  "templateId": "tmpl-bag-fee-line",
+  "name": "Musical instrument",
+  "description": "Guitar, brass, woodwind, etc. Charged like sports equipment but at a higher rate (more fragile, more handling).",
+  "category": "sports",
+  "values": {
+    "type": "BAG",
+    "code": "MUSICAL_INSTR",
+    "amount": 200,
+    "currency": "USD",
+    "label": "Musical instrument"
+  },
+  "updatedAt": "2026-05-09T00:00:00.000Z"
+}

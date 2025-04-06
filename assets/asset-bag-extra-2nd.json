@@ -1,0 +1,16 @@
+{
+  "id": "asset-bag-extra-2nd",
+  "templateId": "tmpl-bag-fee-line",
+  "name": "Extra bag — 2nd checked",
+  "description": "Second chargeable checked bag, standard weight up to 23 kg.",
+  "category": "extra-bag",
+  "values": {
+    "type": "BAG",
+    "code": "EXTRA_BAG_2",
+    "weightKg": 23,
+    "amount": 100,
+    "currency": "USD",
+    "label": "Second checked bag"
+  },
+  "updatedAt": "2026-05-09T00:00:00.000Z"
+}

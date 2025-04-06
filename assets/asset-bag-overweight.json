@@ -1,0 +1,16 @@
+{
+  "id": "asset-bag-overweight",
+  "templateId": "tmpl-bag-fee-line",
+  "name": "Overweight bag",
+  "description": "Bag exceeding the 23 kg standard limit (up to 32 kg).",
+  "category": "overweight",
+  "values": {
+    "type": "BAG",
+    "code": "OVERWEIGHT",
+    "weightKg": 32,
+    "amount": 90,
+    "currency": "USD",
+    "label": "Overweight bag (23–32 kg)"
+  },
+  "updatedAt": "2026-05-09T00:00:00.000Z"
+}

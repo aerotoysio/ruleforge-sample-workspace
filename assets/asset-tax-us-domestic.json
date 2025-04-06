@@ -1,0 +1,14 @@
+{
+  "id": "asset-tax-us-domestic",
+  "templateId": "tmpl-tax-line",
+  "name": "US domestic tax",
+  "description": "Federal excise tax on a US domestic ticket — 7.5% of the base fare. Sample rate; real rates come from the route table.",
+  "category": "us",
+  "values": {
+    "code": "US",
+    "amount": 0,
+    "currency": "USD",
+    "rateKind": "percent"
+  },
+  "updatedAt": "2026-05-09T00:00:00.000Z"
+}

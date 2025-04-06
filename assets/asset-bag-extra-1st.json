@@ -1,0 +1,16 @@
+{
+  "id": "asset-bag-extra-1st",
+  "templateId": "tmpl-bag-fee-line",
+  "name": "Extra bag — 1st checked",
+  "description": "First chargeable checked bag, standard weight up to 23 kg.",
+  "category": "extra-bag",
+  "values": {
+    "type": "BAG",
+    "code": "EXTRA_BAG_1",
+    "weightKg": 23,
+    "amount": 65,
+    "currency": "USD",
+    "label": "First checked bag"
+  },
+  "updatedAt": "2026-05-09T00:00:00.000Z"
+}
