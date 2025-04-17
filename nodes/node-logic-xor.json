@@ -1,0 +1,18 @@
+{
+  "id": "node-logic-xor",
+  "name": "Logic — XOR",
+  "description": "Exclusive OR. Emits Pass when EXACTLY ONE incoming edge fired Pass — useful for 'pick the only matching tier' patterns where overlap should be flagged as fail.",
+  "category": "logic",
+  "ports": {
+    "inputs": [],
+    "params": [],
+    "outputs": [
+      { "name": "pass", "branch": "pass", "description": "Fires when exactly one upstream filter passed." },
+      { "name": "fail", "branch": "fail", "description": "Fires when zero or two-plus passed." }
+    ]
+  },
+  "defaults": { "op": "xor" },
+  "ui": { "badge": "XOR", "icon": "git-merge", "accent": "#3a3a3a" },
+  "tags": ["logic", "combine"],
+  "updatedAt": "2026-05-09T00:00:00.000Z"
+}

@@ -1,0 +1,32 @@
+{
+  "id": "node-bucket",
+  "name": "Bucket (A/B sticky-hash)",
+  "description": "Deterministic A/B / multi-arm assignment. FNV-1a hashes the resolved key; the same key always lands in the same bucket. Used for feature flags and shadow-mode promotion. Buckets carry weights — relative split, doesn't have to sum to 100.",
+  "category": "bucket",
+  "ports": {
+    "inputs": [
+      {
+        "name": "hashKey",
+        "type": "string",
+        "required": true,
+        "description": "What to hash — usually a stable identifier (PNR, paxId, deviceId). Same value, same bucket, every time.",
+        "bindingKinds": ["path", "context"]
+      }
+    ],
+    "params": [
+      {
+        "name": "buckets",
+        "type": "object-array",
+        "required": true,
+        "description": "Array of { name, weight } entries. Weights are relative — engine normalises by sum.",
+        "bindingKinds": ["literal"]
+      }
+    ],
+    "outputs": [
+      { "name": "out", "branch": "default", "description": "Emits the matched bucket's name as a string." }
+    ]
+  },
+  "ui": { "badge": "BUCKET", "icon": "shuffle", "accent": "#1f4a6b" },
+  "tags": ["experiment", "ab-test", "shadow", "bucket"],
+  "updatedAt": "2026-05-09T00:00:00.000Z"
+}

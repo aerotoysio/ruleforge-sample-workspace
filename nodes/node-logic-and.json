@@ -1,0 +1,18 @@
+{
+  "id": "node-logic-and",
+  "name": "Logic — AND",
+  "description": "Combines incoming filter verdicts. Emits Pass only when EVERY incoming edge fired Pass. Wire two or more upstream filters into this node with `default` edges, then route the AND's `pass` edge into the action.",
+  "category": "logic",
+  "ports": {
+    "inputs": [],
+    "params": [],
+    "outputs": [
+      { "name": "pass", "branch": "pass", "description": "Fires when ALL upstream filters passed." },
+      { "name": "fail", "branch": "fail", "description": "Fires when at least one upstream filter failed." }
+    ]
+  },
+  "defaults": { "op": "and" },
+  "ui": { "badge": "AND", "icon": "git-merge", "accent": "#3a3a3a" },
+  "tags": ["logic", "combine"],
+  "updatedAt": "2026-05-09T00:00:00.000Z"
+}

@@ -1,0 +1,38 @@
+{
+  "id": "node-switch",
+  "name": "Switch",
+  "description": "N-way branch based on a value. Resolves the input once, walks cases in order, emits the matched case's name as a string. Downstream filters route on it (e.g. a string-filter equals 'gold' on the switch's output). Pair with a default case for the catch-all.",
+  "category": "switch",
+  "ports": {
+    "inputs": [
+      {
+        "name": "input",
+        "type": "string",
+        "required": true,
+        "description": "The value to switch on — typically a path into the request or a context key.",
+        "bindingKinds": ["path", "context", "literal"]
+      }
+    ],
+    "params": [
+      {
+        "name": "cases",
+        "type": "object-array",
+        "required": true,
+        "description": "Ordered list of cases. Each entry is { match: <json-value>, name: <case-name> }. The first case whose `match` equals the input wins; the engine emits the case's `name` as the node output.",
+        "bindingKinds": ["literal"]
+      },
+      {
+        "name": "default",
+        "type": "string",
+        "description": "Case name to emit when no case matches. Omit to throw on unmatched (strict mode).",
+        "bindingKinds": ["literal"]
+      }
+    ],
+    "outputs": [
+      { "name": "out", "branch": "default", "description": "Emits the matched case's name. Wire into downstream string-filter equals nodes to route by case." }
+    ]
+  },
+  "ui": { "badge": "SWITCH", "icon": "split", "accent": "#5b3a72" },
+  "tags": ["branch", "switch", "router"],
+  "updatedAt": "2026-05-09T00:00:00.000Z"
+}

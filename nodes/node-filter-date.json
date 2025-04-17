@@ -1,7 +1,7 @@
 {
   "id": "node-filter-date",
-  "name": "Filter — date matches",
-  "description": "Branches pass / fail. Pass when the source date matches the calendar criteria you pick: specific date, relative window (next 7 days), day of week (Mon–Sun), day or month of year, or weekend/weekday.",
+  "name": "Filter — date",
+  "description": "Branches pass / fail. Compare the source date against a value, range, or rolling window. Engine operators: equals, before, after, between, within_last, within_next, plus is_null. Authoring also supports calendar predicates (day-of-week, weekend, month-of-year) that compile down to a calc filter at save time.",
   "category": "filter",
   "ports": {
     "inputs": [
@@ -9,26 +9,67 @@
         "name": "source",
         "type": "date",
         "required": true,
-        "description": "The date you want to check — pick a date field from your request (e.g. departure, booking, dateOfBirth).",
+        "description": "The date you want to check — pick a date field from the request (e.g. departure, booking, dateOfBirth).",
         "hint": { "shape": "scalar", "namePattern": "(depart|departure|arrival|booking|dateOfBirth|dob|created|valid|effective|At|Date|Time)" },
         "bindingKinds": ["path", "context"]
+      }
+    ],
+    "params": [
+      {
+        "name": "operator",
+        "type": "string",
+        "required": true,
+        "description": "How to test the source date.",
+        "enum": [
+          { "value": "equals",       "label": "= equals",         "description": "Source equals a specific date." },
+          { "value": "not_equals",   "label": "≠ not equal",      "description": "Source differs from a specific date." },
+          { "value": "before",       "label": "< before",         "description": "Source is strictly before a date." },
+          { "value": "after",        "label": "> after",          "description": "Source is strictly after a date." },
+          { "value": "between",      "label": "between",          "description": "Source falls in [from, to]." },
+          { "value": "not_between",  "label": "not between",      "description": "Source falls outside [from, to]." },
+          { "value": "within_last",  "label": "within last N",    "description": "Source falls in [now - amount × unit, now]." },
+          { "value": "within_next",  "label": "within next N",    "description": "Source falls in [now, now + amount × unit]." },
+          { "value": "is_null",      "label": "is null",          "description": "Pass when the source is null / missing." }
+        ]
       },
       {
         "name": "match",
         "type": "date",
-        "required": true,
-        "description": "What it should match — choose a specific date, a window like 'next 7 days', a particular weekday, weekend vs weekday, or a month.",
+        "description": "The match config — single date, range, or rolling window. Authored via the calendar picker, which adapts to the chosen operator.",
         "bindingKinds": ["date", "path", "context"]
-      }
-    ],
-    "params": [
+      },
+      {
+        "name": "granularity",
+        "type": "string",
+        "description": "How precisely to compare. Most rules want 'date' (ignore time of day).",
+        "enum": [
+          { "value": "datetime", "label": "Date + time", "description": "Compare with full timestamp precision." },
+          { "value": "date",     "label": "Date only",   "description": "Strip the time component before comparing." },
+          { "value": "time",     "label": "Time of day", "description": "Compare just the time-of-day component." }
+        ]
+      },
+      {
+        "name": "timezone",
+        "type": "string",
+        "description": "Timezone for the comparison (IANA name, e.g. 'Europe/London'). Default UTC."
+      },
+      {
+        "name": "fromInclusive",
+        "type": "boolean",
+        "description": "For between / not_between: treat 'from' as inclusive. Default true."
+      },
+      {
+        "name": "toInclusive",
+        "type": "boolean",
+        "description": "For between / not_between: treat 'to' as inclusive. Default true."
+      },
       {
         "name": "onMissing",
         "type": "string",
         "description": "What to do when the source date isn't in the request.",
         "enum": [
           { "value": "fail", "label": "Fail", "description": "Treat as not matching." },
-          { "value": "skip", "label": "Skip", "description": "Stop this rule and move on without a verdict." },
+          { "value": "skip", "label": "Skip", "description": "Stop this rule and move on." },
           { "value": "pass", "label": "Pass", "description": "Treat as matching." }
         ]
       }
@@ -38,8 +79,8 @@
       { "name": "fail", "branch": "fail" }
     ]
   },
-  "defaults": { "onMissing": "fail" },
+  "defaults": { "operator": "equals", "granularity": "date", "onMissing": "fail" },
   "ui": { "badge": "DATE", "icon": "calendar", "accent": "#1f4a6b" },
   "tags": ["filter", "date"],
-  "updatedAt": "2026-05-06T00:00:00.000Z"
+  "updatedAt": "2026-05-09T00:00:00.000Z"
 }

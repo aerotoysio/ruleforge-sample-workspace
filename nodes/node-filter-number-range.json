@@ -15,8 +15,20 @@
       }
     ],
     "params": [
-      { "name": "min", "type": "number", "description": "Lower bound (inclusive). Omit for no lower bound." },
-      { "name": "max", "type": "number", "description": "Upper bound (inclusive). Omit for no upper bound." },
+      { "name": "min", "type": "number", "description": "Lower bound. Omit for no lower bound." },
+      { "name": "max", "type": "number", "description": "Upper bound. Omit for no upper bound." },
+      { "name": "minInclusive", "type": "boolean", "description": "Treat min as inclusive (≥). Default true." },
+      { "name": "maxInclusive", "type": "boolean", "description": "Treat max as inclusive (≤). Default true." },
+      {
+        "name": "round",
+        "type": "string",
+        "description": "Optional rounding applied to the source before the range check.",
+        "enum": [
+          { "value": "floor", "label": "Floor",       "description": "Round down to the nearest integer." },
+          { "value": "ceil",  "label": "Ceiling",     "description": "Round up to the nearest integer." },
+          { "value": "round", "label": "Half-to-even","description": "Banker's rounding (closest integer; ties go to even)." }
+        ]
+      },
       {
         "name": "arraySelector",
         "type": "string",
@@ -26,7 +38,7 @@
           { "value": "all",   "label": "All match",   "description": "Pass only if every element is in range." },
           { "value": "none",  "label": "None match",  "description": "Pass only when zero elements are in range." },
           { "value": "first", "label": "First only",  "description": "Test the first element only." },
-          { "value": "last",  "label": "Last only",   "description": "Test the last element only." }
+          { "value": "only",  "label": "Only one",    "description": "Pass only when the array has exactly one element AND it's in range." }
         ]
       },
       {

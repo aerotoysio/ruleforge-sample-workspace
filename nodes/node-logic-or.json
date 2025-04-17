@@ -1,0 +1,18 @@
+{
+  "id": "node-logic-or",
+  "name": "Logic — OR",
+  "description": "Combines incoming filter verdicts. Emits Pass when AT LEAST ONE incoming edge fired Pass. Skip is treated as not-pass.",
+  "category": "logic",
+  "ports": {
+    "inputs": [],
+    "params": [],
+    "outputs": [
+      { "name": "pass", "branch": "pass", "description": "Fires when at least one upstream filter passed." },
+      { "name": "fail", "branch": "fail", "description": "Fires when every upstream filter failed or skipped." }
+    ]
+  },
+  "defaults": { "op": "or" },
+  "ui": { "badge": "OR", "icon": "git-merge", "accent": "#3a3a3a" },
+  "tags": ["logic", "combine"],
+  "updatedAt": "2026-05-09T00:00:00.000Z"
+}

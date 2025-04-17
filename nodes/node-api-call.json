@@ -1,0 +1,62 @@
+{
+  "id": "node-api-call",
+  "name": "Call API",
+  "description": "Outbound HTTP call. URL and headers can be literal or JSONPath; body supports ${...} placeholders that resolve from request / context / iteration frames. Required: url, method, timeoutMs.",
+  "category": "api",
+  "ports": {
+    "inputs": [],
+    "params": [
+      {
+        "name": "url",
+        "type": "string",
+        "required": true,
+        "description": "Absolute URL. Literal or $.path that resolves to a string.",
+        "bindingKinds": ["literal", "path", "context"]
+      },
+      {
+        "name": "method",
+        "type": "string",
+        "required": true,
+        "description": "HTTP method.",
+        "enum": [
+          { "value": "GET",    "label": "GET" },
+          { "value": "POST",   "label": "POST" },
+          { "value": "PUT",    "label": "PUT" },
+          { "value": "PATCH",  "label": "PATCH" },
+          { "value": "DELETE", "label": "DELETE" }
+        ]
+      },
+      {
+        "name": "timeoutMs",
+        "type": "integer",
+        "required": true,
+        "description": "Hard timeout per call in milliseconds. Mandatory — use 5000 for typical lookups, 30000 only for slow upstreams.",
+        "bindingKinds": ["literal"]
+      },
+      {
+        "name": "headers",
+        "type": "object",
+        "description": "Header map. Each value is literal or $.path. Add Authorization here for downstream services.",
+        "bindingKinds": ["literal"]
+      },
+      {
+        "name": "body",
+        "type": "any",
+        "description": "Request body shape — typically a JSON object with ${$.foo} placeholders.",
+        "bindingKinds": ["literal", "template-fill"]
+      },
+      {
+        "name": "responseMap",
+        "type": "object",
+        "description": "Optional projection — pick which response fields to expose downstream as `{ key: $.responseField }`.",
+        "bindingKinds": ["literal"]
+      }
+    ],
+    "outputs": [
+      { "name": "out", "branch": "default", "description": "Emits the parsed response body (or the responseMap projection)." }
+    ]
+  },
+  "ui": { "badge": "API", "icon": "globe", "accent": "#1f4a6b" },
+  "tags": ["api", "http", "outbound"],
+  "updatedAt": "2026-05-09T00:00:00.000Z"
+}

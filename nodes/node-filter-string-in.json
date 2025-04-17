@@ -1,7 +1,7 @@
 {
   "id": "node-filter-string-in",
-  "name": "Filter — match against a list",
-  "description": "Branches pass / fail. Pass when the source field matches one of the chosen values. Use 'from ref' on the values port to pick from a reference table (e.g. all airports in a country).",
+  "name": "Filter — text",
+  "description": "Branches pass / fail. Compare the source string against a value or list using one of 11 operators (equals, contains, starts with, regex, in / not in, is null / is empty, …). Backwards-compatible with rules that just used 'in' against a list.",
   "category": "filter",
   "ports": {
     "inputs": [
@@ -16,10 +16,28 @@
     ],
     "params": [
       {
+        "name": "operator",
+        "type": "string",
+        "required": true,
+        "description": "How to compare the source against the value(s).",
+        "enum": [
+          { "value": "equals",       "label": "= equals",         "description": "Source string equals the value." },
+          { "value": "not_equals",   "label": "≠ not equal",      "description": "Source string differs from the value." },
+          { "value": "in",           "label": "in list",          "description": "Source string matches any item in the values list (most common)." },
+          { "value": "not_in",       "label": "not in list",      "description": "Source string matches none of the values list." },
+          { "value": "starts_with",  "label": "starts with",      "description": "Source begins with the value." },
+          { "value": "ends_with",    "label": "ends with",        "description": "Source ends with the value." },
+          { "value": "contains",     "label": "contains",         "description": "Source contains the value as a substring." },
+          { "value": "not_contains", "label": "does not contain", "description": "Source does NOT contain the value." },
+          { "value": "regex",        "label": "matches regex",    "description": "Source matches a regular expression." },
+          { "value": "is_null",      "label": "is null",          "description": "Pass when the source is null / missing. Values are ignored." },
+          { "value": "is_empty",     "label": "is empty",         "description": "Pass when the source is an empty string. Values are ignored." }
+        ]
+      },
+      {
         "name": "literal",
         "type": "string-array",
-        "required": true,
-        "description": "The values that pass — type your own list (one per line), or use 'From Ref' to pick rows from a reference table.",
+        "description": "Value(s) to compare against. For in / not_in, list every match. For equals / starts_with / contains / regex, only the first value is used. Ignored when operator is is_null / is_empty.",
         "bindingKinds": ["literal", "ref-select"]
       },
       {
@@ -31,7 +49,7 @@
           { "value": "all",   "label": "All match",   "description": "Pass only if every element satisfies the test." },
           { "value": "none",  "label": "None match",  "description": "Pass only when ZERO elements satisfy the test (logical NOT-any)." },
           { "value": "first", "label": "First only",  "description": "Test the first element and ignore the rest." },
-          { "value": "last",  "label": "Last only",   "description": "Test the last element only." }
+          { "value": "only",  "label": "Only one",    "description": "Pass only when the array has exactly one element AND it satisfies the test." }
         ]
       },
       {
@@ -44,8 +62,8 @@
           { "value": "pass", "label": "Pass",     "description": "Treat as matching (lenient)." }
         ]
       },
-      { "name": "caseInsensitive", "type": "boolean" },
-      { "name": "trim", "type": "boolean" }
+      { "name": "caseInsensitive", "type": "boolean", "description": "Case-insensitive compare. Default true." },
+      { "name": "trim",            "type": "boolean", "description": "Trim leading / trailing whitespace before compare. Default true." }
     ],
     "outputs": [
       { "name": "pass", "branch": "pass", "description": "Fires when the test passes." },
@@ -54,6 +72,6 @@
   },
   "defaults": { "operator": "in", "arraySelector": "any", "onMissing": "fail", "caseInsensitive": true, "trim": true },
   "ui": { "badge": "STR", "icon": "filter", "accent": "#1f4a6b" },
-  "tags": ["filter", "string"],
-  "updatedAt": "2026-05-06T00:00:00.000Z"
+  "tags": ["filter", "string", "text"],
+  "updatedAt": "2026-05-09T00:00:00.000Z"
 }

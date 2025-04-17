@@ -1,0 +1,33 @@
+{
+  "id": "node-distinct",
+  "name": "Distinct",
+  "description": "Dedupes the upstream array. Pick a key (JSONPath relative to each element) to dedupe by — or omit it to dedupe by whole-element equality.",
+  "category": "distinct",
+  "ports": {
+    "inputs": [],
+    "params": [
+      {
+        "name": "key",
+        "type": "string",
+        "description": "JSONPath relative to each element. Omit to dedupe by whole-element equality.",
+        "bindingKinds": ["literal"]
+      },
+      {
+        "name": "keep",
+        "type": "string",
+        "description": "When duplicates exist, which one survives.",
+        "enum": [
+          { "value": "first", "label": "Keep first", "description": "First occurrence wins (default)." },
+          { "value": "last",  "label": "Keep last",  "description": "Last occurrence wins." }
+        ]
+      }
+    ],
+    "outputs": [
+      { "name": "out", "branch": "default" }
+    ]
+  },
+  "defaults": { "keep": "first" },
+  "ui": { "badge": "DIST", "icon": "fingerprint", "accent": "#3a3a3a" },
+  "tags": ["array", "transform", "distinct"],
+  "updatedAt": "2026-05-09T00:00:00.000Z"
+}

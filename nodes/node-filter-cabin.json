@@ -32,7 +32,7 @@
           { "value": "all",   "label": "All match",   "description": "Pass only if every segment is in the list." },
           { "value": "none",  "label": "None match",  "description": "Pass only when no segment is in the list." },
           { "value": "first", "label": "First only",  "description": "Test the first segment only (e.g. outbound first leg)." },
-          { "value": "last",  "label": "Last only",   "description": "Test the last segment only." }
+          { "value": "only",  "label": "Only one",    "description": "Pass only when there's exactly one segment AND it satisfies the test." }
         ]
       },
       {

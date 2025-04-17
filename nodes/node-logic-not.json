@@ -1,0 +1,18 @@
+{
+  "id": "node-logic-not",
+  "name": "Logic — NOT",
+  "description": "Inverts the incoming verdict. Wire EXACTLY ONE upstream filter into this node — Pass becomes Fail, Fail becomes Pass, Skip becomes Pass (skip is treated as 'not pass').",
+  "category": "logic",
+  "ports": {
+    "inputs": [],
+    "params": [],
+    "outputs": [
+      { "name": "pass", "branch": "pass", "description": "Fires when the upstream filter did NOT pass." },
+      { "name": "fail", "branch": "fail", "description": "Fires when the upstream filter passed." }
+    ]
+  },
+  "defaults": { "op": "not" },
+  "ui": { "badge": "NOT", "icon": "ban", "accent": "#3a3a3a" },
+  "tags": ["logic", "combine"],
+  "updatedAt": "2026-05-09T00:00:00.000Z"
+}

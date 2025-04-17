@@ -1,0 +1,30 @@
+{
+  "id": "node-reference-lookup",
+  "name": "Reference — multi-row lookup",
+  "description": "Multi-row reference lookup. Returns ALL rows from a reference table that match `matchOn` (each column compared against a JSONPath). Distinct from the mutator-lookup node (which writes one column onto an upstream object). Use this when you want the rows themselves — e.g. all tax lines for a (pos, route) combo.",
+  "category": "reference",
+  "ports": {
+    "inputs": [],
+    "params": [
+      {
+        "name": "referenceId",
+        "type": "reference",
+        "required": true,
+        "description": "Which reference table to query.",
+        "bindingKinds": ["reference"]
+      },
+      {
+        "name": "matchOn",
+        "type": "object",
+        "description": "Map of reference-column → JSONPath. Rows where every column equals its resolved path are returned. Omit for 'all rows'.",
+        "bindingKinds": ["literal"]
+      }
+    ],
+    "outputs": [
+      { "name": "out", "branch": "default", "description": "Emits the matched rows as a JSON array." }
+    ]
+  },
+  "ui": { "badge": "REF", "icon": "database", "accent": "#5b3a72" },
+  "tags": ["reference", "lookup", "multi-row"],
+  "updatedAt": "2026-05-09T00:00:00.000Z"
+}

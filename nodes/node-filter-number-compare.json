@@ -19,28 +19,40 @@
         "name": "operator",
         "type": "string",
         "required": true,
-        "description": "How to compare the source against the value.",
+        "description": "How to compare the source against the value(s).",
         "enum": [
-          { "value": "eq",  "label": "= equals",          "description": "Source is exactly equal to value." },
-          { "value": "ne",  "label": "≠ not equal",       "description": "Source differs from value." },
-          { "value": "lt",  "label": "< less than",       "description": "Source is strictly less than value." },
-          { "value": "le",  "label": "≤ less or equal",   "description": "Source is less than or equal to value." },
-          { "value": "gt",  "label": "> greater than",    "description": "Source is strictly greater than value." },
-          { "value": "ge",  "label": "≥ greater or equal","description": "Source is greater than or equal to value." }
+          { "value": "equals",     "label": "= equals",          "description": "Source is exactly equal to the value." },
+          { "value": "not_equals", "label": "≠ not equal",       "description": "Source differs from the value." },
+          { "value": "lt",         "label": "< less than",       "description": "Source is strictly less than the value." },
+          { "value": "lte",        "label": "≤ less or equal",   "description": "Source is less than or equal to the value." },
+          { "value": "gt",         "label": "> greater than",    "description": "Source is strictly greater than the value." },
+          { "value": "gte",        "label": "≥ greater or equal","description": "Source is greater than or equal to the value." },
+          { "value": "in",         "label": "in list",           "description": "Source matches any item in the values list." },
+          { "value": "not_in",     "label": "not in list",       "description": "Source matches none of the values list." },
+          { "value": "is_null",    "label": "is null",           "description": "Pass when the source is null / missing. Value is ignored." }
         ]
       },
       {
         "name": "value",
         "type": "number",
-        "required": true,
-        "description": "The number to compare against.",
+        "description": "The number to compare against (single-value operators). Ignored for in / not_in (use the values list) and is_null.",
         "bindingKinds": ["literal", "path", "context"]
       },
       {
-        "name": "tolerance",
-        "type": "number",
-        "description": "Optional rounding tolerance for floating-point fields — passes when |source - value| ≤ tolerance. Leave blank for exact match.",
+        "name": "values",
+        "type": "number-array",
+        "description": "List of numbers, used by in / not_in.",
         "bindingKinds": ["literal"]
+      },
+      {
+        "name": "round",
+        "type": "string",
+        "description": "Optional rounding applied to the source before comparing — handy for fare amounts where stored decimals don't quite line up with the price-table integer.",
+        "enum": [
+          { "value": "floor", "label": "Floor",       "description": "Round down to the nearest integer." },
+          { "value": "ceil",  "label": "Ceiling",     "description": "Round up to the nearest integer." },
+          { "value": "round", "label": "Half-to-even","description": "Banker's rounding (closest integer; ties go to even)." }
+        ]
       },
       {
         "name": "arraySelector",
@@ -51,7 +63,7 @@
           { "value": "all",   "label": "All match",   "description": "Pass only if every element satisfies the test." },
           { "value": "none",  "label": "None match",  "description": "Pass only when zero elements satisfy the test." },
           { "value": "first", "label": "First only",  "description": "Test the first element only." },
-          { "value": "last",  "label": "Last only",   "description": "Test the last element only." }
+          { "value": "only",  "label": "Only one",    "description": "Pass only when the array has exactly one element AND it satisfies the test." }
         ]
       },
       {
@@ -70,7 +82,7 @@
       { "name": "fail", "branch": "fail" }
     ]
   },
-  "defaults": { "operator": "eq", "arraySelector": "any", "onMissing": "fail" },
+  "defaults": { "operator": "equals", "arraySelector": "any", "onMissing": "fail" },
   "ui": { "badge": "NUM=", "icon": "equal", "accent": "#1f4a6b" },
   "tags": ["filter", "number", "compare"],
   "updatedAt": "2026-05-09T00:00:00.000Z"

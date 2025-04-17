@@ -1,0 +1,31 @@
+{
+  "id": "node-limit",
+  "name": "Limit",
+  "description": "Takes a slice of the upstream array — `count` elements, optionally after skipping `offset`. Pair with Sort to grab the top-N cheapest fares.",
+  "category": "limit",
+  "ports": {
+    "inputs": [],
+    "params": [
+      {
+        "name": "count",
+        "type": "integer",
+        "required": true,
+        "description": "How many elements to keep.",
+        "bindingKinds": ["literal", "path", "context"]
+      },
+      {
+        "name": "offset",
+        "type": "integer",
+        "description": "How many to skip first. Default 0.",
+        "bindingKinds": ["literal", "path", "context"]
+      }
+    ],
+    "outputs": [
+      { "name": "out", "branch": "default" }
+    ]
+  },
+  "defaults": { "offset": 0 },
+  "ui": { "badge": "LIM", "icon": "scissors", "accent": "#3a3a3a" },
+  "tags": ["array", "transform", "limit"],
+  "updatedAt": "2026-05-09T00:00:00.000Z"
+}

@@ -1,0 +1,43 @@
+{
+  "id": "node-sort",
+  "name": "Sort",
+  "description": "Sorts the upstream array. Stable — preserves input order for elements with equal keys. Pair with Limit to take the cheapest N fares, or with Distinct to dedupe before sorting.",
+  "category": "sort",
+  "ports": {
+    "inputs": [],
+    "params": [
+      {
+        "name": "sortKey",
+        "type": "string",
+        "description": "JSONPath relative to each element. Omit to sort whole elements (numeric / string compare).",
+        "bindingKinds": ["literal"]
+      },
+      {
+        "name": "direction",
+        "type": "string",
+        "description": "Ascending or descending.",
+        "enum": [
+          { "value": "asc",  "label": "Ascending",  "description": "Smallest / earliest first." },
+          { "value": "desc", "label": "Descending", "description": "Largest / latest first." }
+        ]
+      },
+      {
+        "name": "nulls",
+        "type": "string",
+        "description": "Where to place null / missing keys.",
+        "enum": [
+          { "value": "first", "label": "Nulls first", "description": "Put nulls at the start." },
+          { "value": "last",  "label": "Nulls last",  "description": "Put nulls at the end (default)." },
+          { "value": "error", "label": "Error",       "description": "Throw when any element has a null key — strict mode." }
+        ]
+      }
+    ],
+    "outputs": [
+      { "name": "out", "branch": "default" }
+    ]
+  },
+  "defaults": { "direction": "asc", "nulls": "last" },
+  "ui": { "badge": "SORT", "icon": "arrow-up-down", "accent": "#3a3a3a" },
+  "tags": ["array", "transform", "sort"],
+  "updatedAt": "2026-05-09T00:00:00.000Z"
+}

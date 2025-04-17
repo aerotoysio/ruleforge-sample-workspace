@@ -1,0 +1,24 @@
+{
+  "id": "node-group-by",
+  "name": "Group by",
+  "description": "Partitions the upstream array into a `{ key1: [...], key2: [...] }` object keyed by the chosen field. Preserves first-seen group order. Useful for 'one tax line per pax' or 'segments grouped by bound' patterns.",
+  "category": "groupBy",
+  "ports": {
+    "inputs": [],
+    "params": [
+      {
+        "name": "groupKey",
+        "type": "string",
+        "required": true,
+        "description": "JSONPath relative to each element — its value becomes the group key.",
+        "bindingKinds": ["literal"]
+      }
+    ],
+    "outputs": [
+      { "name": "out", "branch": "default" }
+    ]
+  },
+  "ui": { "badge": "GROUP", "icon": "layers", "accent": "#3a3a3a" },
+  "tags": ["array", "transform", "group"],
+  "updatedAt": "2026-05-09T00:00:00.000Z"
+}

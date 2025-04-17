@@ -32,7 +32,7 @@
           { "value": "all",   "label": "All match",   "description": "Pass only if every pax matches (e.g. 'all adults')." },
           { "value": "none",  "label": "None match",  "description": "Pass only when no pax matches (e.g. 'no infants')." },
           { "value": "first", "label": "First only",  "description": "Test the first pax only." },
-          { "value": "last",  "label": "Last only",   "description": "Test the last pax only." }
+          { "value": "only",  "label": "Only one",    "description": "Pass only when there is exactly one pax AND it satisfies the test." }
         ]
       },
       {
