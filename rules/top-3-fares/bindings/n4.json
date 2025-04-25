@@ -1,0 +1,8 @@
+{
+  "instanceId": "n4",
+  "ruleId": "top-3-fares",
+  "bindings": {
+    "count":  { "kind": "literal", "value": 3 },
+    "offset": { "kind": "literal", "value": 0 }
+  }
+}

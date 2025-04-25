@@ -1,0 +1,12 @@
+{
+  "id": "empty-quotes",
+  "name": "Empty quotes — assert blows up",
+  "description": "Supplier returned zero fares — the assert at the end of the chain must throw NO_FARES rather than silently returning [].",
+  "tags": ["edge-case", "assert"],
+  "payload": {
+    "quotes": []
+  },
+  "expected": null,
+  "expectedError": "NO_FARES",
+  "updatedAt": "2026-05-09T00:00:00.000Z"
+}

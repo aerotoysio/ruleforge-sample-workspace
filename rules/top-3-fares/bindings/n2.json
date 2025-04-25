@@ -1,0 +1,8 @@
+{
+  "instanceId": "n2",
+  "ruleId": "top-3-fares",
+  "bindings": {
+    "key": { "kind": "literal", "value": "$.code" },
+    "keep": { "kind": "literal", "value": "first" }
+  }
+}

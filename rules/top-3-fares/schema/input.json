@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "rules/top-3-fares/schema/input.json",
+  "title": "TopFaresRequest",
+  "type": "object",
+  "required": ["quotes"],
+  "properties": {
+    "quotes": {
+      "type": "array",
+      "description": "Raw fare quotes from one or more GDS sources.",
+      "items": {
+        "type": "object",
+        "required": ["code", "price", "currency"],
+        "properties": {
+          "code":     { "type": "string", "description": "Fare code, e.g. YOWAU." },
+          "price":    { "type": "number", "description": "Total fare in pointOfSale currency." },
+          "currency": { "type": "string" },
+          "carrier":  { "type": "string", "description": "IATA carrier code." }
+        }
+      }
+    }
+  }
+}

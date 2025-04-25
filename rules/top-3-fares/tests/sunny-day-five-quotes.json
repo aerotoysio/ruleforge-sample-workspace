@@ -1,0 +1,22 @@
+{
+  "id": "sunny-day-five-quotes",
+  "name": "Five quotes — return cheapest 3",
+  "description": "Five quotes including a duplicate code; expect the three cheapest unique fares back, sorted ascending.",
+  "tags": ["happy-path"],
+  "payload": {
+    "quotes": [
+      { "code": "YOWAU", "price": 1840, "currency": "AUD", "carrier": "QF" },
+      { "code": "MOWAU", "price": 1620, "currency": "AUD", "carrier": "QF" },
+      { "code": "BOWAU", "price": 1450, "currency": "AUD", "carrier": "QF" },
+      { "code": "BOWAU", "price": 1480, "currency": "AUD", "carrier": "VA" },
+      { "code": "HOWAU", "price": 1280, "currency": "AUD", "carrier": "VA" },
+      { "code": "KOWAU", "price": 1180, "currency": "AUD", "carrier": "JQ" }
+    ]
+  },
+  "expected": [
+    { "code": "KOWAU", "price": 1180, "currency": "AUD", "carrier": "JQ" },
+    { "code": "HOWAU", "price": 1280, "currency": "AUD", "carrier": "VA" },
+    { "code": "BOWAU", "price": 1450, "currency": "AUD", "carrier": "QF" }
+  ],
+  "updatedAt": "2026-05-09T00:00:00.000Z"
+}
