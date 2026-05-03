@@ -3,13 +3,15 @@
   "ruleId": "markets-discount",
   "bindings": {
     "value": {
-      "kind": "literal",
-      "value": {
-        "bookingRef":      "$.booking.bookingRef",
-        "discountApplied": false,
-        "discountAmount":  0,
-        "currency":        "$.booking.currency",
-        "reason":          "destination not in eligible market"
+      "kind": "template-fill",
+      "templateId": "tmpl-discount-line",
+      "fields": {
+        "code":      { "kind": "literal", "value": "MARKETS-NOMATCH" },
+        "amount":    { "kind": "literal", "value": 0 },
+        "currency":  { "kind": "path",    "path":  "$.booking.currency" },
+        "appliesTo": { "kind": "literal", "value": "fare" },
+        "reason":    { "kind": "literal", "value": "destination not in eligible market" },
+        "paxId":     { "kind": "path",    "path":  "$.booking.bookingRef" }
       }
     }
   }
