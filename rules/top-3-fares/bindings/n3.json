@@ -2,8 +2,14 @@
   "instanceId": "n3",
   "ruleId": "top-3-fares",
   "bindings": {
-    "sortKey":   { "kind": "literal", "value": "$.price" },
-    "direction": { "kind": "literal", "value": "asc" },
-    "nulls":     { "kind": "literal", "value": "last" }
+    "value": {
+      "kind": "literal",
+      "value": {
+        "code":     "${$q.code}",
+        "price":    "${$q.price}",
+        "currency": "${$q.currency}",
+        "carrier":  "${$q.carrier}"
+      }
+    }
   }
 }

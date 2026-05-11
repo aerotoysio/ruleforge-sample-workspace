@@ -1,0 +1,308 @@
+{
+  "id": "top-3-fares",
+  "name": "Top 3 fares — dedupe, sort by price, take cheapest",
+  "description": "Demonstrates the array-transform family. Iterator → product → merge surfaces the request's `quotes` array as upstream output, then distinct → sort → limit → assert pick the three cheapest. The iterator-merge pre-step is needed today because engine array transforms read upstream-only — engine issue #25 tracks adding a `source: $.path` config option that would shrink this to a 4-node rule.",
+  "endpoint": "/v1/fares/top-3",
+  "method": "POST",
+  "status": "draft",
+  "currentVersion": 1,
+  "category": "Fares",
+  "tags": [
+    "fares",
+    "demo",
+    "array-transforms"
+  ],
+  "inputSchema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "rules/top-3-fares/schema/input.json",
+    "title": "TopFaresRequest",
+    "type": "object",
+    "required": [
+      "quotes"
+    ],
+    "properties": {
+      "quotes": {
+        "type": "array",
+        "description": "Raw fare quotes from one or more GDS sources.",
+        "items": {
+          "type": "object",
+          "required": [
+            "code",
+            "price",
+            "currency"
+          ],
+          "properties": {
+            "code": {
+              "type": "string",
+              "description": "Fare code, e.g. YOWAU."
+            },
+            "price": {
+              "type": "number",
+              "description": "Total fare in pointOfSale currency."
+            },
+            "currency": {
+              "type": "string"
+            },
+            "carrier": {
+              "type": "string",
+              "description": "IATA carrier code."
+            }
+          }
+        }
+      }
+    }
+  },
+  "outputSchema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "rules/top-3-fares/schema/output.json",
+    "title": "TopFaresResponse",
+    "type": "array",
+    "description": "Up to 3 cheapest unique fares.",
+    "items": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "carrier": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "input",
+      "position": {
+        "x": 80,
+        "y": 240
+      },
+      "data": {
+        "label": "Quotes",
+        "category": "input",
+        "description": null,
+        "templateId": "node-input"
+      }
+    },
+    {
+      "id": "n2",
+      "type": "iterator",
+      "position": {
+        "x": 320,
+        "y": 240
+      },
+      "data": {
+        "label": "For each quote",
+        "category": "iterator",
+        "description": null,
+        "templateId": "node-iterator",
+        "config": {
+          "source": "$.quotes",
+          "as": "q"
+        }
+      }
+    },
+    {
+      "id": "n3",
+      "type": "product",
+      "position": {
+        "x": 560,
+        "y": 240
+      },
+      "data": {
+        "label": "Pick fields per quote",
+        "category": "product",
+        "description": null,
+        "templateId": "node-product",
+        "config": {
+          "output": {
+            "code": "${$q.code}",
+            "price": "${$q.price}",
+            "currency": "${$q.currency}",
+            "carrier": "${$q.carrier}"
+          }
+        }
+      }
+    },
+    {
+      "id": "n4",
+      "type": "merge",
+      "position": {
+        "x": 800,
+        "y": 240
+      },
+      "data": {
+        "label": "Collect array",
+        "category": "merge",
+        "description": null,
+        "templateId": "node-merge",
+        "config": {
+          "mode": "collect"
+        }
+      }
+    },
+    {
+      "id": "n5",
+      "type": "distinct",
+      "position": {
+        "x": 1040,
+        "y": 240
+      },
+      "data": {
+        "label": "Dedupe by code",
+        "category": "distinct",
+        "description": "GDS sometimes returns the same fare on multiple booking-class lines — keep first.",
+        "templateId": "node-distinct",
+        "config": {
+          "key": "$.code",
+          "keep": "first"
+        }
+      }
+    },
+    {
+      "id": "n6",
+      "type": "sort",
+      "position": {
+        "x": 1280,
+        "y": 240
+      },
+      "data": {
+        "label": "Sort by price",
+        "category": "sort",
+        "description": "Cheapest first.",
+        "templateId": "node-sort",
+        "config": {
+          "sortKey": "$.price",
+          "direction": "asc",
+          "nulls": "last"
+        }
+      }
+    },
+    {
+      "id": "n7",
+      "type": "limit",
+      "position": {
+        "x": 1520,
+        "y": 240
+      },
+      "data": {
+        "label": "Top 3",
+        "category": "limit",
+        "description": null,
+        "templateId": "node-limit",
+        "config": {
+          "count": 3,
+          "offset": 0
+        }
+      }
+    },
+    {
+      "id": "n8",
+      "type": "assert",
+      "position": {
+        "x": 1760,
+        "y": 240
+      },
+      "data": {
+        "label": "Assert non-empty",
+        "category": "assert",
+        "description": "Belt-and-braces — blow up loudly if the supplier returned no fares.",
+        "templateId": "node-assert",
+        "config": {
+          "condition": "true",
+          "errorCode": "NO_FARES",
+          "errorMessage": "Top-3 fares rule produced an empty list — supplier returned no quotes."
+        }
+      }
+    },
+    {
+      "id": "n9",
+      "type": "output",
+      "position": {
+        "x": 2000,
+        "y": 240
+      },
+      "data": {
+        "label": "Result",
+        "category": "output",
+        "description": null,
+        "templateId": "node-output"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "source": "n1",
+      "target": "n2",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e2",
+      "source": "n2",
+      "target": "n3",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e3",
+      "source": "n3",
+      "target": "n4",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e4",
+      "source": "n4",
+      "target": "n5",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e5",
+      "source": "n5",
+      "target": "n6",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e6",
+      "source": "n6",
+      "target": "n7",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e7",
+      "source": "n7",
+      "target": "n8",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e8",
+      "source": "n8",
+      "target": "n9",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    }
+  ],
+  "updatedAt": "2026-05-10T00:00:00.000Z",
+  "updatedBy": "demo-bootstrap"
+}

@@ -3,6 +3,6 @@
   "ruleId": "offer-tax",
   "bindings": {
     "target": { "kind": "literal", "value": "paxId" },
-    "from":   { "kind": "context", "key":   "pax.id" }
+    "from":   { "kind": "context", "key":   "$pax.id" }
   }
 }

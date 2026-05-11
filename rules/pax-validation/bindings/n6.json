@@ -2,7 +2,7 @@
   "instanceId": "n6",
   "ruleId": "pax-validation",
   "bindings": {
-    "source":  { "kind": "context", "key":   "pax.paxType" },
+    "source":  { "kind": "context", "key":   "$pax.paxType" },
     "literal": { "kind": "literal", "value": ["CHD"] }
   }
 }

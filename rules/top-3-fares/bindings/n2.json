@@ -2,7 +2,7 @@
   "instanceId": "n2",
   "ruleId": "top-3-fares",
   "bindings": {
-    "key": { "kind": "literal", "value": "$.code" },
-    "keep": { "kind": "literal", "value": "first" }
+    "source": { "kind": "path",    "path":  "$.quotes" },
+    "as":     { "kind": "literal", "value": "q" }
   }
 }

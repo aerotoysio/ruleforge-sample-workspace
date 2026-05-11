@@ -2,8 +2,7 @@
   "instanceId": "n5",
   "ruleId": "top-3-fares",
   "bindings": {
-    "condition":    { "kind": "literal", "value": "Count() > 0" },
-    "errorCode":    { "kind": "literal", "value": "NO_FARES" },
-    "errorMessage": { "kind": "literal", "value": "Top-3 fares rule produced an empty list — supplier returned no quotes." }
+    "key":  { "kind": "literal", "value": "$.code" },
+    "keep": { "kind": "literal", "value": "first" }
   }
 }

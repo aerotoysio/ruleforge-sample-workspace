@@ -1,0 +1,9 @@
+{
+  "instanceId": "n8",
+  "ruleId": "top-3-fares",
+  "bindings": {
+    "condition":    { "kind": "literal", "value": "true" },
+    "errorCode":    { "kind": "literal", "value": "NO_FARES" },
+    "errorMessage": { "kind": "literal", "value": "Top-3 fares rule produced an empty list — supplier returned no quotes." }
+  }
+}

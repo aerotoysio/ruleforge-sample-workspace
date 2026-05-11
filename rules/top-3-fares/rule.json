@@ -1,7 +1,7 @@
 {
   "id": "top-3-fares",
   "name": "Top 3 fares — dedupe, sort by price, take cheapest",
-  "description": "Demonstrates the array-transform family: dedupe duplicate fare quotes by code (a common GDS issue), sort the survivors by price ascending, take the three cheapest. An assert at the end guarantees we always emit at least one — guards against silent empty-fares bugs.",
+  "description": "Demonstrates the array-transform family. Iterator → product → merge surfaces the request's `quotes` array as upstream output, then distinct → sort → limit → assert pick the three cheapest. The iterator-merge pre-step is needed today because engine array transforms read upstream-only — engine issue #25 tracks adding a `source: $.path` config option that would shrink this to a 4-node rule.",
   "endpoint": "/v1/fares/top-3",
   "method": "POST",
   "status": "draft",
@@ -9,20 +9,26 @@
   "tags": ["fares", "demo", "array-transforms"],
   "category": "Fares",
   "instances": [
-    { "instanceId": "n1", "nodeId": "node-input",                  "position": { "x": 80,   "y": 240 }, "label": "Quotes" },
-    { "instanceId": "n2", "nodeId": "node-distinct",               "position": { "x": 320,  "y": 240 }, "label": "Dedupe by code", "description": "GDS sometimes returns the same fare on multiple booking-class lines — keep first." },
-    { "instanceId": "n3", "nodeId": "node-sort",                   "position": { "x": 560,  "y": 240 }, "label": "Sort by price",  "description": "Cheapest first." },
-    { "instanceId": "n4", "nodeId": "node-limit",                  "position": { "x": 800,  "y": 240 }, "label": "Top 3" },
-    { "instanceId": "n5", "nodeId": "node-assert",                 "position": { "x": 1040, "y": 240 }, "label": "Assert non-empty", "description": "Belt-and-braces — blow up loudly if the supplier returned no fares." },
-    { "instanceId": "n6", "nodeId": "node-output",                 "position": { "x": 1280, "y": 240 }, "label": "Result" }
+    { "instanceId": "n1", "nodeId": "node-input",     "position": { "x": 80,   "y": 240 }, "label": "Quotes" },
+    { "instanceId": "n2", "nodeId": "node-iterator",  "position": { "x": 320,  "y": 240 }, "label": "For each quote" },
+    { "instanceId": "n3", "nodeId": "node-product",   "position": { "x": 560,  "y": 240 }, "label": "Pick fields per quote" },
+    { "instanceId": "n4", "nodeId": "node-merge",     "position": { "x": 800,  "y": 240 }, "label": "Collect array" },
+    { "instanceId": "n5", "nodeId": "node-distinct",  "position": { "x": 1040, "y": 240 }, "label": "Dedupe by code", "description": "GDS sometimes returns the same fare on multiple booking-class lines — keep first." },
+    { "instanceId": "n6", "nodeId": "node-sort",      "position": { "x": 1280, "y": 240 }, "label": "Sort by price", "description": "Cheapest first." },
+    { "instanceId": "n7", "nodeId": "node-limit",     "position": { "x": 1520, "y": 240 }, "label": "Top 3" },
+    { "instanceId": "n8", "nodeId": "node-assert",    "position": { "x": 1760, "y": 240 }, "label": "Assert non-empty", "description": "Belt-and-braces — blow up loudly if the supplier returned no fares." },
+    { "instanceId": "n9", "nodeId": "node-output",    "position": { "x": 2000, "y": 240 }, "label": "Result" }
   ],
   "edges": [
     { "id": "e1", "source": "n1", "target": "n2", "branch": "default" },
     { "id": "e2", "source": "n2", "target": "n3", "branch": "default" },
     { "id": "e3", "source": "n3", "target": "n4", "branch": "default" },
     { "id": "e4", "source": "n4", "target": "n5", "branch": "default" },
-    { "id": "e5", "source": "n5", "target": "n6", "branch": "default" }
+    { "id": "e5", "source": "n5", "target": "n6", "branch": "default" },
+    { "id": "e6", "source": "n6", "target": "n7", "branch": "default" },
+    { "id": "e7", "source": "n7", "target": "n8", "branch": "default" },
+    { "id": "e8", "source": "n8", "target": "n9", "branch": "default" }
   ],
-  "updatedAt": "2026-05-09T00:00:00.000Z",
+  "updatedAt": "2026-05-10T00:00:00.000Z",
   "updatedBy": "demo-bootstrap"
 }

@@ -1,0 +1,516 @@
+{
+  "id": "pax-validation",
+  "name": "Passenger validation — type vs DOB",
+  "description": "For each passenger, compute age from dateOfBirth and verify it's consistent with the declared paxType (ADT 12+, CHD 2-11, INF 0-1). Fails the rule on any mismatch (e.g. a 1-year-old declared as ADT, or a 30-year-old declared as INF).",
+  "endpoint": "/v1/validate/passengers",
+  "method": "POST",
+  "status": "draft",
+  "currentVersion": 1,
+  "category": "Validation",
+  "tags": [
+    "validation",
+    "passengers",
+    "demo"
+  ],
+  "inputSchema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "rules/pax-validation/schema/input.json",
+    "title": "PaxValidationRequest",
+    "type": "object",
+    "required": [
+      "passengers"
+    ],
+    "properties": {
+      "passengers": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "required": [
+            "id",
+            "paxType",
+            "dateOfBirth"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Stable passenger identifier (e.g. PAX1)."
+            },
+            "paxType": {
+              "type": "string",
+              "enum": [
+                "ADT",
+                "CHD",
+                "INF"
+              ],
+              "description": "ADT = Adult (12+), CHD = Child (2-11), INF = Infant (0-1)."
+            },
+            "dateOfBirth": {
+              "type": "string",
+              "format": "date",
+              "description": "ISO date YYYY-MM-DD."
+            },
+            "givenName": {
+              "type": "string"
+            },
+            "familyName": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "outputSchema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "rules/pax-validation/schema/output.json",
+    "title": "PaxValidationResponse",
+    "type": "array",
+    "items": {
+      "type": "object",
+      "required": [
+        "paxId",
+        "paxType",
+        "computedAge",
+        "valid"
+      ],
+      "properties": {
+        "paxId": {
+          "type": "string"
+        },
+        "paxType": {
+          "type": "string",
+          "enum": [
+            "ADT",
+            "CHD",
+            "INF"
+          ]
+        },
+        "computedAge": {
+          "type": "number"
+        },
+        "valid": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": "string",
+          "description": "Human-readable cause when valid=false."
+        }
+      }
+    }
+  },
+  "contextSchema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "rules/pax-validation/schema/context.json",
+    "title": "PaxValidationContext",
+    "description": "Per-evaluation context. Iterator opens a $pax frame; calc node writes computedAge into $ctx.",
+    "type": "object",
+    "properties": {
+      "computedAge": {
+        "type": "number",
+        "description": "Age in years derived from $pax.dateOfBirth."
+      }
+    }
+  },
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "input",
+      "position": {
+        "x": 80,
+        "y": 240
+      },
+      "data": {
+        "label": "Passengers",
+        "category": "input",
+        "description": null,
+        "templateId": "node-input"
+      }
+    },
+    {
+      "id": "n2",
+      "type": "iterator",
+      "position": {
+        "x": 280,
+        "y": 240
+      },
+      "data": {
+        "label": "For each pax",
+        "category": "iterator",
+        "description": null,
+        "templateId": "node-iterator",
+        "config": {
+          "source": "$.passengers",
+          "as": "pax"
+        }
+      }
+    },
+    {
+      "id": "n3",
+      "type": "calc",
+      "position": {
+        "x": 500,
+        "y": 240
+      },
+      "data": {
+        "label": "Compute age from DOB",
+        "category": "calc",
+        "description": null,
+        "templateId": "node-calc",
+        "config": {
+          "expression": "yearsBetween(now(), $pax.dateOfBirth)",
+          "target": "$ctx.computedAge"
+        }
+      }
+    },
+    {
+      "id": "n4",
+      "type": "filter",
+      "position": {
+        "x": 720,
+        "y": 100
+      },
+      "data": {
+        "label": "Is ADT?",
+        "category": "filter",
+        "description": null,
+        "templateId": "node-filter-string-in",
+        "config": {
+          "source": {
+            "kind": "context",
+            "path": "$pax.paxType"
+          },
+          "compare": {
+            "operator": "in",
+            "values": [
+              "ADT"
+            ]
+          },
+          "arraySelector": "any",
+          "onMissing": "fail"
+        }
+      }
+    },
+    {
+      "id": "n5",
+      "type": "filter",
+      "position": {
+        "x": 940,
+        "y": 100
+      },
+      "data": {
+        "label": "Age >= 12",
+        "category": "filter",
+        "description": null,
+        "templateId": "node-filter-number-range",
+        "config": {
+          "source": {
+            "kind": "context",
+            "path": "$ctx.computedAge"
+          },
+          "compare": {
+            "operator": "between",
+            "min": 12
+          },
+          "arraySelector": "any",
+          "onMissing": "fail"
+        }
+      }
+    },
+    {
+      "id": "n6",
+      "type": "filter",
+      "position": {
+        "x": 720,
+        "y": 240
+      },
+      "data": {
+        "label": "Is CHD?",
+        "category": "filter",
+        "description": null,
+        "templateId": "node-filter-string-in",
+        "config": {
+          "source": {
+            "kind": "context",
+            "path": "$pax.paxType"
+          },
+          "compare": {
+            "operator": "in",
+            "values": [
+              "CHD"
+            ]
+          },
+          "arraySelector": "any",
+          "onMissing": "fail"
+        }
+      }
+    },
+    {
+      "id": "n7",
+      "type": "filter",
+      "position": {
+        "x": 940,
+        "y": 240
+      },
+      "data": {
+        "label": "Age 2-11",
+        "category": "filter",
+        "description": null,
+        "templateId": "node-filter-number-range",
+        "config": {
+          "source": {
+            "kind": "context",
+            "path": "$ctx.computedAge"
+          },
+          "compare": {
+            "operator": "between",
+            "min": 2,
+            "max": 11
+          },
+          "arraySelector": "any",
+          "onMissing": "fail"
+        }
+      }
+    },
+    {
+      "id": "n8",
+      "type": "filter",
+      "position": {
+        "x": 720,
+        "y": 380
+      },
+      "data": {
+        "label": "Is INF?",
+        "category": "filter",
+        "description": null,
+        "templateId": "node-filter-string-in",
+        "config": {
+          "source": {
+            "kind": "context",
+            "path": "$ctx.pax.paxType"
+          },
+          "compare": {
+            "operator": "in",
+            "values": [
+              "INF"
+            ]
+          },
+          "arraySelector": "any",
+          "onMissing": "fail"
+        }
+      }
+    },
+    {
+      "id": "n9",
+      "type": "filter",
+      "position": {
+        "x": 940,
+        "y": 380
+      },
+      "data": {
+        "label": "Age <= 1",
+        "category": "filter",
+        "description": null,
+        "templateId": "node-filter-number-range",
+        "config": {
+          "source": {
+            "kind": "context",
+            "path": "$ctx.computedAge"
+          },
+          "compare": {
+            "operator": "between",
+            "max": 1
+          },
+          "arraySelector": "any",
+          "onMissing": "fail"
+        }
+      }
+    },
+    {
+      "id": "n10",
+      "type": "constant",
+      "position": {
+        "x": 1180,
+        "y": 240
+      },
+      "data": {
+        "label": "Validation line",
+        "category": "constant",
+        "description": null,
+        "templateId": "node-constant",
+        "config": {
+          "value": {
+            "paxId": "$pax.id",
+            "paxType": "$pax.paxType",
+            "computedAge": "$ctx.computedAge",
+            "valid": "$branch.equals('pass')",
+            "reason": "$branch.equals('fail') ? format('paxType {0} inconsistent with age {1}', $pax.paxType, $ctx.computedAge) : null"
+          }
+        }
+      }
+    },
+    {
+      "id": "n11",
+      "type": "merge",
+      "position": {
+        "x": 1400,
+        "y": 240
+      },
+      "data": {
+        "label": "Collect results",
+        "category": "merge",
+        "description": null,
+        "templateId": "node-merge",
+        "config": {
+          "mode": "collect"
+        }
+      }
+    },
+    {
+      "id": "n12",
+      "type": "output",
+      "position": {
+        "x": 1600,
+        "y": 240
+      },
+      "data": {
+        "label": "Result",
+        "category": "output",
+        "description": null,
+        "templateId": "node-output"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "source": "n1",
+      "target": "n2",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e2",
+      "source": "n2",
+      "target": "n3",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e3",
+      "source": "n3",
+      "target": "n4",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e4",
+      "source": "n3",
+      "target": "n6",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e5",
+      "source": "n3",
+      "target": "n8",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e6",
+      "source": "n4",
+      "target": "n5",
+      "branch": "pass",
+      "sourceHandle": "pass",
+      "targetHandle": null
+    },
+    {
+      "id": "e7",
+      "source": "n6",
+      "target": "n7",
+      "branch": "pass",
+      "sourceHandle": "pass",
+      "targetHandle": null
+    },
+    {
+      "id": "e8",
+      "source": "n8",
+      "target": "n9",
+      "branch": "pass",
+      "sourceHandle": "pass",
+      "targetHandle": null
+    },
+    {
+      "id": "e9",
+      "source": "n5",
+      "target": "n10",
+      "branch": "pass",
+      "sourceHandle": "pass",
+      "targetHandle": null
+    },
+    {
+      "id": "e10",
+      "source": "n7",
+      "target": "n10",
+      "branch": "pass",
+      "sourceHandle": "pass",
+      "targetHandle": null
+    },
+    {
+      "id": "e11",
+      "source": "n9",
+      "target": "n10",
+      "branch": "pass",
+      "sourceHandle": "pass",
+      "targetHandle": null
+    },
+    {
+      "id": "e12",
+      "source": "n5",
+      "target": "n10",
+      "branch": "fail",
+      "sourceHandle": "fail",
+      "targetHandle": null
+    },
+    {
+      "id": "e13",
+      "source": "n7",
+      "target": "n10",
+      "branch": "fail",
+      "sourceHandle": "fail",
+      "targetHandle": null
+    },
+    {
+      "id": "e14",
+      "source": "n9",
+      "target": "n10",
+      "branch": "fail",
+      "sourceHandle": "fail",
+      "targetHandle": null
+    },
+    {
+      "id": "e15",
+      "source": "n10",
+      "target": "n11",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e16",
+      "source": "n11",
+      "target": "n12",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    }
+  ],
+  "updatedAt": "2026-05-06T00:00:00.000Z",
+  "updatedBy": "demo-bootstrap"
+}

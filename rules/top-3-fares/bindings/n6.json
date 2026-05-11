@@ -1,0 +1,9 @@
+{
+  "instanceId": "n6",
+  "ruleId": "top-3-fares",
+  "bindings": {
+    "sortKey":   { "kind": "literal", "value": "$.price" },
+    "direction": { "kind": "literal", "value": "asc" },
+    "nulls":     { "kind": "literal", "value": "last" }
+  }
+}

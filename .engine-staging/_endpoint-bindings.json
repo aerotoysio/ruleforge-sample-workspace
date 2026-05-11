@@ -1,0 +1,6 @@
+{
+  "POST /v1/discount/markets": "markets-discount@1",
+  "POST /v1/offer/tax": "offer-tax@1",
+  "POST /v1/validate/passengers": "pax-validation@1",
+  "POST /v1/fares/top-3": "top-3-fares@1"
+}
