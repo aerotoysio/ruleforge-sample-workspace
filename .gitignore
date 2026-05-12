@@ -1,3 +1,6 @@
 # Editor-only state
 .DS_Store
 *.tmp
+
+# Engine-fixture staging — regenerated on every /api/test invocation
+.engine-staging/
