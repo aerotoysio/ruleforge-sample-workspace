@@ -1,0 +1,13 @@
+{
+  "id": "ref-loyalty-tiers",
+  "name": "Loyalty tiers",
+  "description": "Frequent-flyer loyalty tiers, lowest to highest. Used by the loyalty-tier filter to offer pickable options instead of free-typed codes.",
+  "currentVersion": 1,
+  "columns": ["code", "name", "rank"],
+  "rows": [
+    { "code": "BLUE",     "name": "Blue",     "rank": 1 },
+    { "code": "SILVER",   "name": "Silver",   "rank": 2 },
+    { "code": "GOLD",     "name": "Gold",     "rank": 3 },
+    { "code": "PLATINUM", "name": "Platinum", "rank": 4 }
+  ]
+}

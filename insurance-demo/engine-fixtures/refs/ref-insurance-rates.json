@@ -1,0 +1,33 @@
+{
+  "id": "ref-insurance-rates",
+  "name": "SkyShield insurance daily rates",
+  "description": "Premium per traveller per day, in GBP, keyed by product type, destination region and coverage level. Ski rates carry a winter-sports loading over the equivalent travel rate.",
+  "currentVersion": 1,
+  "columns": ["productType", "region", "level", "dailyRate", "currency"],
+  "rows": [
+    { "productType": "travel", "region": "domestic",   "level": "basic",    "dailyRate": 1.20, "currency": "GBP" },
+    { "productType": "travel", "region": "domestic",   "level": "standard", "dailyRate": 1.80, "currency": "GBP" },
+    { "productType": "travel", "region": "domestic",   "level": "premium",  "dailyRate": 2.60, "currency": "GBP" },
+    { "productType": "travel", "region": "europe",     "level": "basic",    "dailyRate": 2.00, "currency": "GBP" },
+    { "productType": "travel", "region": "europe",     "level": "standard", "dailyRate": 3.00, "currency": "GBP" },
+    { "productType": "travel", "region": "europe",     "level": "premium",  "dailyRate": 4.50, "currency": "GBP" },
+    { "productType": "travel", "region": "worldwide",  "level": "basic",    "dailyRate": 3.50, "currency": "GBP" },
+    { "productType": "travel", "region": "worldwide",  "level": "standard", "dailyRate": 5.00, "currency": "GBP" },
+    { "productType": "travel", "region": "worldwide",  "level": "premium",  "dailyRate": 7.50, "currency": "GBP" },
+    { "productType": "travel", "region": "usa-canada", "level": "basic",    "dailyRate": 4.50, "currency": "GBP" },
+    { "productType": "travel", "region": "usa-canada", "level": "standard", "dailyRate": 6.50, "currency": "GBP" },
+    { "productType": "travel", "region": "usa-canada", "level": "premium",  "dailyRate": 9.50, "currency": "GBP" },
+    { "productType": "ski",    "region": "domestic",   "level": "basic",    "dailyRate": 2.20, "currency": "GBP" },
+    { "productType": "ski",    "region": "domestic",   "level": "standard", "dailyRate": 3.20, "currency": "GBP" },
+    { "productType": "ski",    "region": "domestic",   "level": "premium",  "dailyRate": 4.50, "currency": "GBP" },
+    { "productType": "ski",    "region": "europe",     "level": "basic",    "dailyRate": 3.40, "currency": "GBP" },
+    { "productType": "ski",    "region": "europe",     "level": "standard", "dailyRate": 4.90, "currency": "GBP" },
+    { "productType": "ski",    "region": "europe",     "level": "premium",  "dailyRate": 7.20, "currency": "GBP" },
+    { "productType": "ski",    "region": "worldwide",  "level": "basic",    "dailyRate": 5.80, "currency": "GBP" },
+    { "productType": "ski",    "region": "worldwide",  "level": "standard", "dailyRate": 8.20, "currency": "GBP" },
+    { "productType": "ski",    "region": "worldwide",  "level": "premium",  "dailyRate": 12.00, "currency": "GBP" },
+    { "productType": "ski",    "region": "usa-canada", "level": "basic",    "dailyRate": 7.20, "currency": "GBP" },
+    { "productType": "ski",    "region": "usa-canada", "level": "standard", "dailyRate": 10.20, "currency": "GBP" },
+    { "productType": "ski",    "region": "usa-canada", "level": "premium",  "dailyRate": 14.50, "currency": "GBP" }
+  ]
+}

@@ -1,0 +1,434 @@
+{
+  "id": "baggage-policy",
+  "name": "Baggage Policy",
+  "category": "Ancillaries",
+  "endpoint": "/v1/baggage",
+  "method": "POST",
+  "status": "draft",
+  "currentVersion": 1,
+  "updatedAt": "2026-06-05T10:09:49.564Z",
+  "inputSchema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": [
+      "cabinClass",
+      "origin",
+      "destination",
+      "extraBags"
+    ],
+    "properties": {
+      "cabinClass": {
+        "type": "string",
+        "enum": [
+          "Economy",
+          "Business",
+          "First"
+        ],
+        "description": "Travel cabin"
+      },
+      "origin": {
+        "type": "string",
+        "description": "Origin airport IATA code"
+      },
+      "destination": {
+        "type": "string",
+        "description": "Destination airport IATA code"
+      },
+      "extraBags": {
+        "type": "integer",
+        "minimum": 0,
+        "description": "Number of extra bags the customer wants to purchase"
+      },
+      "loyaltyTier": {
+        "type": "string",
+        "enum": [
+          "BLUE",
+          "SILVER",
+          "GOLD",
+          "PLATINUM"
+        ],
+        "description": "Skywards loyalty tier"
+      }
+    }
+  },
+  "outputSchema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "cabin": {
+        "type": "string"
+      },
+      "includedKg": {
+        "type": "number",
+        "description": "Base free checked allowance for the cabin"
+      },
+      "extraAllowanceKg": {
+        "type": "number",
+        "description": "Bonus allowance from loyalty tier"
+      },
+      "totalAllowanceKg": {
+        "type": "number",
+        "description": "Total free checked baggage offered"
+      },
+      "extraBags": {
+        "type": "integer"
+      },
+      "extraBagFee": {
+        "type": "number",
+        "description": "Per-bag fee for additional bags"
+      },
+      "totalExtraCost": {
+        "type": "number",
+        "description": "Cost of all extra bags requested"
+      },
+      "currency": {
+        "type": "string"
+      }
+    }
+  },
+  "contextSchema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {},
+    "required": []
+  },
+  "instances": [
+    {
+      "instanceId": "n1",
+      "nodeId": "node-input",
+      "position": {
+        "x": 80,
+        "y": 240
+      },
+      "label": "Request"
+    },
+    {
+      "instanceId": "n2",
+      "nodeId": "node-constant",
+      "position": {
+        "x": 300,
+        "y": 240
+      },
+      "label": "Seed working object"
+    },
+    {
+      "instanceId": "n3",
+      "nodeId": "node-mutator-map",
+      "position": {
+        "x": 520,
+        "y": 240
+      },
+      "label": "Copy request fields"
+    },
+    {
+      "instanceId": "n4",
+      "nodeId": "node-mutator-lookup",
+      "position": {
+        "x": 740,
+        "y": 240
+      },
+      "label": "Loyalty rank"
+    },
+    {
+      "instanceId": "n5",
+      "nodeId": "node-calc",
+      "position": {
+        "x": 960,
+        "y": 240
+      },
+      "label": "Base allowance"
+    },
+    {
+      "instanceId": "n6",
+      "nodeId": "node-calc",
+      "position": {
+        "x": 1180,
+        "y": 240
+      },
+      "label": "Loyalty bonus"
+    },
+    {
+      "instanceId": "n7",
+      "nodeId": "node-calc",
+      "position": {
+        "x": 1400,
+        "y": 240
+      },
+      "label": "Total allowance"
+    },
+    {
+      "instanceId": "n8",
+      "nodeId": "node-calc",
+      "position": {
+        "x": 1620,
+        "y": 240
+      },
+      "label": "Extra bag cost"
+    },
+    {
+      "instanceId": "n9",
+      "nodeId": "node-output",
+      "position": {
+        "x": 1840,
+        "y": 240
+      },
+      "label": "Response"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-1",
+      "source": "n1",
+      "target": "n2",
+      "branch": "default"
+    },
+    {
+      "id": "e-2",
+      "source": "n2",
+      "target": "n3",
+      "branch": "default"
+    },
+    {
+      "id": "e-3",
+      "source": "n3",
+      "target": "n4",
+      "branch": "default"
+    },
+    {
+      "id": "e-4",
+      "source": "n4",
+      "target": "n5",
+      "branch": "default"
+    },
+    {
+      "id": "e-5",
+      "source": "n5",
+      "target": "n6",
+      "branch": "default"
+    },
+    {
+      "id": "e-6",
+      "source": "n6",
+      "target": "n7",
+      "branch": "default"
+    },
+    {
+      "id": "e-7",
+      "source": "n7",
+      "target": "n8",
+      "branch": "default"
+    },
+    {
+      "id": "e-8",
+      "source": "n8",
+      "target": "n9",
+      "branch": "default"
+    }
+  ],
+  "bindings": {
+    "n2": {
+      "instanceId": "n2",
+      "ruleId": "baggage-policy",
+      "bindings": {
+        "value": {
+          "kind": "literal",
+          "value": {
+            "cabin": "",
+            "extraBags": 0,
+            "loyaltyTier": "",
+            "loyaltyRank": 0,
+            "includedKg": 0,
+            "extraAllowanceKg": 0,
+            "totalAllowanceKg": 0,
+            "extraBagFee": 200,
+            "totalExtraCost": 0,
+            "currency": "GBP"
+          }
+        }
+      }
+    },
+    "n3": {
+      "instanceId": "n3",
+      "ruleId": "baggage-policy",
+      "bindings": {},
+      "extras": {
+        "fields": {
+          "cabin": {
+            "kind": "path",
+            "path": "$.cabinClass"
+          },
+          "extraBags": {
+            "kind": "path",
+            "path": "$.extraBags"
+          },
+          "loyaltyTier": {
+            "kind": "path",
+            "path": "$.loyaltyTier"
+          }
+        }
+      }
+    },
+    "n4": {
+      "instanceId": "n4",
+      "ruleId": "baggage-policy",
+      "bindings": {
+        "target": {
+          "kind": "literal",
+          "value": "loyaltyRank"
+        },
+        "referenceId": {
+          "kind": "reference",
+          "referenceId": "ref-loyalty-tiers"
+        },
+        "valueColumn": {
+          "kind": "literal",
+          "value": "rank"
+        },
+        "onMissing": {
+          "kind": "literal",
+          "value": "leave"
+        }
+      },
+      "extras": {
+        "matchOn": {
+          "code": {
+            "kind": "path",
+            "path": "$.loyaltyTier"
+          }
+        }
+      }
+    },
+    "n5": {
+      "instanceId": "n5",
+      "ruleId": "baggage-policy",
+      "bindings": {
+        "target": {
+          "kind": "literal",
+          "value": "includedKg"
+        },
+        "expression": {
+          "kind": "literal",
+          "value": "if(cabin == 'First', 50, if(cabin == 'Business', 40, 30))"
+        }
+      }
+    },
+    "n6": {
+      "instanceId": "n6",
+      "ruleId": "baggage-policy",
+      "bindings": {
+        "target": {
+          "kind": "literal",
+          "value": "extraAllowanceKg"
+        },
+        "expression": {
+          "kind": "literal",
+          "value": "loyaltyRank * 5"
+        }
+      }
+    },
+    "n7": {
+      "instanceId": "n7",
+      "ruleId": "baggage-policy",
+      "bindings": {
+        "target": {
+          "kind": "literal",
+          "value": "totalAllowanceKg"
+        },
+        "expression": {
+          "kind": "literal",
+          "value": "includedKg + extraAllowanceKg"
+        }
+      }
+    },
+    "n8": {
+      "instanceId": "n8",
+      "ruleId": "baggage-policy",
+      "bindings": {
+        "target": {
+          "kind": "literal",
+          "value": "totalExtraCost"
+        },
+        "expression": {
+          "kind": "literal",
+          "value": "extraBags * extraBagFee"
+        }
+      }
+    }
+  },
+  "tests": [
+    {
+      "id": "t-1",
+      "name": "Economy with one extra bag",
+      "payload": {
+        "cabinClass": "Economy",
+        "origin": "LHR",
+        "destination": "DXB",
+        "extraBags": 1,
+        "loyaltyTier": "BLUE"
+      }
+    },
+    {
+      "id": "t-2",
+      "name": "Business Gold member, no extra bags",
+      "payload": {
+        "cabinClass": "Business",
+        "origin": "DXB",
+        "destination": "JFK",
+        "extraBags": 0,
+        "loyaltyTier": "GOLD"
+      }
+    },
+    {
+      "id": "t-3",
+      "name": "First Platinum with two extra bags",
+      "payload": {
+        "cabinClass": "First",
+        "origin": "LHR",
+        "destination": "SYD",
+        "extraBags": 2,
+        "loyaltyTier": "PLATINUM"
+      }
+    },
+    {
+      "id": "t-4",
+      "name": "Economy no loyalty",
+      "payload": {
+        "cabinClass": "Economy",
+        "origin": "MAN",
+        "destination": "DXB",
+        "extraBags": 3
+      }
+    }
+  ],
+  "aiMeta": {
+    "narrative": "The rule turns an Emirates checked-baggage quote request into an allowance-and-cost response. It first seeds a working object with every output field, then copies the request's cabin, requested extra-bag count and loyalty tier into it. A reference lookup against the loyalty-tiers table resolves the customer's tier rank (Blue=1 … Platinum=4), defaulting to 0 when no tier is supplied. The base free allowance is then chosen by cabin: First=50kg, Business=40kg, otherwise Economy=30kg. A loyalty bonus of 5kg per tier rank is added, and the two are summed into the total free allowance offered. Finally the extra-bag charge is computed as the number of extra bags multiplied by the flat per-bag fee, and the enriched working object is returned.",
+    "nodeExplanations": {
+      "n2": "Seeds the working object with all fields used downstream (allowances, fees, currency) so later nodes only need to overwrite values.",
+      "n3": "Copies the request's cabin class, extra-bag count and loyalty tier onto the working object.",
+      "n4": "Looks up the loyalty tier's numeric rank from the loyalty-tiers reference table; leaves the seeded 0 if the tier is absent.",
+      "n5": "Sets the base free checked allowance from the cabin: First 50kg, Business 40kg, Economy 30kg.",
+      "n6": "Adds a loyalty bonus of 5kg for each tier rank the member holds.",
+      "n7": "Sums base allowance and loyalty bonus into the total free baggage offered to the customer.",
+      "n8": "Multiplies the requested number of extra bags by the per-bag fee to produce the total extra-bag cost."
+    },
+    "citations": [
+      {
+        "instanceId": "n5",
+        "clause": "Checked baggage allowance by cabin",
+        "quote": "EK baggage policy ... checked-baggage"
+      },
+      {
+        "instanceId": "n6",
+        "clause": "Skywards extra baggage allowance",
+        "quote": "calcualte the cost and bags to offer my customer"
+      },
+      {
+        "instanceId": "n8",
+        "clause": "Additional / extra baggage charges",
+        "quote": "calcualte the cost and bags to offer my customer"
+      }
+    ],
+    "generatedBy": "claude-opus-4-8",
+    "generatedAt": "2026-06-05T10:09:49.490Z"
+  }
+}

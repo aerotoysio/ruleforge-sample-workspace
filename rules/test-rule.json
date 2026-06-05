@@ -1,0 +1,57 @@
+{
+  "id": "test-rule",
+  "name": "Test rule",
+  "endpoint": "/v1/test",
+  "method": "POST",
+  "status": "draft",
+  "currentVersion": 1,
+  "updatedAt": "2026-06-05T10:21:22.749Z",
+  "inputSchema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {},
+    "required": []
+  },
+  "outputSchema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {},
+    "required": []
+  },
+  "contextSchema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {},
+    "required": []
+  },
+  "instances": [
+    {
+      "instanceId": "n-input",
+      "nodeId": "node-input",
+      "position": {
+        "x": 80,
+        "y": 240
+      },
+      "label": "Start"
+    },
+    {
+      "instanceId": "n-output",
+      "nodeId": "node-output",
+      "position": {
+        "x": 720,
+        "y": 240
+      },
+      "label": "End"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-1",
+      "source": "n-input",
+      "target": "n-output",
+      "branch": "default"
+    }
+  ],
+  "bindings": {},
+  "tests": []
+}

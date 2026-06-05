@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ski insurance quote — SkyShield</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="index.html">
+        <span class="logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </span>
+        <span>SkyShield<small>Insurance</small></span>
+      </a>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="travel.html">Travel</a>
+        <a href="ski.html" class="active">Ski</a>
+      </nav>
+      <div class="engine-config" id="engineConfig">
+        <input type="text" placeholder="http://localhost:5050" />
+        <button type="button">Save</button>
+      </div>
+      <span class="engine-status" id="engineStatus" title="Click to set the engine URL">
+        <span class="dot"></span><span class="label">Checking engine…</span>
+      </span>
+    </div>
+  </header>
+
+  <main class="wrap page">
+    <div class="grid">
+      <!-- Form -->
+      <section class="panel">
+        <h2>Ski &amp; winter sports quote</h2>
+        <p class="sub">Travel cover plus the winter-sports loading — piste closure, avalanche delay and equipment.</p>
+
+        <div class="note">Winter-sports cover carries a higher daily rate than standard travel insurance. The loading is built into the pricing rule's reference table — no separate add-on needed.</div>
+
+        <form id="quoteForm" data-product="ski" novalidate>
+          <div class="field">
+            <label for="region">Which resort region? <span class="hint">— destination region</span></label>
+            <select id="region">
+              <option value="domestic">Domestic (UK)</option>
+              <option value="europe" selected>Europe (Alps, Dolomites…)</option>
+              <option value="worldwide">Worldwide (Japan, NZ…)</option>
+              <option value="usa-canada">USA &amp; Canada (Rockies…)</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="country">Your country <span class="hint">— sets the billing currency</span></label>
+            <select id="country">
+              <option value="GB" selected>United Kingdom (GBP)</option>
+              <option value="IE">Ireland (EUR)</option>
+              <option value="FR">France (EUR)</option>
+              <option value="DE">Germany (EUR)</option>
+              <option value="ES">Spain (EUR)</option>
+              <option value="IT">Italy (EUR)</option>
+              <option value="US">United States (USD)</option>
+              <option value="CA">Canada (CAD)</option>
+              <option value="AU">Australia (AUD)</option>
+              <option value="NZ">New Zealand (NZD)</option>
+              <option value="CH">Switzerland (CHF)</option>
+              <option value="AE">United Arab Emirates (AED)</option>
+              <option value="SG">Singapore (SGD)</option>
+              <option value="JP">Japan (JPY)</option>
+              <option value="ZA">South Africa (ZAR)</option>
+              <option value="IN">India (INR)</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Cover level</label>
+            <div class="segmented">
+              <label><input type="radio" name="level" value="basic"><span>Basic<small>Essentials</small></span></label>
+              <label><input type="radio" name="level" value="standard" checked><span>Standard<small>Most popular</small></span></label>
+              <label><input type="radio" name="level" value="premium"><span>Premium<small>Off-piste ready</small></span></label>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="row">
+              <div>
+                <label for="startDate">Trip start</label>
+                <input type="date" id="startDate" />
+              </div>
+              <div>
+                <label for="endDate">Trip end</label>
+                <input type="date" id="endDate" />
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="row">
+              <div>
+                <label for="travellers">Skiers <span class="hint">— on the policy</span></label>
+                <input type="number" id="travellers" min="1" max="12" value="4" />
+              </div>
+              <div>
+                <label for="maxAge">Oldest skier's age</label>
+                <input type="number" id="maxAge" min="0" max="99" value="52" />
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn">Get my quote</button>
+          <div class="form-error" id="formError" role="alert"></div>
+        </form>
+      </section>
+
+      <!-- Quote output -->
+      <section class="panel quote">
+        <h2>Your quote</h2>
+        <p class="sub">Calculated by <code>POST /v1/insurance/quote</code>.</p>
+        <div id="quoteOut">
+          <div class="placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 14H2L8 3z"/></svg>
+            <p>Fill in the form and hit <strong>Get my quote</strong> to see your premium and the live rule trace.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">© <span id="year"></span> SkyShield Insurance (demo) · Quotes by RuleForge · Not a real insurer.</div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

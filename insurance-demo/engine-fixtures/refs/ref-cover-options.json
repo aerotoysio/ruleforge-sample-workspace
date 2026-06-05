@@ -1,0 +1,12 @@
+{
+  "id": "ref-cover-options",
+  "name": "SkyShield cover options by level",
+  "description": "Per-level policy limits looked up by coverageLevel: emergency medical / repatriation cover and the per-claim excess, in GBP.",
+  "currentVersion": 1,
+  "columns": ["level", "medicalCoverGbp", "excessGbp"],
+  "rows": [
+    { "level": "basic",    "medicalCoverGbp": 2000000,  "excessGbp": 150 },
+    { "level": "standard", "medicalCoverGbp": 5000000,  "excessGbp": 100 },
+    { "level": "premium",  "medicalCoverGbp": 10000000, "excessGbp": 50 }
+  ]
+}

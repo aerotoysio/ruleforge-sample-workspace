@@ -1,0 +1,43 @@
+{
+  "id": "aimeta-demo",
+  "name": "AI-meta demo (scratch)",
+  "description": "Scratch rule to verify the review-first AI UI. Safe to delete.",
+  "endpoint": "/v1/scratch/aimeta",
+  "method": "POST",
+  "status": "draft",
+  "currentVersion": 1,
+  "category": "Scratch",
+  "instances": [
+    { "instanceId": "n1", "nodeId": "node-input",  "position": { "x": 80,  "y": 240 }, "label": "Quote request" },
+    { "instanceId": "n2", "nodeId": "node-calc",   "position": { "x": 340, "y": 240 }, "label": "Base premium" },
+    { "instanceId": "n3", "nodeId": "node-output", "position": { "x": 600, "y": 240 }, "label": "Quote" }
+  ],
+  "edges": [
+    { "id": "e1", "source": "n1", "target": "n2", "branch": "default" },
+    { "id": "e2", "source": "n2", "target": "n3", "branch": "default" }
+  ],
+  "inputSchema": { "type": "object", "properties": { "days": { "type": "integer" } }, "required": ["days"] },
+  "outputSchema": { "type": "object", "properties": { "premium": { "type": "number" } } },
+  "contextSchema": { "type": "object", "properties": {} },
+  "bindings": {
+    "n2": {
+      "instanceId": "n2", "ruleId": "aimeta-demo",
+      "bindings": {
+        "target": { "kind": "literal", "value": "premium" },
+        "expression": { "kind": "literal", "value": "days * 5" }
+      }
+    }
+  },
+  "tests": [],
+  "aiMeta": {
+    "sourcePolicyName": "travel-policy.pdf",
+    "narrative": "This rule prices a travel insurance quote. It reads the trip length (days) from the request, computes a base premium of £5 per day of cover, and returns the premium. Demo metadata to verify the review-first UI.",
+    "nodeExplanations": {
+      "n2": "Computes the premium as £5 multiplied by the number of trip days."
+    },
+    "citations": [
+      { "instanceId": "n2", "clause": "§2.1 Base rate", "quote": "The base premium is five pounds per day of cover." }
+    ]
+  },
+  "updatedAt": "2026-06-04T00:00:00.000Z"
+}

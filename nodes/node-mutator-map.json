@@ -1,0 +1,15 @@
+{
+  "id": "node-mutator-map",
+  "name": "Set fields",
+  "description": "Write several fields onto the current record in one step — each from a request path, an iteration/context value, or a literal. Use this instead of chaining many single 'Set a field' nodes.",
+  "category": "mutator",
+  "ports": {
+    "inputs": [
+      { "name": "fields", "type": "object", "required": true, "description": "Each target field and where its value comes from. Authored via the field-map editor." }
+    ],
+    "outputs": [{ "name": "out", "branch": "default" }]
+  },
+  "ui": { "badge": "MAP", "icon": "list-checks", "accent": "#8a5a00" },
+  "tags": ["data", "mutator", "transform"],
+  "updatedAt": "2026-06-03T00:00:00.000Z"
+}

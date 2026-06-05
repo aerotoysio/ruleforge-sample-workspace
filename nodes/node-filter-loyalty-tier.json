@@ -19,8 +19,9 @@
         "name": "literal",
         "type": "string-array",
         "required": true,
-        "description": "Which tiers should pass — type your own list, or pick from a loyalty reference table if your workspace has one.",
-        "bindingKinds": ["literal", "ref-select"]
+        "description": "Which tiers should pass. Pick from the loyalty tiers list, or type your own.",
+        "bindingKinds": ["ref-select", "literal"],
+        "defaultRef": { "referenceId": "ref-loyalty-tiers", "valueColumn": "code" }
       },
       {
         "name": "arraySelector",

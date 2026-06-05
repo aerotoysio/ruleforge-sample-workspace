@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SkyShield Insurance — Travel &amp; Ski cover</title>
+  <meta name="description" content="Travel and ski insurance quotes, priced in real time by the RuleForge rules engine." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="index.html">
+        <span class="logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </span>
+        <span>SkyShield<small>Insurance</small></span>
+      </a>
+      <nav class="nav">
+        <a href="index.html" class="active">Home</a>
+        <a href="travel.html">Travel</a>
+        <a href="ski.html">Ski</a>
+      </nav>
+      <div class="engine-config" id="engineConfig">
+        <input type="text" placeholder="http://localhost:5050" />
+        <button type="button">Save</button>
+      </div>
+      <span class="engine-status" id="engineStatus" title="Click to set the engine URL">
+        <span class="dot"></span><span class="label">Checking engine…</span>
+      </span>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <span class="eyebrow">Powered by RuleForge</span>
+      <h1>Cover that's priced the moment you ask.</h1>
+      <p>SkyShield quotes travel and ski insurance in real time. Every premium on this site is
+        calculated by the <strong>RuleForge</strong> rules engine from a single pricing rule —
+        change the rule, and the quotes change instantly. No redeploy.</p>
+    </section>
+
+    <section class="cards">
+      <a class="card travel" href="travel.html">
+        <span class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3.5S18 3 16.5 4.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg>
+        </span>
+        <h3>Travel insurance</h3>
+        <p>Single-trip cover for holidays and business travel — medical, cancellation, baggage and delay.</p>
+        <span class="go">Get a quote →</span>
+      </a>
+      <a class="card ski" href="ski.html">
+        <span class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 14H2L8 3z"/></svg>
+        </span>
+        <h3>Ski &amp; winter sports</h3>
+        <p>Everything in travel cover, plus piste closure, avalanche delay and winter-sports equipment.</p>
+        <span class="go">Get a quote →</span>
+      </a>
+    </section>
+
+    <div class="note">
+      <strong>Demo:</strong> this is a sample front-end for the
+      <code>aerotoysio/ruleforge</code> engine. Start the engine in Visual Studio (profile
+      <em>“RuleForge.Api (insurance demo)”</em>), then a quote calls
+      <code>POST /v1/insurance/quote</code>. If the engine isn't running you'll still get an
+      indicative estimate computed in the browser.
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">© <span id="year"></span> SkyShield Insurance (demo) · Quotes by RuleForge · Not a real insurer.</div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

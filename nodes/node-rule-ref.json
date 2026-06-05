@@ -1,19 +1,32 @@
 {
   "id": "node-rule-ref",
   "name": "Call another rule",
-  "description": "Runs a different rule and uses its result. Useful for breaking a big problem into reusable smaller rules — e.g. a façade rule that fans out to 1,500 small ones.",
+  "description": "Runs a different rule and uses its result. Useful for breaking a big problem into reusable smaller rules — e.g. a façade rule that fans out to many small ones.",
   "category": "ruleRef",
   "ports": {
     "inputs": [
-      { "name": "payload", "type": "any", "required": true, "description": "Body to send to the sub-rule." }
+      { "name": "payload", "type": "any", "description": "Optional object to pass through as the sub-rule's request when no input mapping is given." }
     ],
     "params": [
-      { "name": "ruleId", "type": "string", "required": true, "description": "ID of the rule to invoke." },
-      { "name": "version", "type": "string", "description": "Optional version pin. Latest published if omitted." }
+      { "name": "ruleId", "type": "string", "required": true, "description": "ID of the rule to invoke.", "bindingKinds": ["literal"] },
+      { "name": "pinnedVersion", "type": "string", "description": "Optional version pin. Latest published if omitted.", "bindingKinds": ["literal"] },
+      { "name": "inputMapping", "type": "object", "description": "Map the sub-rule's input fields → where each value comes from in this rule (a path like $.x)." },
+      { "name": "outputMapping", "type": "object", "description": "Map fields from the sub-rule's result → fields on this rule's record." },
+      {
+        "name": "onError",
+        "type": "string",
+        "description": "What to do if the sub-rule errors or returns nothing.",
+        "enum": [
+          { "value": "fail",    "label": "Fail",        "description": "Propagate the error and fail this rule." },
+          { "value": "skip",    "label": "Skip",        "description": "Skip the sub-rule's effect and carry on." },
+          { "value": "default", "label": "Use default", "description": "Use the configured default value instead." }
+        ]
+      }
     ],
     "outputs": [{ "name": "out", "branch": "default" }]
   },
+  "defaults": { "onError": "fail" },
   "ui": { "badge": "RULE", "icon": "share-2", "accent": "#444444" },
   "tags": ["control-flow", "composition"],
-  "updatedAt": "2026-05-06T00:00:00.000Z"
+  "updatedAt": "2026-06-03T00:00:00.000Z"
 }

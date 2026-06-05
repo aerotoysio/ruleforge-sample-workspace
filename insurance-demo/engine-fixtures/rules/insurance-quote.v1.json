@@ -1,0 +1,569 @@
+{
+  "id": "insurance-quote",
+  "name": "Insurance quote — travel + ski",
+  "description": "Quote a travel or ski insurance premium with age-band pricing and local-currency conversion. input → quote shell → copy request fields → lookups (base daily rate, cover options) → if/then/else (age band, age×level loading) → premium (GBP) → lookups (currency + FX rate by country) → premium in local currency → output. Drives the SkyShield insurance-demo web pages.",
+  "endpoint": "/v1/insurance/quote",
+  "method": "POST",
+  "status": "published",
+  "currentVersion": 1,
+  "category": "Insurance",
+  "tags": [
+    "insurance",
+    "quote",
+    "demo"
+  ],
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "productType": {
+        "type": "string",
+        "description": "travel | ski"
+      },
+      "destinationRegion": {
+        "type": "string",
+        "description": "domestic | europe | worldwide | usa-canada"
+      },
+      "coverageLevel": {
+        "type": "string",
+        "description": "basic | standard | premium"
+      },
+      "tripDurationDays": {
+        "type": "integer"
+      },
+      "travelerCount": {
+        "type": "integer"
+      },
+      "maxTravelerAge": {
+        "type": "integer"
+      },
+      "countryIso": {
+        "type": "string",
+        "description": "ISO-3166 alpha-2 country of purchase — drives the billing currency (e.g. GB, FR, US, AU)"
+      }
+    },
+    "required": [
+      "productType",
+      "destinationRegion",
+      "coverageLevel",
+      "tripDurationDays",
+      "travelerCount",
+      "maxTravelerAge",
+      "countryIso"
+    ]
+  },
+  "outputSchema": {
+    "type": "object",
+    "properties": {
+      "ruleId": {
+        "type": "string"
+      },
+      "ruleVersion": {
+        "type": "integer"
+      },
+      "decision": {
+        "type": "string"
+      },
+      "evaluatedAt": {
+        "type": "string"
+      },
+      "result": {
+        "type": "object"
+      },
+      "trace": {
+        "type": "array"
+      },
+      "durationMs": {
+        "type": "integer"
+      }
+    }
+  },
+  "contextSchema": {
+    "type": "object",
+    "properties": {}
+  },
+  "nodes": [
+    {
+      "id": "n1",
+      "type": "input",
+      "position": {
+        "x": 80,
+        "y": 240
+      },
+      "data": {
+        "label": "Quote request",
+        "category": "input",
+        "description": null,
+        "templateId": "node-input"
+      }
+    },
+    {
+      "id": "n2",
+      "type": "constant",
+      "position": {
+        "x": 300,
+        "y": 240
+      },
+      "data": {
+        "label": "Quote shell",
+        "category": "constant",
+        "description": null,
+        "templateId": "node-constant",
+        "config": {
+          "value": {
+            "type": "INSURANCE",
+            "productType": "",
+            "region": "",
+            "coverageLevel": "",
+            "currency": "GBP",
+            "travellers": 0,
+            "durationDays": 0,
+            "ageBand": "",
+            "baseDailyRate": 0,
+            "medicalCoverGbp": 0,
+            "excessGbp": 0,
+            "ageLoadingPct": 0,
+            "premium": 0,
+            "localCurrency": "",
+            "fxRate": 0,
+            "premiumLocal": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "n3",
+      "type": "mutator",
+      "position": {
+        "x": 520,
+        "y": 240
+      },
+      "data": {
+        "label": "Set product type",
+        "category": "mutator",
+        "description": null,
+        "templateId": "node-mutator-set",
+        "config": {
+          "target": "productType",
+          "from": "$.productType"
+        }
+      }
+    },
+    {
+      "id": "n4",
+      "type": "mutator",
+      "position": {
+        "x": 740,
+        "y": 240
+      },
+      "data": {
+        "label": "Set region",
+        "category": "mutator",
+        "description": null,
+        "templateId": "node-mutator-set",
+        "config": {
+          "target": "region",
+          "from": "$.destinationRegion"
+        }
+      }
+    },
+    {
+      "id": "n5",
+      "type": "mutator",
+      "position": {
+        "x": 960,
+        "y": 240
+      },
+      "data": {
+        "label": "Set coverage level",
+        "category": "mutator",
+        "description": null,
+        "templateId": "node-mutator-set",
+        "config": {
+          "target": "coverageLevel",
+          "from": "$.coverageLevel"
+        }
+      }
+    },
+    {
+      "id": "n6",
+      "type": "mutator",
+      "position": {
+        "x": 1180,
+        "y": 240
+      },
+      "data": {
+        "label": "Set travellers",
+        "category": "mutator",
+        "description": null,
+        "templateId": "node-mutator-set",
+        "config": {
+          "target": "travellers",
+          "from": "$.travelerCount"
+        }
+      }
+    },
+    {
+      "id": "n7",
+      "type": "mutator",
+      "position": {
+        "x": 1400,
+        "y": 240
+      },
+      "data": {
+        "label": "Set duration",
+        "category": "mutator",
+        "description": null,
+        "templateId": "node-mutator-set",
+        "config": {
+          "target": "durationDays",
+          "from": "$.tripDurationDays"
+        }
+      }
+    },
+    {
+      "id": "n8",
+      "type": "mutator",
+      "position": {
+        "x": 1620,
+        "y": 240
+      },
+      "data": {
+        "label": "Lookup base daily rate",
+        "category": "mutator",
+        "description": null,
+        "templateId": "node-mutator-lookup",
+        "config": {
+          "target": "baseDailyRate",
+          "lookup": {
+            "referenceId": "ref-insurance-rates",
+            "valueColumn": "dailyRate",
+            "matchOn": {
+              "productType": "$.productType",
+              "region": "$.destinationRegion",
+              "level": "$.coverageLevel"
+            }
+          },
+          "onMissing": "leave"
+        }
+      }
+    },
+    {
+      "id": "n9",
+      "type": "mutator",
+      "position": {
+        "x": 1840,
+        "y": 140
+      },
+      "data": {
+        "label": "Lookup medical cover",
+        "category": "mutator",
+        "description": null,
+        "templateId": "node-mutator-lookup",
+        "config": {
+          "target": "medicalCoverGbp",
+          "lookup": {
+            "referenceId": "ref-cover-options",
+            "valueColumn": "medicalCoverGbp",
+            "matchOn": {
+              "level": "$.coverageLevel"
+            }
+          },
+          "onMissing": "leave"
+        }
+      }
+    },
+    {
+      "id": "n10",
+      "type": "mutator",
+      "position": {
+        "x": 1840,
+        "y": 340
+      },
+      "data": {
+        "label": "Lookup excess",
+        "category": "mutator",
+        "description": null,
+        "templateId": "node-mutator-lookup",
+        "config": {
+          "target": "excessGbp",
+          "lookup": {
+            "referenceId": "ref-cover-options",
+            "valueColumn": "excessGbp",
+            "matchOn": {
+              "level": "$.coverageLevel"
+            }
+          },
+          "onMissing": "leave"
+        }
+      }
+    },
+    {
+      "id": "n11",
+      "type": "calc",
+      "position": {
+        "x": 2060,
+        "y": 240
+      },
+      "data": {
+        "label": "Age band",
+        "category": "calc",
+        "description": null,
+        "templateId": "node-calc",
+        "config": {
+          "expression": "if(maxTravelerAge < 18, '0-17', if(maxTravelerAge <= 25, '18-25', if(maxTravelerAge <= 49, '26-49', if(maxTravelerAge <= 65, '50-65', if(maxTravelerAge <= 79, '66-79', '80+')))))",
+          "target": "ageBand"
+        }
+      }
+    },
+    {
+      "id": "n12",
+      "type": "calc",
+      "position": {
+        "x": 2280,
+        "y": 240
+      },
+      "data": {
+        "label": "Age x level loading %",
+        "category": "calc",
+        "description": null,
+        "templateId": "node-calc",
+        "config": {
+          "expression": "if(ageBand == '0-17', if(coverageLevel == 'premium', 5, 0), if(ageBand == '18-25', if(coverageLevel == 'premium', 15, if(coverageLevel == 'standard', 10, 5)), if(ageBand == '50-65', if(coverageLevel == 'premium', 35, if(coverageLevel == 'standard', 25, 15)), if(ageBand == '66-79', if(coverageLevel == 'premium', 75, if(coverageLevel == 'standard', 55, 40)), if(ageBand == '80+', if(coverageLevel == 'premium', 130, if(coverageLevel == 'standard', 100, 80)), 0)))))",
+          "target": "ageLoadingPct"
+        }
+      }
+    },
+    {
+      "id": "n13",
+      "type": "calc",
+      "position": {
+        "x": 2500,
+        "y": 240
+      },
+      "data": {
+        "label": "Premium (GBP)",
+        "category": "calc",
+        "description": null,
+        "templateId": "node-calc",
+        "config": {
+          "expression": "Round(baseDailyRate * durationDays * travellers * (1 + ageLoadingPct / 100.0), 2)",
+          "target": "premium"
+        }
+      }
+    },
+    {
+      "id": "n14",
+      "type": "mutator",
+      "position": {
+        "x": 2720,
+        "y": 140
+      },
+      "data": {
+        "label": "Lookup local currency",
+        "category": "mutator",
+        "description": null,
+        "templateId": "node-mutator-lookup",
+        "config": {
+          "target": "localCurrency",
+          "lookup": {
+            "referenceId": "ref-currency-rates",
+            "valueColumn": "currency",
+            "matchOn": {
+              "countryIso": "$.countryIso"
+            }
+          },
+          "onMissing": "leave"
+        }
+      }
+    },
+    {
+      "id": "n15",
+      "type": "mutator",
+      "position": {
+        "x": 2720,
+        "y": 340
+      },
+      "data": {
+        "label": "Lookup FX rate",
+        "category": "mutator",
+        "description": null,
+        "templateId": "node-mutator-lookup",
+        "config": {
+          "target": "fxRate",
+          "lookup": {
+            "referenceId": "ref-currency-rates",
+            "valueColumn": "rateFromGbp",
+            "matchOn": {
+              "countryIso": "$.countryIso"
+            }
+          },
+          "onMissing": "leave"
+        }
+      }
+    },
+    {
+      "id": "n16",
+      "type": "calc",
+      "position": {
+        "x": 2940,
+        "y": 240
+      },
+      "data": {
+        "label": "Premium (local currency)",
+        "category": "calc",
+        "description": null,
+        "templateId": "node-calc",
+        "config": {
+          "expression": "Round(premium * fxRate, 2)",
+          "target": "premiumLocal"
+        }
+      }
+    },
+    {
+      "id": "n17",
+      "type": "output",
+      "position": {
+        "x": 3160,
+        "y": 240
+      },
+      "data": {
+        "label": "Quote",
+        "category": "output",
+        "description": null,
+        "templateId": "node-output"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "source": "n1",
+      "target": "n2",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e2",
+      "source": "n2",
+      "target": "n3",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e3",
+      "source": "n3",
+      "target": "n4",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e4",
+      "source": "n4",
+      "target": "n5",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e5",
+      "source": "n5",
+      "target": "n6",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e6",
+      "source": "n6",
+      "target": "n7",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e7",
+      "source": "n7",
+      "target": "n8",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e8",
+      "source": "n8",
+      "target": "n9",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e9",
+      "source": "n9",
+      "target": "n10",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e10",
+      "source": "n10",
+      "target": "n11",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e11",
+      "source": "n11",
+      "target": "n12",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e12",
+      "source": "n12",
+      "target": "n13",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e13",
+      "source": "n13",
+      "target": "n14",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e14",
+      "source": "n14",
+      "target": "n15",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e15",
+      "source": "n15",
+      "target": "n16",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    },
+    {
+      "id": "e16",
+      "source": "n16",
+      "target": "n17",
+      "branch": "default",
+      "sourceHandle": null,
+      "targetHandle": null
+    }
+  ],
+  "updatedAt": "2026-06-03T00:00:00.000Z",
+  "updatedBy": "insurance-demo"
+}

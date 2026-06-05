@@ -1,0 +1,195 @@
+{
+  "id": "insurance-quote",
+  "name": "Insurance quote — travel + ski",
+  "description": "Quote a travel or ski insurance premium with age-band pricing and local-currency conversion. input → quote shell → Set fields (one map node copies request fields onto the quote) → lookups (base daily rate, cover options) → if/then/else (age band, age×level loading) → premium (GBP) → lookups (currency + FX rate) → premium in local currency → output. Drives the SkyShield insurance-demo web pages.",
+  "endpoint": "/v1/insurance/quote",
+  "method": "POST",
+  "status": "published",
+  "currentVersion": 1,
+  "tags": ["insurance", "quote", "demo"],
+  "category": "Insurance",
+  "instances": [
+    { "instanceId": "n1",  "nodeId": "node-input",          "position": { "x": 80,   "y": 240 }, "label": "Quote request" },
+    { "instanceId": "n2",  "nodeId": "node-constant",       "position": { "x": 300,  "y": 240 }, "label": "Quote shell" },
+    { "instanceId": "n3",  "nodeId": "node-mutator-map",    "position": { "x": 520,  "y": 240 }, "label": "Set quote fields" },
+    { "instanceId": "n8",  "nodeId": "node-mutator-lookup", "position": { "x": 760,  "y": 240 }, "label": "Lookup base daily rate" },
+    { "instanceId": "n9",  "nodeId": "node-mutator-lookup", "position": { "x": 980,  "y": 140 }, "label": "Lookup medical cover" },
+    { "instanceId": "n10", "nodeId": "node-mutator-lookup", "position": { "x": 980,  "y": 340 }, "label": "Lookup excess" },
+    { "instanceId": "n11", "nodeId": "node-calc",           "position": { "x": 1200, "y": 240 }, "label": "Age band" },
+    { "instanceId": "n12", "nodeId": "node-calc",           "position": { "x": 1420, "y": 240 }, "label": "Age x level loading %" },
+    { "instanceId": "n13", "nodeId": "node-calc",           "position": { "x": 1640, "y": 240 }, "label": "Premium (GBP)" },
+    { "instanceId": "n14", "nodeId": "node-mutator-lookup", "position": { "x": 1860, "y": 140 }, "label": "Lookup local currency" },
+    { "instanceId": "n15", "nodeId": "node-mutator-lookup", "position": { "x": 1860, "y": 340 }, "label": "Lookup FX rate" },
+    { "instanceId": "n16", "nodeId": "node-calc",           "position": { "x": 2080, "y": 240 }, "label": "Premium (local currency)" },
+    { "instanceId": "n17", "nodeId": "node-output",         "position": { "x": 2300, "y": 240 }, "label": "Quote" }
+  ],
+  "edges": [
+    { "id": "e1",  "source": "n1",  "target": "n2",  "branch": "default" },
+    { "id": "e2",  "source": "n2",  "target": "n3",  "branch": "default" },
+    { "id": "e3",  "source": "n3",  "target": "n8",  "branch": "default" },
+    { "id": "e4",  "source": "n8",  "target": "n9",  "branch": "default" },
+    { "id": "e5",  "source": "n9",  "target": "n10", "branch": "default" },
+    { "id": "e6",  "source": "n10", "target": "n11", "branch": "default" },
+    { "id": "e7",  "source": "n11", "target": "n12", "branch": "default" },
+    { "id": "e8",  "source": "n12", "target": "n13", "branch": "default" },
+    { "id": "e9",  "source": "n13", "target": "n14", "branch": "default" },
+    { "id": "e10", "source": "n14", "target": "n15", "branch": "default" },
+    { "id": "e11", "source": "n15", "target": "n16", "branch": "default" },
+    { "id": "e12", "source": "n16", "target": "n17", "branch": "default" }
+  ],
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "productType":       { "type": "string", "description": "travel | ski" },
+      "destinationRegion": { "type": "string", "description": "domestic | europe | worldwide | usa-canada" },
+      "coverageLevel":     { "type": "string", "description": "basic | standard | premium" },
+      "tripDurationDays":  { "type": "integer" },
+      "travelerCount":     { "type": "integer" },
+      "maxTravelerAge":    { "type": "integer" },
+      "countryIso":        { "type": "string", "description": "ISO-3166 alpha-2 country of purchase — drives the billing currency (e.g. GB, FR, US, AU)" }
+    },
+    "required": ["productType", "destinationRegion", "coverageLevel", "tripDurationDays", "travelerCount", "maxTravelerAge", "countryIso"]
+  },
+  "outputSchema": {
+    "type": "object",
+    "properties": {
+      "ruleId": { "type": "string" }, "ruleVersion": { "type": "integer" },
+      "decision": { "type": "string" }, "evaluatedAt": { "type": "string" },
+      "result": { "type": "object" }, "trace": { "type": "array" },
+      "durationMs": { "type": "integer" }
+    }
+  },
+  "contextSchema": { "type": "object", "properties": {} },
+  "bindings": {
+    "n2": {
+      "instanceId": "n2", "ruleId": "insurance-quote",
+      "bindings": {
+        "value": {
+          "kind": "literal",
+          "value": {
+            "type": "INSURANCE",
+            "productType": "",
+            "region": "",
+            "coverageLevel": "",
+            "currency": "GBP",
+            "travellers": 0,
+            "durationDays": 0,
+            "ageBand": "",
+            "baseDailyRate": 0,
+            "medicalCoverGbp": 0,
+            "excessGbp": 0,
+            "ageLoadingPct": 0,
+            "premium": 0,
+            "localCurrency": "",
+            "fxRate": 0,
+            "premiumLocal": 0
+          }
+        }
+      }
+    },
+    "n3": {
+      "instanceId": "n3", "ruleId": "insurance-quote",
+      "bindings": {},
+      "extras": {
+        "fields": {
+          "productType":   { "kind": "path", "path": "$.productType" },
+          "region":        { "kind": "path", "path": "$.destinationRegion" },
+          "coverageLevel": { "kind": "path", "path": "$.coverageLevel" },
+          "travellers":    { "kind": "path", "path": "$.travelerCount" },
+          "durationDays":  { "kind": "path", "path": "$.tripDurationDays" }
+        }
+      }
+    },
+    "n8": {
+      "instanceId": "n8", "ruleId": "insurance-quote",
+      "bindings": {
+        "target": { "kind": "literal", "value": "baseDailyRate" },
+        "referenceId": { "kind": "reference", "referenceId": "ref-insurance-rates" },
+        "valueColumn": { "kind": "literal", "value": "dailyRate" },
+        "onMissing": { "kind": "literal", "value": "leave" }
+      },
+      "extras": {
+        "matchOn": {
+          "productType": { "kind": "path", "path": "$.productType" },
+          "region": { "kind": "path", "path": "$.destinationRegion" },
+          "level": { "kind": "path", "path": "$.coverageLevel" }
+        }
+      }
+    },
+    "n9": {
+      "instanceId": "n9", "ruleId": "insurance-quote",
+      "bindings": {
+        "target": { "kind": "literal", "value": "medicalCoverGbp" },
+        "referenceId": { "kind": "reference", "referenceId": "ref-cover-options" },
+        "valueColumn": { "kind": "literal", "value": "medicalCoverGbp" },
+        "onMissing": { "kind": "literal", "value": "leave" }
+      },
+      "extras": { "matchOn": { "level": { "kind": "path", "path": "$.coverageLevel" } } }
+    },
+    "n10": {
+      "instanceId": "n10", "ruleId": "insurance-quote",
+      "bindings": {
+        "target": { "kind": "literal", "value": "excessGbp" },
+        "referenceId": { "kind": "reference", "referenceId": "ref-cover-options" },
+        "valueColumn": { "kind": "literal", "value": "excessGbp" },
+        "onMissing": { "kind": "literal", "value": "leave" }
+      },
+      "extras": { "matchOn": { "level": { "kind": "path", "path": "$.coverageLevel" } } }
+    },
+    "n11": {
+      "instanceId": "n11", "ruleId": "insurance-quote",
+      "bindings": {
+        "target": { "kind": "literal", "value": "ageBand" },
+        "expression": { "kind": "literal", "value": "if(maxTravelerAge < 18, '0-17', if(maxTravelerAge <= 25, '18-25', if(maxTravelerAge <= 49, '26-49', if(maxTravelerAge <= 65, '50-65', if(maxTravelerAge <= 79, '66-79', '80+')))))" }
+      }
+    },
+    "n12": {
+      "instanceId": "n12", "ruleId": "insurance-quote",
+      "bindings": {
+        "target": { "kind": "literal", "value": "ageLoadingPct" },
+        "expression": { "kind": "literal", "value": "if(ageBand == '0-17', if(coverageLevel == 'premium', 5, 0), if(ageBand == '18-25', if(coverageLevel == 'premium', 15, if(coverageLevel == 'standard', 10, 5)), if(ageBand == '50-65', if(coverageLevel == 'premium', 35, if(coverageLevel == 'standard', 25, 15)), if(ageBand == '66-79', if(coverageLevel == 'premium', 75, if(coverageLevel == 'standard', 55, 40)), if(ageBand == '80+', if(coverageLevel == 'premium', 130, if(coverageLevel == 'standard', 100, 80)), 0)))))" }
+      }
+    },
+    "n13": {
+      "instanceId": "n13", "ruleId": "insurance-quote",
+      "bindings": {
+        "target": { "kind": "literal", "value": "premium" },
+        "expression": { "kind": "literal", "value": "Round(baseDailyRate * durationDays * travellers * (1 + ageLoadingPct / 100.0), 2)" }
+      }
+    },
+    "n14": {
+      "instanceId": "n14", "ruleId": "insurance-quote",
+      "bindings": {
+        "target": { "kind": "literal", "value": "localCurrency" },
+        "referenceId": { "kind": "reference", "referenceId": "ref-currency-rates" },
+        "valueColumn": { "kind": "literal", "value": "currency" },
+        "onMissing": { "kind": "literal", "value": "leave" }
+      },
+      "extras": { "matchOn": { "countryIso": { "kind": "path", "path": "$.countryIso" } } }
+    },
+    "n15": {
+      "instanceId": "n15", "ruleId": "insurance-quote",
+      "bindings": {
+        "target": { "kind": "literal", "value": "fxRate" },
+        "referenceId": { "kind": "reference", "referenceId": "ref-currency-rates" },
+        "valueColumn": { "kind": "literal", "value": "rateFromGbp" },
+        "onMissing": { "kind": "literal", "value": "leave" }
+      },
+      "extras": { "matchOn": { "countryIso": { "kind": "path", "path": "$.countryIso" } } }
+    },
+    "n16": {
+      "instanceId": "n16", "ruleId": "insurance-quote",
+      "bindings": {
+        "target": { "kind": "literal", "value": "premiumLocal" },
+        "expression": { "kind": "literal", "value": "Round(premium * fxRate, 2)" }
+      }
+    }
+  },
+  "tests": [
+    { "id": "uk-mid-standard",   "name": "GB · 26-49 · standard (GBP)",      "payload": { "productType": "travel", "destinationRegion": "europe", "coverageLevel": "standard", "tripDurationDays": 8,  "travelerCount": 2, "maxTravelerAge": 34, "countryIso": "GB" } },
+    { "id": "fr-young-standard", "name": "FR · 18-25 · standard (EUR)",      "payload": { "productType": "travel", "destinationRegion": "europe", "coverageLevel": "standard", "tripDurationDays": 10, "travelerCount": 1, "maxTravelerAge": 22, "countryIso": "FR" } },
+    { "id": "au-senior-ski",     "name": "AU · 66-79 · ski · premium (AUD)", "payload": { "productType": "ski",    "destinationRegion": "worldwide", "coverageLevel": "premium",  "tripDurationDays": 7,  "travelerCount": 2, "maxTravelerAge": 68, "countryIso": "AU" } }
+  ],
+  "updatedAt": "2026-06-03T00:00:00.000Z",
+  "updatedBy": "insurance-demo"
+}

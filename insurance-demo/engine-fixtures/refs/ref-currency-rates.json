@@ -1,0 +1,25 @@
+{
+  "id": "ref-currency-rates",
+  "name": "Currency by country + FX rate (from GBP)",
+  "description": "Maps an ISO-3166 alpha-2 country code to the local billing currency and the conversion rate FROM GBP (premium is computed in GBP, then multiplied by rateFromGbp). Illustrative rates for the demo.",
+  "currentVersion": 1,
+  "columns": ["countryIso", "currency", "rateFromGbp"],
+  "rows": [
+    { "countryIso": "GB", "currency": "GBP", "rateFromGbp": 1.00 },
+    { "countryIso": "IE", "currency": "EUR", "rateFromGbp": 1.17 },
+    { "countryIso": "FR", "currency": "EUR", "rateFromGbp": 1.17 },
+    { "countryIso": "DE", "currency": "EUR", "rateFromGbp": 1.17 },
+    { "countryIso": "ES", "currency": "EUR", "rateFromGbp": 1.17 },
+    { "countryIso": "IT", "currency": "EUR", "rateFromGbp": 1.17 },
+    { "countryIso": "US", "currency": "USD", "rateFromGbp": 1.27 },
+    { "countryIso": "CA", "currency": "CAD", "rateFromGbp": 1.73 },
+    { "countryIso": "AU", "currency": "AUD", "rateFromGbp": 1.92 },
+    { "countryIso": "NZ", "currency": "NZD", "rateFromGbp": 2.08 },
+    { "countryIso": "CH", "currency": "CHF", "rateFromGbp": 1.13 },
+    { "countryIso": "AE", "currency": "AED", "rateFromGbp": 4.66 },
+    { "countryIso": "SG", "currency": "SGD", "rateFromGbp": 1.71 },
+    { "countryIso": "JP", "currency": "JPY", "rateFromGbp": 196.0 },
+    { "countryIso": "ZA", "currency": "ZAR", "rateFromGbp": 23.50 },
+    { "countryIso": "IN", "currency": "INR", "rateFromGbp": 106.0 }
+  ]
+}

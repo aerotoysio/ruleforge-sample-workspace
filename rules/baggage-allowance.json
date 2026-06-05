@@ -1,0 +1,458 @@
+{
+  "id": "baggage-allowance",
+  "name": "Baggage Allowance",
+  "category": "Ancillary",
+  "endpoint": "/v1/allowance",
+  "method": "POST",
+  "status": "draft",
+  "currentVersion": 1,
+  "updatedAt": "2026-06-05T10:13:56.840Z",
+  "inputSchema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": [
+      "cabinCode"
+    ],
+    "properties": {
+      "cabinCode": {
+        "type": "string",
+        "description": "Cabin booking code, e.g. F, J, W, Y"
+      },
+      "fareType": {
+        "type": "string",
+        "enum": [
+          "Basic",
+          "Standard",
+          "Flex"
+        ],
+        "default": "Standard",
+        "description": "Fare brand; Basic economy carries no free checked bag"
+      },
+      "loyaltyTier": {
+        "type": "string",
+        "enum": [
+          "BLUE",
+          "BRONZE",
+          "SILVER",
+          "GOLD"
+        ],
+        "default": "BLUE",
+        "description": "Executive Club tier"
+      }
+    }
+  },
+  "outputSchema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "cabinClass": {
+        "type": "string"
+      },
+      "checkedBagsAllowed": {
+        "type": "integer"
+      },
+      "handBaggageAllowed": {
+        "type": "integer"
+      },
+      "checkedBagWeightKg": {
+        "type": "integer"
+      },
+      "loyaltyBonusBags": {
+        "type": "integer"
+      },
+      "eligible": {
+        "type": "boolean"
+      }
+    }
+  },
+  "contextSchema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {},
+    "required": []
+  },
+  "instances": [
+    {
+      "instanceId": "n1",
+      "nodeId": "node-input",
+      "position": {
+        "x": 80,
+        "y": 240
+      },
+      "label": "Request"
+    },
+    {
+      "instanceId": "n2",
+      "nodeId": "node-constant",
+      "position": {
+        "x": 300,
+        "y": 240
+      },
+      "label": "Seed working object"
+    },
+    {
+      "instanceId": "n3",
+      "nodeId": "node-mutator-map",
+      "position": {
+        "x": 520,
+        "y": 240
+      },
+      "label": "Copy request fields"
+    },
+    {
+      "instanceId": "n4",
+      "nodeId": "node-mutator-lookup",
+      "position": {
+        "x": 740,
+        "y": 140
+      },
+      "label": "Lookup cabin group"
+    },
+    {
+      "instanceId": "n5",
+      "nodeId": "node-mutator-lookup",
+      "position": {
+        "x": 740,
+        "y": 340
+      },
+      "label": "Lookup tier rank"
+    },
+    {
+      "instanceId": "n6",
+      "nodeId": "node-calc",
+      "position": {
+        "x": 960,
+        "y": 240
+      },
+      "label": "Base checked bags"
+    },
+    {
+      "instanceId": "n7",
+      "nodeId": "node-calc",
+      "position": {
+        "x": 1180,
+        "y": 240
+      },
+      "label": "Loyalty bonus bags"
+    },
+    {
+      "instanceId": "n8",
+      "nodeId": "node-calc",
+      "position": {
+        "x": 1400,
+        "y": 240
+      },
+      "label": "Total checked bags"
+    },
+    {
+      "instanceId": "n9",
+      "nodeId": "node-calc",
+      "position": {
+        "x": 1620,
+        "y": 240
+      },
+      "label": "Weight + eligibility"
+    },
+    {
+      "instanceId": "n10",
+      "nodeId": "node-output",
+      "position": {
+        "x": 1840,
+        "y": 240
+      },
+      "label": "Allowance"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-1",
+      "source": "n1",
+      "target": "n2",
+      "branch": "default"
+    },
+    {
+      "id": "e-2",
+      "source": "n2",
+      "target": "n3",
+      "branch": "default"
+    },
+    {
+      "id": "e-3",
+      "source": "n3",
+      "target": "n4",
+      "branch": "default"
+    },
+    {
+      "id": "e-4",
+      "source": "n4",
+      "target": "n5",
+      "branch": "default"
+    },
+    {
+      "id": "e-5",
+      "source": "n5",
+      "target": "n6",
+      "branch": "default"
+    },
+    {
+      "id": "e-6",
+      "source": "n6",
+      "target": "n7",
+      "branch": "default"
+    },
+    {
+      "id": "e-7",
+      "source": "n7",
+      "target": "n8",
+      "branch": "default"
+    },
+    {
+      "id": "e-8",
+      "source": "n8",
+      "target": "n9",
+      "branch": "default"
+    },
+    {
+      "id": "e-9",
+      "source": "n9",
+      "target": "n10",
+      "branch": "default"
+    }
+  ],
+  "bindings": {
+    "n2": {
+      "instanceId": "n2",
+      "ruleId": "baggage-allowance",
+      "bindings": {
+        "value": {
+          "kind": "literal",
+          "value": {
+            "cabinCode": "",
+            "fareType": "Standard",
+            "loyaltyTier": "BLUE",
+            "cabinClass": "",
+            "tierRank": 1,
+            "baseChecked": 0,
+            "loyaltyBonusBags": 0,
+            "checkedBagsAllowed": 0,
+            "handBaggageAllowed": 2,
+            "checkedBagWeightKg": 23,
+            "eligible": false
+          }
+        }
+      }
+    },
+    "n3": {
+      "instanceId": "n3",
+      "ruleId": "baggage-allowance",
+      "bindings": {},
+      "extras": {
+        "fields": {
+          "cabinCode": {
+            "kind": "path",
+            "path": "$.cabinCode"
+          },
+          "fareType": {
+            "kind": "path",
+            "path": "$.fareType"
+          },
+          "loyaltyTier": {
+            "kind": "path",
+            "path": "$.loyaltyTier"
+          }
+        }
+      }
+    },
+    "n4": {
+      "instanceId": "n4",
+      "ruleId": "baggage-allowance",
+      "bindings": {
+        "target": {
+          "kind": "literal",
+          "value": "cabinClass"
+        },
+        "referenceId": {
+          "kind": "reference",
+          "referenceId": "ref-cabin-classes"
+        },
+        "valueColumn": {
+          "kind": "literal",
+          "value": "cabin"
+        },
+        "onMissing": {
+          "kind": "literal",
+          "value": "leave"
+        }
+      },
+      "extras": {
+        "matchOn": {
+          "code": {
+            "kind": "path",
+            "path": "$.cabinCode"
+          }
+        }
+      }
+    },
+    "n5": {
+      "instanceId": "n5",
+      "ruleId": "baggage-allowance",
+      "bindings": {
+        "target": {
+          "kind": "literal",
+          "value": "tierRank"
+        },
+        "referenceId": {
+          "kind": "reference",
+          "referenceId": "ref-loyalty-tiers"
+        },
+        "valueColumn": {
+          "kind": "literal",
+          "value": "rank"
+        },
+        "onMissing": {
+          "kind": "literal",
+          "value": "leave"
+        }
+      },
+      "extras": {
+        "matchOn": {
+          "code": {
+            "kind": "path",
+            "path": "$.loyaltyTier"
+          }
+        }
+      }
+    },
+    "n6": {
+      "instanceId": "n6",
+      "ruleId": "baggage-allowance",
+      "bindings": {
+        "target": {
+          "kind": "literal",
+          "value": "baseChecked"
+        },
+        "expression": {
+          "kind": "literal",
+          "value": "if(cabinClass=='First',3,if(cabinClass=='Business',2,if(cabinClass=='Premium',2,if(fareType=='Basic',0,1))))"
+        }
+      }
+    },
+    "n7": {
+      "instanceId": "n7",
+      "ruleId": "baggage-allowance",
+      "bindings": {
+        "target": {
+          "kind": "literal",
+          "value": "loyaltyBonusBags"
+        },
+        "expression": {
+          "kind": "literal",
+          "value": "if(tierRank>=4,2,if(tierRank>=2,1,0))"
+        }
+      }
+    },
+    "n8": {
+      "instanceId": "n8",
+      "ruleId": "baggage-allowance",
+      "bindings": {
+        "target": {
+          "kind": "literal",
+          "value": "checkedBagsAllowed"
+        },
+        "expression": {
+          "kind": "literal",
+          "value": "baseChecked + loyaltyBonusBags"
+        }
+      }
+    },
+    "n9": {
+      "instanceId": "n9",
+      "ruleId": "baggage-allowance",
+      "bindings": {
+        "target": {
+          "kind": "literal",
+          "value": "checkedBagWeightKg"
+        },
+        "expression": {
+          "kind": "literal",
+          "value": "if(cabinClass=='First',32,if(cabinClass=='Business',32,23))"
+        }
+      }
+    }
+  },
+  "tests": [
+    {
+      "id": "t-1",
+      "name": "Economy Blue standard",
+      "payload": {
+        "cabinCode": "Y",
+        "fareType": "Standard",
+        "loyaltyTier": "BLUE"
+      }
+    },
+    {
+      "id": "t-2",
+      "name": "Economy Basic no free bag",
+      "payload": {
+        "cabinCode": "Y",
+        "fareType": "Basic",
+        "loyaltyTier": "BLUE"
+      }
+    },
+    {
+      "id": "t-3",
+      "name": "Business Gold (cabin + loyalty bonus)",
+      "payload": {
+        "cabinCode": "J",
+        "fareType": "Flex",
+        "loyaltyTier": "GOLD"
+      }
+    },
+    {
+      "id": "t-4",
+      "name": "First Silver",
+      "payload": {
+        "cabinCode": "F",
+        "fareType": "Flex",
+        "loyaltyTier": "SILVER"
+      }
+    }
+  ],
+  "aiMeta": {
+    "narrative": "The rule receives a booking context (cabin code, fare brand, and Executive Club loyalty tier). It seeds a working object with all output fields, copies the request fields onto it, then performs two reference lookups: the cabin code is resolved to a cabin group (First / Business / Premium / Economy) via ref-cabin-classes, and the loyalty tier is resolved to a numeric rank via ref-loyalty-tiers. From the cabin group it computes the base free checked-bag allowance (First=3, Business=2, Premium Economy=2, Economy=1, but Basic economy=0). It then computes a loyalty bonus (Gold +2, Silver/Bronze +1, Blue +0) and sums these into the total checked-bag allowance. Finally it sets the per-bag weight limit (32kg for premium cabins, 23kg otherwise) and returns the full allowance. Hand baggage is a fixed 2 pieces (one handbag/laptop bag plus one cabin bag) per the BA hand-baggage policy.",
+    "nodeExplanations": {
+      "n2": "Creates the starter working object containing every field the response will carry, with safe defaults.",
+      "n3": "Copies the inbound cabinCode, fareType, and loyaltyTier from the request onto the working object.",
+      "n4": "Looks up the booked cabin code in the Cabin classes table and stores its cabin grouping (First/Business/Premium/Economy) as cabinClass.",
+      "n5": "Looks up the Executive Club loyalty tier in the Loyalty tiers table to obtain its numeric rank used for bonus baggage.",
+      "n6": "Derives the base free checked-bag allowance from the cabin group, with Basic economy fares granted no free checked bag.",
+      "n7": "Calculates extra checked bags earned by loyalty status (Gold +2, Silver/Bronze +1, Blue none).",
+      "n8": "Adds the base cabin allowance and the loyalty bonus to produce the total checked bags allowed.",
+      "n9": "Sets the per-bag checked weight limit (32kg in premium cabins, 23kg otherwise) which finalises the eligibility result."
+    },
+    "citations": [
+      {
+        "instanceId": "n4",
+        "clause": "British Airways baggage policy — checked allowance by cabin",
+        "quote": "use the airlines baggage policy (British Airways) and create an elegibility service to determine what baggage the user is entitled to"
+      },
+      {
+        "instanceId": "n5",
+        "clause": "Executive Club tier baggage benefits",
+        "quote": "determine what baggage the user is entitled to in the booking path"
+      },
+      {
+        "instanceId": "n6",
+        "clause": "Free checked baggage by cabin / fare brand",
+        "quote": "what baggage the user is entitled to"
+      },
+      {
+        "instanceId": "n8",
+        "clause": "Total baggage entitlement",
+        "quote": "determine what baggage the user is entitled to in the booking path"
+      }
+    ],
+    "generatedBy": "claude-opus-4-8",
+    "generatedAt": "2026-06-05T10:13:56.821Z"
+  }
+}
