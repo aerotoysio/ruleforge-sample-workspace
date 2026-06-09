@@ -1,5 +1,6 @@
 {
   "id": "node-filter-cabin",
+  "hidden": true,
   "name": "Filter — cabin class",
   "description": "Branches pass / fail. Pass when the request's cabin field matches one of the selected cabin tiers. Compiles down to a string-IN filter at evaluation time. Source field is restricted to fields whose name contains 'cabin' or 'class'.",
   "category": "filter",

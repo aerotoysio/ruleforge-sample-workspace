@@ -1,0 +1,36 @@
+{
+  "id": "ssr-parse-demo",
+  "name": "SSR parse demo (scratch)",
+  "description": "Scratch rule: parse a packed SSR string into fields and fill a saved bag asset. Safe to delete.",
+  "endpoint": "/v1/scratch/ssr-parse",
+  "method": "POST",
+  "status": "draft",
+  "currentVersion": 1,
+  "category": "Scratch",
+  "instances": [
+    { "instanceId": "n1", "nodeId": "node-input",        "position": { "x": 80,  "y": 240 }, "label": "Request" },
+    { "instanceId": "n2", "nodeId": "node-parse-string", "position": { "x": 360, "y": 240 }, "label": "Parse SSR" },
+    { "instanceId": "n3", "nodeId": "node-output",       "position": { "x": 660, "y": 240 }, "label": "Ancillary" }
+  ],
+  "edges": [
+    { "id": "e1", "source": "n1", "target": "n2", "branch": "default" },
+    { "id": "e2", "source": "n2", "target": "n3", "branch": "default" }
+  ],
+  "inputSchema": { "type": "object", "properties": { "ssr": { "type": "string" } }, "required": ["ssr"] },
+  "outputSchema": { "type": "object" },
+  "contextSchema": { "type": "object", "properties": {} },
+  "bindings": {
+    "n2": {
+      "instanceId": "n2",
+      "ruleId": "ssr-parse-demo",
+      "bindings": {
+        "source": { "kind": "path", "path": "$.ssr" },
+        "pattern": { "kind": "literal", "value": "{ssr} {type} {paxRef} {class} {detail}" },
+        "asset": { "kind": "asset", "assetId": "asset-bag-sports" },
+        "mapping": { "kind": "literal", "value": { "type": "code", "detail": "label", "paxRef": "paxRef" } }
+      }
+    }
+  },
+  "tests": [],
+  "updatedAt": "2026-06-09T00:00:00.000Z"
+}

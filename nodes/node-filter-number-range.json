@@ -1,5 +1,6 @@
 {
   "id": "node-filter-number-range",
+  "hidden": true,
   "name": "Filter — number in range",
   "description": "Branches pass / fail. Pass when the source number is within [min, max] (inclusive). Use the 'count' binding kind on source for 'if there are 2+ adults' patterns.",
   "category": "filter",

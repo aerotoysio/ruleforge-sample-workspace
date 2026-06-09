@@ -1,0 +1,30 @@
+{
+  "id": "tmpl-passenger",
+  "name": "Passenger",
+  "description": "The Person Object",
+  "category": "Person",
+  "fields": [
+    {
+      "name": "id",
+      "type": "string",
+      "description": "Identifier",
+      "required": true
+    },
+    {
+      "name": "firstName",
+      "type": "string",
+      "description": "Passenger First Name"
+    },
+    {
+      "name": "lastName",
+      "type": "string",
+      "description": "Passenger Last Name"
+    },
+    {
+      "name": "type",
+      "type": "string",
+      "description": "Passenger Type"
+    }
+  ],
+  "updatedAt": "2026-06-09T09:15:31.262Z"
+}

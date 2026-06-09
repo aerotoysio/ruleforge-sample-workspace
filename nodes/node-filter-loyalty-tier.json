@@ -1,5 +1,6 @@
 {
   "id": "node-filter-loyalty-tier",
+  "hidden": true,
   "name": "Filter — loyalty tier",
   "description": "Branches pass / fail. Pass when the passenger's loyalty tier (Gold, Silver, Platinum, …) matches one of the selected tiers. Source field is restricted to fields whose name contains 'tier', 'loyalty', or 'level'.",
   "category": "filter",

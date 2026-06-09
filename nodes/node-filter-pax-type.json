@@ -1,5 +1,6 @@
 {
   "id": "node-filter-pax-type",
+  "hidden": true,
   "name": "Filter — passenger type",
   "description": "Branches pass / fail. Pass when the passenger's type (ADT, CHD, INF, …) is one of the selected types. Pre-suggests choices from the ref-pax-types reference table.",
   "category": "filter",

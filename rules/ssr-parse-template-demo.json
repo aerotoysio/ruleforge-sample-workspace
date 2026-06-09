@@ -1,0 +1,36 @@
+{
+  "id": "ssr-parse-template-demo",
+  "name": "SSR parse → template demo (scratch)",
+  "description": "Scratch rule: parse an SSR string and fill the Passenger output template (not an asset). Safe to delete.",
+  "endpoint": "/v1/scratch/ssr-parse-template",
+  "method": "POST",
+  "status": "draft",
+  "currentVersion": 1,
+  "category": "Scratch",
+  "instances": [
+    { "instanceId": "n1", "nodeId": "node-input",        "position": { "x": 80,  "y": 240 }, "label": "Request" },
+    { "instanceId": "n2", "nodeId": "node-parse-string", "position": { "x": 360, "y": 240 }, "label": "Parse SSR → Passenger" },
+    { "instanceId": "n3", "nodeId": "node-output",       "position": { "x": 660, "y": 240 }, "label": "Passenger" }
+  ],
+  "edges": [
+    { "id": "e1", "source": "n1", "target": "n2", "branch": "default" },
+    { "id": "e2", "source": "n2", "target": "n3", "branch": "default" }
+  ],
+  "inputSchema": { "type": "object", "properties": { "ssr": { "type": "string" } }, "required": ["ssr"] },
+  "outputSchema": { "type": "object" },
+  "contextSchema": { "type": "object", "properties": {} },
+  "bindings": {
+    "n2": {
+      "instanceId": "n2",
+      "ruleId": "ssr-parse-template-demo",
+      "bindings": {
+        "source": { "kind": "path", "path": "$.ssr" },
+        "pattern": { "kind": "literal", "value": "{ssr} {type} {paxRef} {class} {detail}" },
+        "asset": { "kind": "template-ref", "templateId": "tmpl-passenger" },
+        "mapping": { "kind": "literal", "value": { "type": "type", "paxRef": "id" } }
+      }
+    }
+  },
+  "tests": [],
+  "updatedAt": "2026-06-09T00:00:00.000Z"
+}

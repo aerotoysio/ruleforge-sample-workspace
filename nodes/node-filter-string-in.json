@@ -1,7 +1,7 @@
 {
   "id": "node-filter-string-in",
   "name": "Filter — text",
-  "description": "Branches pass / fail. Compare the source string against a value or list using one of 11 operators (equals, contains, starts with, regex, in / not in, is null / is empty, …). Backwards-compatible with rules that just used 'in' against a list.",
+  "description": "Branches pass / fail. The unified text filter: test one field against one or several conditions — equals / contains / starts-with / regex / in a typed list or a reference-table column — combined with ALL (and) or ANY (or). Replaces the cabin / passenger-type / loyalty veneers.",
   "category": "filter",
   "ports": {
     "inputs": [
@@ -18,8 +18,7 @@
       {
         "name": "operator",
         "type": "string",
-        "required": true,
-        "description": "How to compare the source against the value(s).",
+        "description": "How to compare the source against the value(s). (Legacy single-compare port — the conditions list supersedes it.)",
         "enum": [
           { "value": "equals",       "label": "= equals",         "description": "Source string equals the value." },
           { "value": "not_equals",   "label": "≠ not equal",      "description": "Source string differs from the value." },

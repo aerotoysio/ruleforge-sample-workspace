@@ -1,0 +1,20 @@
+{
+  "id": "node-parse-string",
+  "name": "Parse string (SSR → fields)",
+  "description": "Split a packed string — e.g. an SSR like \"SSR BIKE P1 F OVERSIZE\" or \"INFT P1\" — into named tokens using a friendly {token} pattern (no regex), then map those tokens onto a saved Asset's fields. Emits the asset with its values filled from the parsed string.",
+  "category": "textParse",
+  "ports": {
+    "inputs": [
+      { "name": "source", "type": "string", "required": true, "description": "The string field to parse, e.g. $.ssr.", "bindingKinds": ["path"] },
+      { "name": "asset", "type": "any", "required": false, "description": "The output to fill from the parsed tokens — a saved Asset (product) or an output Template (a shape like Passenger).", "bindingKinds": ["asset", "template-ref"] }
+    ],
+    "params": [
+      { "name": "pattern", "type": "string", "required": true, "description": "Friendly {token} pattern. The literal text between {tokens} are the delimiters, e.g. {ssr} {type} {paxRef} {class} {detail}.", "bindingKinds": ["literal"] },
+      { "name": "mapping", "type": "object", "required": false, "description": "Maps each {token} to a field on the asset, e.g. { \"type\": \"code\", \"detail\": \"label\" }.", "bindingKinds": ["literal"] }
+    ],
+    "outputs": [{ "name": "out", "branch": "default" }]
+  },
+  "ui": { "badge": "PARSE", "icon": "scissors", "accent": "#0d9488" },
+  "tags": ["text", "parse", "ssr", "split", "string"],
+  "updatedAt": "2026-06-09T00:00:00.000Z"
+}

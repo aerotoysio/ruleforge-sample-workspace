@@ -1,5 +1,6 @@
 {
   "id": "node-filter-day-of-week",
+  "hidden": true,
   "name": "Filter — day of week",
   "description": "Branches pass / fail. Pass when the source date falls on one of the selected weekdays (e.g. Mon-Wed). Wraps the date-mode 'day-of-week' binding so users get a 7-button day picker without thinking about modes.",
   "category": "filter",

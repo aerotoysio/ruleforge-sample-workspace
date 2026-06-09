@@ -1,0 +1,30 @@
+{
+  "id": "asset-product-demo",
+  "name": "Asset product demo (scratch)",
+  "description": "Scratch rule: product node emits a saved asset; a downstream Set overrides the price. Safe to delete.",
+  "endpoint": "/v1/scratch/asset-product",
+  "method": "POST",
+  "status": "draft",
+  "currentVersion": 1,
+  "category": "Scratch",
+  "instances": [
+    { "instanceId": "n1", "nodeId": "node-input",        "position": { "x": 80,  "y": 240 }, "label": "Request" },
+    { "instanceId": "n2", "nodeId": "node-product",      "position": { "x": 340, "y": 240 }, "label": "Bag product" },
+    { "instanceId": "n3", "nodeId": "node-mutator-set",  "position": { "x": 600, "y": 240 }, "label": "Override price" },
+    { "instanceId": "n4", "nodeId": "node-output",       "position": { "x": 860, "y": 240 }, "label": "Quote" }
+  ],
+  "edges": [
+    { "id": "e1", "source": "n1", "target": "n2", "branch": "default" },
+    { "id": "e2", "source": "n2", "target": "n3", "branch": "default" },
+    { "id": "e3", "source": "n3", "target": "n4", "branch": "default" }
+  ],
+  "inputSchema": { "type": "object", "properties": { "newPrice": { "type": "number" } }, "required": ["newPrice"] },
+  "outputSchema": { "type": "object" },
+  "contextSchema": { "type": "object", "properties": {} },
+  "bindings": {
+    "n2": { "instanceId": "n2", "ruleId": "asset-product-demo", "bindings": { "value": { "kind": "asset", "assetId": "asset-bag-sports" } } },
+    "n3": { "instanceId": "n3", "ruleId": "asset-product-demo", "bindings": { "target": { "kind": "literal", "value": "amount" }, "from": { "kind": "path", "path": "$.newPrice" } } }
+  },
+  "tests": [],
+  "updatedAt": "2026-06-04T00:00:00.000Z"
+}

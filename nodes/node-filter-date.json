@@ -1,7 +1,7 @@
 {
   "id": "node-filter-date",
   "name": "Filter — date",
-  "description": "Branches pass / fail. Compare the source date against a value, range, or rolling window. Engine operators: equals, before, after, between, within_last, within_next, plus is_null. Authoring also supports calendar predicates (day-of-week, weekend, month-of-year) that compile down to a calc filter at save time.",
+  "description": "Branches pass / fail. Test one date/time field against one or several conditions — before / after / between a date, within a rolling window, a day-of-week or month, or a time-of-day — combined with ALL (and) or ANY (or). A single node replaces a chain of date filters.",
   "category": "filter",
   "ports": {
     "inputs": [
@@ -18,8 +18,7 @@
       {
         "name": "operator",
         "type": "string",
-        "required": true,
-        "description": "How to test the source date.",
+        "description": "How to test the source date. (Legacy single-compare port — the conditions list supersedes it.)",
         "enum": [
           { "value": "equals",       "label": "= equals",         "description": "Source equals a specific date." },
           { "value": "not_equals",   "label": "≠ not equal",      "description": "Source differs from a specific date." },

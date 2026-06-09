@@ -1,7 +1,7 @@
 {
   "id": "node-filter-number-compare",
-  "name": "Filter — number compares",
-  "description": "Branches pass / fail. Compare the source number against a single value (= ≠ < ≤ > ≥). Use 'Filter — number in range' for [min,max] ranges. Pair with a Count of binding on source to write 'if there are exactly 2 adults'.",
+  "name": "Filter — number",
+  "description": "Branches pass / fail. Test one numeric field (e.g. a flight number) against one or several conditions — equals, ≥, ≤, between, in a list — combined with ALL (and) or ANY (or). A single node replaces a chain of single-compare filters.",
   "category": "filter",
   "ports": {
     "inputs": [
@@ -18,8 +18,7 @@
       {
         "name": "operator",
         "type": "string",
-        "required": true,
-        "description": "How to compare the source against the value(s).",
+        "description": "How to compare the source against the value(s). (Legacy single-compare port — the conditions list supersedes it.)",
         "enum": [
           { "value": "equals",     "label": "= equals",          "description": "Source is exactly equal to the value." },
           { "value": "not_equals", "label": "≠ not equal",       "description": "Source differs from the value." },

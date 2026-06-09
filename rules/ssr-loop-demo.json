@@ -1,0 +1,41 @@
+{
+  "id": "ssr-loop-demo",
+  "name": "SSR loop demo (scratch)",
+  "description": "Scratch: iterate an array of SSR strings, parse each into a Passenger via the loop variable $item, collect into an array. Safe to delete.",
+  "endpoint": "/v1/scratch/ssr-loop",
+  "method": "POST",
+  "status": "draft",
+  "currentVersion": 1,
+  "category": "Scratch",
+  "instances": [
+    { "instanceId": "n1", "nodeId": "node-input",        "position": { "x": 80,   "y": 240 }, "label": "Request" },
+    { "instanceId": "n2", "nodeId": "node-iterator",     "position": { "x": 320,  "y": 240 }, "label": "For each SSR" },
+    { "instanceId": "n3", "nodeId": "node-parse-string", "position": { "x": 580,  "y": 240 }, "label": "Parse SSR → Passenger" },
+    { "instanceId": "n4", "nodeId": "node-merge",        "position": { "x": 860,  "y": 240 }, "label": "Collect passengers" },
+    { "instanceId": "n5", "nodeId": "node-output",       "position": { "x": 1100, "y": 240 }, "label": "Passengers" }
+  ],
+  "edges": [
+    { "id": "e1", "source": "n1", "target": "n2", "branch": "default" },
+    { "id": "e2", "source": "n2", "target": "n3", "branch": "default" },
+    { "id": "e3", "source": "n3", "target": "n4", "branch": "default" },
+    { "id": "e4", "source": "n4", "target": "n5", "branch": "default" }
+  ],
+  "inputSchema": { "type": "object", "properties": { "ssrs": { "type": "array", "items": { "type": "string" } } }, "required": ["ssrs"] },
+  "outputSchema": { "type": "object" },
+  "contextSchema": { "type": "object", "properties": {} },
+  "bindings": {
+    "n2": { "instanceId": "n2", "ruleId": "ssr-loop-demo", "bindings": { "source": { "kind": "path", "path": "$.ssrs" }, "as": { "kind": "literal", "value": "item" } } },
+    "n3": {
+      "instanceId": "n3",
+      "ruleId": "ssr-loop-demo",
+      "bindings": {
+        "source": { "kind": "path", "path": "$item" },
+        "pattern": { "kind": "literal", "value": "{type} {paxRef}" },
+        "asset": { "kind": "template-ref", "templateId": "tmpl-passenger" },
+        "mapping": { "kind": "literal", "value": { "type": "type", "paxRef": "id" } }
+      }
+    }
+  },
+  "tests": [],
+  "updatedAt": "2026-06-09T00:00:00.000Z"
+}

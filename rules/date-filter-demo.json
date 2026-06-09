@@ -1,0 +1,46 @@
+{
+  "id": "date-filter-demo",
+  "name": "Date filter demo (scratch)",
+  "description": "Scratch rule: one date filter with three ANDed conditions of different granularities — weekday AND after 06:00 (time) AND before 2026-12-31 (date). Safe to delete.",
+  "endpoint": "/v1/scratch/date-filter",
+  "method": "POST",
+  "status": "draft",
+  "currentVersion": 1,
+  "category": "Scratch",
+  "instances": [
+    { "instanceId": "n1", "nodeId": "node-input",       "position": { "x": 80,  "y": 240 }, "label": "Request" },
+    { "instanceId": "n2", "nodeId": "node-filter-date", "position": { "x": 340, "y": 240 }, "label": "Departure window" },
+    { "instanceId": "n3", "nodeId": "node-constant",    "position": { "x": 620, "y": 160 }, "label": "Eligible" },
+    { "instanceId": "n5", "nodeId": "node-constant",    "position": { "x": 620, "y": 340 }, "label": "Rejected" },
+    { "instanceId": "n4", "nodeId": "node-output",      "position": { "x": 900, "y": 240 }, "label": "Result" }
+  ],
+  "edges": [
+    { "id": "e1", "source": "n1", "target": "n2", "branch": "default" },
+    { "id": "e2", "source": "n2", "target": "n3", "branch": "pass" },
+    { "id": "e3", "source": "n2", "target": "n5", "branch": "fail" },
+    { "id": "e4", "source": "n3", "target": "n4", "branch": "default" },
+    { "id": "e5", "source": "n5", "target": "n4", "branch": "default" }
+  ],
+  "inputSchema": { "type": "object", "properties": { "departureTime": { "type": "string" } }, "required": ["departureTime"] },
+  "outputSchema": { "type": "object" },
+  "contextSchema": { "type": "object", "properties": {} },
+  "bindings": {
+    "n2": {
+      "instanceId": "n2",
+      "ruleId": "date-filter-demo",
+      "bindings": { "source": { "kind": "path", "path": "$.departureTime" } },
+      "extras": {
+        "match": "all",
+        "conditions": [
+          { "operator": "day_of_week", "values": [1, 2, 3, 4, 5] },
+          { "operator": "after", "granularity": "time", "value": "06:00" },
+          { "operator": "before", "granularity": "date", "value": "2026-12-31" }
+        ]
+      }
+    },
+    "n3": { "instanceId": "n3", "ruleId": "date-filter-demo", "bindings": { "value": { "kind": "literal", "value": { "result": "PASS" } } } },
+    "n5": { "instanceId": "n5", "ruleId": "date-filter-demo", "bindings": { "value": { "kind": "literal", "value": { "result": "FAIL" } } } }
+  },
+  "tests": [],
+  "updatedAt": "2026-06-09T00:00:00.000Z"
+}

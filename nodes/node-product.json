@@ -1,7 +1,7 @@
 {
   "id": "node-product",
   "name": "Product (output shape)",
-  "description": "Defines the rule's output object — the rule's 'product'. Two modes: drop a free-form JSON shape with ${...} placeholders, or pick one of your output templates and bind each field. Domain-agnostic — could be an airline product, a tax line, an error envelope. Engine resolves placeholders against request, context, and any open iteration frames at evaluation time.",
+  "description": "Emits a saved Asset (product) — pick one from your library. To change specific values (e.g. Price), chain a Set or calc node downstream so the adjustment is visible in the workflow.",
   "category": "product",
   "ports": {
     "inputs": [],
@@ -10,8 +10,8 @@
         "name": "value",
         "type": "any",
         "required": true,
-        "description": "The shape to emit. Pick a template to fill its fields one-by-one (compiles to ${...} placeholders), or author a free-form JSON literal with placeholders inline.",
-        "bindingKinds": ["template-fill", "literal"]
+        "description": "Pick a saved Asset (product) to emit. To adjust specific values (e.g. Price), chain a Set or calc node downstream.",
+        "bindingKinds": ["asset"]
       }
     ],
     "outputs": [
