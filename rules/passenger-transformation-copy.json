@@ -1,0 +1,306 @@
+{
+  "id": "passenger-transformation-copy",
+  "name": "Passenger Transformation (copy)",
+  "category": "Transformation",
+  "endpoint": "/v1/transformation/passenger",
+  "method": "POST",
+  "status": "draft",
+  "currentVersion": 1,
+  "updatedAt": "2026-06-09T11:17:39.652Z",
+  "inputSchema": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "properties": {
+        "ssr": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ssr"
+      ]
+    }
+  },
+  "outputSchema": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "properties": {
+        "item": {
+          "type": "object",
+          "properties": {}
+        }
+      },
+      "required": [
+        "item"
+      ]
+    }
+  },
+  "contextSchema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {},
+    "required": []
+  },
+  "instances": [
+    {
+      "instanceId": "n-input",
+      "nodeId": "node-input",
+      "position": {
+        "x": -785.1788186333896,
+        "y": -28.50703419908894
+      },
+      "label": "Start"
+    },
+    {
+      "instanceId": "n-output",
+      "nodeId": "node-output",
+      "position": {
+        "x": 695.1675597391071,
+        "y": -52.364161654326985
+      },
+      "label": "End"
+    },
+    {
+      "instanceId": "n-AdwrX2-e",
+      "nodeId": "node-parse-string",
+      "position": {
+        "x": 143.5200428385513,
+        "y": -7.151010726059903
+      },
+      "label": "Parse INFT"
+    },
+    {
+      "instanceId": "n-Q4YjWB6f",
+      "nodeId": "node-parse-string",
+      "position": {
+        "x": 151.8852550032982,
+        "y": 218.1453660671419
+      },
+      "label": "Parse BIKE"
+    },
+    {
+      "instanceId": "n-zZYG9qk9",
+      "nodeId": "node-filter-string-in",
+      "position": {
+        "x": -230.22064476416818,
+        "y": -8.08162873023099
+      },
+      "label": "Fitler INFT"
+    },
+    {
+      "instanceId": "n-Z6TBM_Zv",
+      "nodeId": "node-filter-string-in",
+      "position": {
+        "x": -225.94814211060628,
+        "y": 207.59288824843975
+      },
+      "label": "Filter BIKE"
+    },
+    {
+      "instanceId": "n-3SCZQAdi",
+      "nodeId": "node-merge",
+      "position": {
+        "x": 475.2217145798854,
+        "y": 130.46090905459604
+      }
+    },
+    {
+      "instanceId": "n-QuCbPwoW",
+      "nodeId": "node-iterator",
+      "position": {
+        "x": -583.3731152818259,
+        "y": 132.82120967859092
+      },
+      "label": "For each SSR"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-tZqIXCtu",
+      "source": "n-zZYG9qk9",
+      "target": "n-AdwrX2-e",
+      "branch": "pass"
+    },
+    {
+      "id": "e-on_Wd7RI",
+      "source": "n-Z6TBM_Zv",
+      "target": "n-Q4YjWB6f",
+      "branch": "pass"
+    },
+    {
+      "id": "e-SCdInp3x",
+      "source": "n-input",
+      "target": "n-QuCbPwoW",
+      "branch": "default"
+    },
+    {
+      "id": "e-yT5PVXiX",
+      "source": "n-QuCbPwoW",
+      "target": "n-zZYG9qk9",
+      "branch": "default"
+    },
+    {
+      "id": "e-7kXTzN1U",
+      "source": "n-QuCbPwoW",
+      "target": "n-Z6TBM_Zv",
+      "branch": "default"
+    },
+    {
+      "id": "e-WJIRoSvb",
+      "source": "n-AdwrX2-e",
+      "target": "n-3SCZQAdi",
+      "branch": "default"
+    },
+    {
+      "id": "e-lKYeBcs1",
+      "source": "n-Q4YjWB6f",
+      "target": "n-3SCZQAdi",
+      "branch": "default"
+    },
+    {
+      "id": "e-nnVQnA3_",
+      "source": "n-3SCZQAdi",
+      "target": "n-output",
+      "branch": "default"
+    }
+  ],
+  "bindings": {
+    "n-AdwrX2-e": {
+      "instanceId": "n-AdwrX2-e",
+      "ruleId": "passenger-transformation-copy",
+      "bindings": {
+        "asset": {
+          "kind": "template-ref",
+          "templateId": "tmpl-passenger"
+        },
+        "pattern": {
+          "kind": "literal",
+          "value": "{ssr} {type} {id}"
+        },
+        "mapping": {
+          "kind": "literal",
+          "value": {
+            "type": "type",
+            "id": "id"
+          }
+        },
+        "source": {
+          "kind": "path",
+          "path": "$item.ssr"
+        }
+      },
+      "extras": {}
+    },
+    "n-Q4YjWB6f": {
+      "instanceId": "n-Q4YjWB6f",
+      "ruleId": "passenger-transformation-copy",
+      "bindings": {
+        "asset": {
+          "kind": "template-ref",
+          "templateId": "tmpl-bag-fee-line"
+        },
+        "pattern": {
+          "kind": "literal",
+          "value": "{ssr} {type} {paxId} "
+        },
+        "mapping": {
+          "kind": "literal",
+          "value": {
+            "type": "type",
+            "paxId": "paxId"
+          }
+        },
+        "source": {
+          "kind": "path",
+          "path": "$item.ssr"
+        }
+      },
+      "extras": {}
+    },
+    "n-zZYG9qk9": {
+      "instanceId": "n-zZYG9qk9",
+      "ruleId": "passenger-transformation-copy",
+      "bindings": {
+        "source": {
+          "kind": "path",
+          "path": "$item.ssr"
+        }
+      },
+      "extras": {
+        "conditions": [
+          {
+            "operator": "starts_with",
+            "value": "SSR INFT"
+          }
+        ],
+        "match": "all",
+        "caseSensitive": false
+      }
+    },
+    "n-Z6TBM_Zv": {
+      "instanceId": "n-Z6TBM_Zv",
+      "ruleId": "passenger-transformation-copy",
+      "bindings": {
+        "source": {
+          "kind": "path",
+          "path": "$item.ssr"
+        }
+      },
+      "extras": {
+        "conditions": [
+          {
+            "operator": "starts_with",
+            "value": "SSR BIKE"
+          }
+        ],
+        "match": "all",
+        "caseSensitive": false
+      }
+    },
+    "n-3SCZQAdi": {
+      "instanceId": "n-3SCZQAdi",
+      "ruleId": "passenger-transformation-copy",
+      "bindings": {
+        "from": {
+          "kind": "literal",
+          "value": "$item"
+        },
+        "mode": {
+          "kind": "literal",
+          "value": "collect"
+        }
+      },
+      "extras": {}
+    },
+    "n-QuCbPwoW": {
+      "instanceId": "n-QuCbPwoW",
+      "ruleId": "passenger-transformation-copy",
+      "bindings": {
+        "as": {
+          "kind": "literal",
+          "value": "item"
+        },
+        "source": {
+          "kind": "path",
+          "path": "$"
+        }
+      },
+      "extras": {}
+    }
+  },
+  "tests": [
+    {
+      "id": "passenger-transformation-scenario-1",
+      "name": "SSR Bike",
+      "payload": {
+        "ssr": ""
+      },
+      "tags": [
+        "SSR Bike"
+      ],
+      "updatedAt": "2026-06-09T10:43:10.310Z",
+      "description": "SSR Bike"
+    }
+  ]
+}

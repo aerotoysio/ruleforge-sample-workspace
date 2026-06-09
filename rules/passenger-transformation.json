@@ -1,0 +1,238 @@
+{
+  "id": "passenger-transformation",
+  "name": "Passenger Transformation",
+  "category": "Transformation",
+  "endpoint": "/v1/transformation/passenger",
+  "method": "POST",
+  "status": "draft",
+  "currentVersion": 1,
+  "updatedAt": "2026-06-09T10:59:58.137Z",
+  "inputSchema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "ssr": {
+        "type": "string"
+      }
+    },
+    "required": []
+  },
+  "outputSchema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "item": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    "required": []
+  },
+  "contextSchema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {},
+    "required": []
+  },
+  "instances": [
+    {
+      "instanceId": "n-input",
+      "nodeId": "node-input",
+      "position": {
+        "x": -664.8034868096499,
+        "y": 137.8941597925513
+      },
+      "label": "Start"
+    },
+    {
+      "instanceId": "n-output",
+      "nodeId": "node-output",
+      "position": {
+        "x": 592.4944825953291,
+        "y": 142.360639825252
+      },
+      "label": "End"
+    },
+    {
+      "instanceId": "n-AdwrX2-e",
+      "nodeId": "node-parse-string",
+      "position": {
+        "x": 196.7927005319589,
+        "y": 18.895242964645185
+      },
+      "label": "Parse INFT"
+    },
+    {
+      "instanceId": "n-Q4YjWB6f",
+      "nodeId": "node-parse-string",
+      "position": {
+        "x": 196.73096685920126,
+        "y": 220.5056666911368
+      },
+      "label": "Parse BIKE"
+    },
+    {
+      "instanceId": "n-zZYG9qk9",
+      "nodeId": "node-filter-string-in",
+      "position": {
+        "x": -205.83332760868745,
+        "y": 18.895934792187894
+      },
+      "label": "Fitler INFT"
+    },
+    {
+      "instanceId": "n-Z6TBM_Zv",
+      "nodeId": "node-filter-string-in",
+      "position": {
+        "x": -204.70543649465222,
+        "y": 232.37604480038618
+      },
+      "label": "Filter BIKE"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-oH7gAWVp",
+      "source": "n-AdwrX2-e",
+      "target": "n-output",
+      "branch": "default"
+    },
+    {
+      "id": "e-pT_o9qUa",
+      "source": "n-Q4YjWB6f",
+      "target": "n-output",
+      "branch": "default"
+    },
+    {
+      "id": "e-tZqIXCtu",
+      "source": "n-zZYG9qk9",
+      "target": "n-AdwrX2-e",
+      "branch": "pass"
+    },
+    {
+      "id": "e-on_Wd7RI",
+      "source": "n-Z6TBM_Zv",
+      "target": "n-Q4YjWB6f",
+      "branch": "pass"
+    },
+    {
+      "id": "e-82xbGR_T",
+      "source": "n-input",
+      "target": "n-zZYG9qk9",
+      "branch": "default"
+    },
+    {
+      "id": "e-93-JpY3i",
+      "source": "n-input",
+      "target": "n-Z6TBM_Zv",
+      "branch": "default"
+    }
+  ],
+  "bindings": {
+    "n-AdwrX2-e": {
+      "instanceId": "n-AdwrX2-e",
+      "ruleId": "passenger-transformation",
+      "bindings": {
+        "asset": {
+          "kind": "template-ref",
+          "templateId": "tmpl-passenger"
+        },
+        "pattern": {
+          "kind": "literal",
+          "value": "{ssr} {type} {id}"
+        },
+        "mapping": {
+          "kind": "literal",
+          "value": {
+            "type": "type",
+            "id": "id"
+          }
+        },
+        "source": {
+          "kind": "path",
+          "path": "$.ssr"
+        }
+      },
+      "extras": {}
+    },
+    "n-Q4YjWB6f": {
+      "instanceId": "n-Q4YjWB6f",
+      "ruleId": "passenger-transformation",
+      "bindings": {
+        "asset": {
+          "kind": "template-ref",
+          "templateId": "tmpl-bag-fee-line"
+        },
+        "pattern": {
+          "kind": "literal",
+          "value": "{ssr} {type} {paxId} "
+        },
+        "mapping": {
+          "kind": "literal",
+          "value": {
+            "type": "type",
+            "paxId": "paxId"
+          }
+        },
+        "source": {
+          "kind": "path",
+          "path": "$.ssr"
+        }
+      },
+      "extras": {}
+    },
+    "n-zZYG9qk9": {
+      "instanceId": "n-zZYG9qk9",
+      "ruleId": "passenger-transformation",
+      "bindings": {
+        "source": {
+          "kind": "path",
+          "path": "$.ssr"
+        }
+      },
+      "extras": {
+        "conditions": [
+          {
+            "operator": "starts_with",
+            "value": "SSR INFT"
+          }
+        ],
+        "match": "all",
+        "caseSensitive": false
+      }
+    },
+    "n-Z6TBM_Zv": {
+      "instanceId": "n-Z6TBM_Zv",
+      "ruleId": "passenger-transformation",
+      "bindings": {
+        "source": {
+          "kind": "path",
+          "path": "$.ssr"
+        }
+      },
+      "extras": {
+        "conditions": [
+          {
+            "operator": "starts_with"
+          }
+        ],
+        "match": "all",
+        "caseSensitive": false
+      }
+    }
+  },
+  "tests": [
+    {
+      "id": "passenger-transformation-scenario-1",
+      "name": "SSR Bike",
+      "payload": {
+        "ssr": ""
+      },
+      "tags": [
+        "SSR Bike"
+      ],
+      "updatedAt": "2026-06-09T10:43:10.310Z",
+      "description": "SSR Bike"
+    }
+  ]
+}

@@ -1,22 +1,53 @@
 {
   "id": "test",
   "name": "test",
-  "description": "this is a test",
+  "category": "Ancillaries",
   "endpoint": "/v1/test",
   "method": "POST",
   "status": "draft",
   "currentVersion": 1,
+  "updatedAt": "2026-06-08T11:01:32.591Z",
   "inputSchema": {
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
-    "properties": {},
-    "required": []
+    "properties": {
+      "passengerId": {
+        "type": "string",
+        "description": "Identifier of the passenger requesting the lounge pass"
+      },
+      "flightHour": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 23,
+        "description": "Hour of day (0-23) of the flight departure"
+      },
+      "flightDayOfWeek": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 6,
+        "description": "Day of week of the flight, 0=Sunday … 6=Saturday"
+      }
+    },
+    "required": [
+      "flightHour",
+      "flightDayOfWeek"
+    ]
   },
   "outputSchema": {
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
-    "properties": {},
-    "required": []
+    "properties": {
+      "eligible": {
+        "type": "boolean",
+        "description": "Whether the passenger is eligible for the lounge pass"
+      },
+      "loungeAsset": {
+        "type": "string",
+        "description": "The lounge asset granted, or NONE if not eligible"
+      }
+    },
+    "required": [
+      "eligible",
+      "loungeAsset"
+    ]
   },
   "contextSchema": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -26,33 +57,266 @@
   },
   "instances": [
     {
-      "instanceId": "n-input",
+      "instanceId": "n1",
       "nodeId": "node-input",
       "position": {
-        "x": 80,
-        "y": 240
+        "x": 221.28989766463533,
+        "y": 78.03353194541806
       },
-      "label": "Start"
+      "label": "Request"
     },
     {
-      "instanceId": "n-output",
-      "nodeId": "node-output",
+      "instanceId": "n2",
+      "nodeId": "node-constant",
       "position": {
-        "x": 720,
+        "x": 300,
         "y": 240
       },
-      "label": "End"
+      "label": "Seed working object"
+    },
+    {
+      "instanceId": "n3",
+      "nodeId": "node-mutator-map",
+      "position": {
+        "x": 520,
+        "y": 240
+      },
+      "label": "Copy flight fields"
+    },
+    {
+      "instanceId": "n4",
+      "nodeId": "node-calc",
+      "position": {
+        "x": 740,
+        "y": 240
+      },
+      "label": "Compute eligibility"
+    },
+    {
+      "instanceId": "n5",
+      "nodeId": "node-calc",
+      "position": {
+        "x": 960,
+        "y": 240
+      },
+      "label": "Resolve lounge asset"
+    },
+    {
+      "instanceId": "n6",
+      "nodeId": "node-output",
+      "position": {
+        "x": 1299.4646289196914,
+        "y": 174.524193765169
+      },
+      "label": "Response"
+    },
+    {
+      "instanceId": "n-A3wqppkZ",
+      "nodeId": "node-product",
+      "position": {
+        "x": 842.9791414106518,
+        "y": 74.7516336909497
+      }
     }
   ],
   "edges": [
     {
-      "id": "e-1",
-      "source": "n-input",
-      "target": "n-output",
+      "id": "e-2",
+      "source": "n2",
+      "target": "n3",
+      "branch": "default"
+    },
+    {
+      "id": "e-3",
+      "source": "n3",
+      "target": "n4",
+      "branch": "default"
+    },
+    {
+      "id": "e-4",
+      "source": "n4",
+      "target": "n5",
+      "branch": "default"
+    },
+    {
+      "id": "e-a3cW1nY8",
+      "source": "n-A3wqppkZ",
+      "target": "n6",
+      "branch": "default"
+    },
+    {
+      "id": "e-k-PkYI_o",
+      "source": "n1",
+      "target": "n-A3wqppkZ",
       "branch": "default"
     }
   ],
-  "bindings": {},
-  "tests": [],
-  "updatedAt": "2026-06-04T03:56:32.972Z"
+  "bindings": {
+    "n2": {
+      "instanceId": "n2",
+      "ruleId": "test",
+      "bindings": {
+        "value": {
+          "kind": "literal",
+          "value": {
+            "eligible": false,
+            "loungeAsset": "NONE",
+            "flightHour": 0,
+            "flightDayOfWeek": 0
+          }
+        }
+      },
+      "extras": {}
+    },
+    "n3": {
+      "instanceId": "n3",
+      "ruleId": "test",
+      "bindings": {},
+      "extras": {
+        "fields": {
+          "flightHour": {
+            "kind": "path",
+            "path": "$.flightHour"
+          },
+          "flightDayOfWeek": {
+            "kind": "path",
+            "path": "$.flightDayOfWeek"
+          }
+        }
+      }
+    },
+    "n4": {
+      "instanceId": "n4",
+      "ruleId": "test",
+      "bindings": {
+        "target": {
+          "kind": "literal",
+          "value": "eligible"
+        },
+        "expression": {
+          "kind": "literal",
+          "value": "if(flightDayOfWeek >= 1 && flightDayOfWeek <= 5 && flightHour >= 6 && flightHour <= 22, true, false)"
+        }
+      },
+      "extras": {}
+    },
+    "n5": {
+      "instanceId": "n5",
+      "ruleId": "test",
+      "bindings": {
+        "target": {
+          "kind": "literal",
+          "value": "loungeAsset"
+        },
+        "expression": {
+          "kind": "literal",
+          "value": "if(eligible, 'LOUNGE-PASS-001', 'NONE')"
+        }
+      },
+      "extras": {}
+    },
+    "n-A3wqppkZ": {
+      "instanceId": "n-A3wqppkZ",
+      "ruleId": "test",
+      "bindings": {
+        "value": {
+          "kind": "template-fill",
+          "templateId": "tmpl-bag-fee-line",
+          "fields": {
+            "type": {
+              "kind": "literal",
+              "value": "BAG"
+            },
+            "code": {
+              "kind": "literal",
+              "value": "EXTRA_BAG_1"
+            },
+            "weightKg": {
+              "kind": "literal",
+              "value": 23
+            },
+            "amount": {
+              "kind": "literal",
+              "value": 65
+            },
+            "currency": {
+              "kind": "literal",
+              "value": "USD"
+            },
+            "label": {
+              "kind": "literal",
+              "value": "First checked bag"
+            }
+          }
+        }
+      },
+      "extras": {}
+    }
+  },
+  "tests": [
+    {
+      "id": "t-1",
+      "name": "Weekday daytime — eligible",
+      "payload": {
+        "passengerId": "PAX1",
+        "flightHour": 10,
+        "flightDayOfWeek": 3
+      }
+    },
+    {
+      "id": "t-2",
+      "name": "Weekend — not eligible",
+      "payload": {
+        "passengerId": "PAX2",
+        "flightHour": 14,
+        "flightDayOfWeek": 6
+      }
+    },
+    {
+      "id": "t-3",
+      "name": "Weekday late night — not eligible",
+      "payload": {
+        "passengerId": "PAX3",
+        "flightHour": 23,
+        "flightDayOfWeek": 2
+      }
+    },
+    {
+      "id": "t-4",
+      "name": "Weekday early edge — eligible",
+      "payload": {
+        "passengerId": "PAX4",
+        "flightHour": 6,
+        "flightDayOfWeek": 1
+      }
+    }
+  ],
+  "aiMeta": {
+    "narrative": "The rule reads the flight's departure hour and day of week from the request. It seeds a working object with default values (not eligible, no asset), copies the request's flightHour and flightDayOfWeek onto that object, then computes eligibility: the passenger is eligible when the flight departs on a weekday (Monday–Friday) between 06:00 and 22:00 inclusive. Based on that boolean, it resolves the lounge asset to 'LOUNGE-PASS-001' when eligible or 'NONE' otherwise, and returns both the eligibility flag and the asset.",
+    "nodeExplanations": {
+      "n2": "Creates the initial working object with default fields: eligible=false, loungeAsset='NONE', and placeholders for flightHour and flightDayOfWeek.",
+      "n3": "Copies the request's flightHour and flightDayOfWeek into the working object so they can be used in calculations.",
+      "n4": "Evaluates eligibility — true only when the flight day is a weekday (1–5) and the hour is within lounge operating hours (6–22).",
+      "n5": "Resolves the lounge asset to grant: 'LOUNGE-PASS-001' if eligible, otherwise 'NONE'."
+    },
+    "citations": [
+      {
+        "instanceId": "n3",
+        "clause": "input flight time and day",
+        "quote": "check eligibility of lounge pass based on input flight time and day"
+      },
+      {
+        "instanceId": "n4",
+        "clause": "eligibility check",
+        "quote": "check eligibility of lounge pass"
+      },
+      {
+        "instanceId": "n5",
+        "clause": "return the lounge asset or not",
+        "quote": "to return the lounge asset or not"
+      }
+    ],
+    "generatedBy": "claude-opus-4-8",
+    "generatedAt": "2026-06-08T10:59:08.344Z"
+  }
 }

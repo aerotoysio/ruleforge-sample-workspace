@@ -1,0 +1,408 @@
+{
+  "id": "order-mapping",
+  "name": "Order Mapping",
+  "category": "Transition",
+  "endpoint": "/v1/Order",
+  "method": "POST",
+  "status": "draft",
+  "currentVersion": 1,
+  "updatedAt": "2026-06-05T10:28:19.999Z",
+  "inputSchema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": [
+      "recordLocator",
+      "passengers",
+      "segments"
+    ],
+    "properties": {
+      "recordLocator": {
+        "type": "string",
+        "description": "PNR record locator (6-char alphanumeric)"
+      },
+      "passengers": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "firstName",
+            "lastName",
+            "paxType"
+          ],
+          "properties": {
+            "firstName": {
+              "type": "string"
+            },
+            "lastName": {
+              "type": "string"
+            },
+            "paxType": {
+              "type": "string",
+              "description": "e.g. ADT, CHD, INF"
+            },
+            "dateOfBirth": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        }
+      },
+      "segments": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "origin",
+            "destination",
+            "departure",
+            "flightNumber"
+          ],
+          "properties": {
+            "origin": {
+              "type": "string"
+            },
+            "destination": {
+              "type": "string"
+            },
+            "departure": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "arrival": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "flightNumber": {
+              "type": "string"
+            },
+            "cabin": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "contact": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "outputSchema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+      "OrderID": {
+        "type": "string"
+      },
+      "TypeCode": {
+        "type": "string"
+      },
+      "StatusCode": {
+        "type": "string"
+      },
+      "BookingReferences": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "ID": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Passengers": {
+        "type": "array"
+      },
+      "Flights": {
+        "type": "array"
+      },
+      "Contacts": {
+        "type": "object"
+      }
+    }
+  },
+  "contextSchema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {},
+    "required": []
+  },
+  "instances": [
+    {
+      "instanceId": "n1",
+      "nodeId": "node-input",
+      "position": {
+        "x": 80,
+        "y": 240
+      },
+      "label": "PNR Request"
+    },
+    {
+      "instanceId": "n2",
+      "nodeId": "node-constant",
+      "position": {
+        "x": 300,
+        "y": 240
+      },
+      "label": "Seed Order"
+    },
+    {
+      "instanceId": "n3",
+      "nodeId": "node-mutator-map",
+      "position": {
+        "x": 520,
+        "y": 240
+      },
+      "label": "Map PNR → Order"
+    },
+    {
+      "instanceId": "n4",
+      "nodeId": "node-calc",
+      "position": {
+        "x": 740,
+        "y": 240
+      },
+      "label": "Stamp status"
+    },
+    {
+      "instanceId": "n5",
+      "nodeId": "node-output",
+      "position": {
+        "x": 960,
+        "y": 240
+      },
+      "label": "IATA Order"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-1",
+      "source": "n1",
+      "target": "n2",
+      "branch": "default"
+    },
+    {
+      "id": "e-2",
+      "source": "n2",
+      "target": "n3",
+      "branch": "default"
+    },
+    {
+      "id": "e-3",
+      "source": "n3",
+      "target": "n4",
+      "branch": "default"
+    },
+    {
+      "id": "e-4",
+      "source": "n4",
+      "target": "n5",
+      "branch": "default"
+    }
+  ],
+  "bindings": {
+    "n2": {
+      "instanceId": "n2",
+      "ruleId": "order-mapping",
+      "bindings": {
+        "value": {
+          "kind": "literal",
+          "value": {
+            "OrderID": null,
+            "TypeCode": "Order",
+            "StatusCode": null,
+            "BookingReferences": [],
+            "Passengers": [],
+            "Flights": [],
+            "Contacts": {}
+          }
+        }
+      },
+      "extras": {}
+    },
+    "n3": {
+      "instanceId": "n3",
+      "ruleId": "order-mapping",
+      "bindings": {},
+      "extras": {
+        "fields": {
+          "OrderID": {
+            "kind": "path",
+            "path": "$.recordLocator"
+          },
+          "BookingReferences[0].ID": {
+            "kind": "path",
+            "path": "$.recordLocator"
+          },
+          "Passengers": {
+            "kind": "path",
+            "path": "$.passengers"
+          },
+          "Flights": {
+            "kind": "path",
+            "path": "$.segments"
+          },
+          "Contacts": {
+            "kind": "path",
+            "path": "$.contact"
+          }
+        }
+      }
+    },
+    "n4": {
+      "instanceId": "n4",
+      "ruleId": "order-mapping",
+      "bindings": {
+        "target": {
+          "kind": "literal",
+          "value": "StatusCode"
+        },
+        "expression": {
+          "kind": "literal",
+          "value": "'Confirmed'"
+        }
+      },
+      "extras": {}
+    },
+    "n5": {
+      "instanceId": "n5",
+      "ruleId": "order-mapping",
+      "bindings": {
+        "in": {
+          "kind": "path",
+          "path": "$"
+        }
+      },
+      "extras": {}
+    }
+  },
+  "tests": [
+    {
+      "id": "t-1",
+      "name": "Single adult, one segment",
+      "payload": {
+        "recordLocator": "ABC123",
+        "passengers": [
+          {
+            "firstName": "Jane",
+            "lastName": "Doe",
+            "paxType": "ADT",
+            "dateOfBirth": "1990-05-12"
+          }
+        ],
+        "segments": [
+          {
+            "origin": "LHR",
+            "destination": "DXB",
+            "departure": "2024-09-01T08:00:00Z",
+            "arrival": "2024-09-01T18:30:00Z",
+            "flightNumber": "EK002",
+            "cabin": "Y"
+          }
+        ],
+        "contact": {
+          "email": "jane@example.com",
+          "phone": "+441234567890"
+        }
+      }
+    },
+    {
+      "id": "t-2",
+      "name": "Family with connection",
+      "payload": {
+        "recordLocator": "XYZ789",
+        "passengers": [
+          {
+            "firstName": "John",
+            "lastName": "Smith",
+            "paxType": "ADT"
+          },
+          {
+            "firstName": "Amy",
+            "lastName": "Smith",
+            "paxType": "CHD",
+            "dateOfBirth": "2016-02-20"
+          }
+        ],
+        "segments": [
+          {
+            "origin": "JFK",
+            "destination": "LHR",
+            "departure": "2024-10-10T22:00:00Z",
+            "flightNumber": "BA178",
+            "cabin": "J"
+          },
+          {
+            "origin": "LHR",
+            "destination": "EDI",
+            "departure": "2024-10-11T11:00:00Z",
+            "flightNumber": "BA1442",
+            "cabin": "Y"
+          }
+        ],
+        "contact": {
+          "email": "john.smith@example.com"
+        }
+      }
+    },
+    {
+      "id": "t-3",
+      "name": "No contact block",
+      "payload": {
+        "recordLocator": "QWE456",
+        "passengers": [
+          {
+            "firstName": "Mona",
+            "lastName": "Lee",
+            "paxType": "ADT"
+          }
+        ],
+        "segments": [
+          {
+            "origin": "SIN",
+            "destination": "SYD",
+            "departure": "2024-11-05T01:15:00Z",
+            "flightNumber": "QF82",
+            "cabin": "F"
+          }
+        ]
+      }
+    }
+  ],
+  "aiMeta": {
+    "narrative": "The rule receives a PNR JSON (record locator, passengers, segments and optional contact). It first seeds an empty IATA Order envelope with a constant node containing all target fields (OrderID, TypeCode, StatusCode, BookingReferences, Passengers, Flights, Contacts). The mutator-map node then transforms the PNR by copying the record locator into both OrderID and the first BookingReference ID, mapping the passenger array into Order.Passengers, the segment array into Order.Flights, and the contact object into Order.Contacts. A calc node stamps StatusCode to 'Confirmed', completing the IATA-compliant Order, which is returned by the output node.",
+    "nodeExplanations": {
+      "n1": "Accepts the inbound PNR payload (recordLocator, passengers, segments, optional contact).",
+      "n2": "Seeds the working object with a fully-shaped, empty IATA Order envelope so every target field exists before mapping.",
+      "n3": "Performs the core transform: copies PNR fields into the corresponding NDC-style Order fields (OrderID, BookingReferences, Passengers, Flights, Contacts).",
+      "n4": "Stamps the Order StatusCode to 'Confirmed' to produce a valid Order status."
+    },
+    "citations": [
+      {
+        "instanceId": "n2",
+        "clause": "transform and map a PNR shape to an IATA Order",
+        "quote": "transform and map a PNR shape (in json) to an IATA complaint Order"
+      },
+      {
+        "instanceId": "n3",
+        "clause": "transform and map a PNR shape to an IATA Order",
+        "quote": "transform and map a PNR shape (in json) to an IATA complaint Order"
+      },
+      {
+        "instanceId": "n4",
+        "clause": "IATA compliant Order",
+        "quote": "to an IATA complaint Order"
+      }
+    ],
+    "generatedBy": "claude-opus-4-8",
+    "generatedAt": "2026-06-05T10:28:19.986Z"
+  }
+}

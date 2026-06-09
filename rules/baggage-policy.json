@@ -6,7 +6,7 @@
   "method": "POST",
   "status": "draft",
   "currentVersion": 1,
-  "updatedAt": "2026-06-05T10:09:49.564Z",
+  "updatedAt": "2026-06-09T08:53:37.477Z",
   "inputSchema": {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
@@ -48,6 +48,10 @@
           "PLATINUM"
         ],
         "description": "Skywards loyalty tier"
+      },
+      "arrivalDate": {
+        "type": "string",
+        "format": "date"
       }
     }
   },
@@ -173,6 +177,14 @@
         "y": 240
       },
       "label": "Response"
+    },
+    {
+      "instanceId": "n-3EaRZb1b",
+      "nodeId": "node-filter-date",
+      "position": {
+        "x": -44.6729387060703,
+        "y": 24.991048107099836
+      }
     }
   ],
   "edges": [
