@@ -1,0 +1,28 @@
+{
+  "id": "node-filter-list",
+  "name": "Filter list",
+  "description": "Keep only the array elements that match your conditions — e.g. only delayed flights, only adult passengers. Outputs the matching subset (not a pass/fail gate). Use it to filter the right list before a Join, or to filter the result after.",
+  "category": "filterList",
+  "ports": {
+    "inputs": [
+      { "name": "source", "type": "object-array", "required": false, "description": "The list to filter, e.g. $.flights. Leave blank to use the upstream node's output.", "bindingKinds": ["path"] }
+    ],
+    "params": [
+      { "name": "field", "type": "string", "required": true, "description": "The field on each element to test, e.g. status.", "bindingKinds": ["literal"] },
+      {
+        "name": "valueType", "type": "string", "required": false,
+        "description": "How to compare the field.",
+        "enum": [
+          { "value": "string", "label": "Text" },
+          { "value": "number", "label": "Number" },
+          { "value": "date",   "label": "Date" }
+        ],
+        "bindingKinds": ["literal"]
+      }
+    ],
+    "outputs": [{ "name": "out", "branch": "default" }]
+  },
+  "ui": { "badge": "WHERE", "icon": "filter", "accent": "#0891b2" },
+  "tags": ["filter", "array", "where", "subset"],
+  "updatedAt": "2026-06-16T00:00:00.000Z"
+}

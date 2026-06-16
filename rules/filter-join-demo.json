@@ -1,0 +1,78 @@
+{
+  "id": "filter-join-demo",
+  "name": "Filter + Join demo — delayed flights per passenger",
+  "description": "Filter flights to delayed only (Filter list), then inner-join them onto passengers (only keep matched). Carol has no delayed flight, so she drops out. Showcases Filter-list + Join composition.",
+  "endpoint": "/v1/demo/filter-join",
+  "method": "POST",
+  "status": "draft",
+  "currentVersion": 1,
+  "category": "Demo",
+  "instances": [
+    { "instanceId": "n1", "nodeId": "node-input",       "position": { "x": 60,  "y": 240 }, "label": "Request" },
+    { "instanceId": "n2", "nodeId": "node-filter-list", "position": { "x": 320, "y": 240 }, "label": "Only delayed flights" },
+    { "instanceId": "n3", "nodeId": "node-join",        "position": { "x": 600, "y": 240 }, "label": "Attach to passengers" },
+    { "instanceId": "n4", "nodeId": "node-output",      "position": { "x": 880, "y": 240 }, "label": "Passengers + delays" }
+  ],
+  "edges": [
+    { "id": "e1", "source": "n1", "target": "n2", "branch": "default" },
+    { "id": "e2", "source": "n2", "target": "n3", "branch": "default" },
+    { "id": "e3", "source": "n3", "target": "n4", "branch": "default" }
+  ],
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "passengers": { "type": "array", "items": { "type": "object", "properties": { "id": { "type": "string" }, "name": { "type": "string" } } } },
+      "flights": { "type": "array", "items": { "type": "object", "properties": { "paxId": { "type": "string" }, "flightNo": { "type": "string" }, "status": { "type": "string" } } } }
+    },
+    "required": ["passengers", "flights"]
+  },
+  "outputSchema": { "type": "array" },
+  "contextSchema": { "type": "object", "properties": {} },
+  "bindings": {
+    "n2": {
+      "instanceId": "n2",
+      "ruleId": "filter-join-demo",
+      "bindings": {
+        "source": { "kind": "path", "path": "$.flights" },
+        "field": { "kind": "literal", "value": "status" },
+        "valueType": { "kind": "literal", "value": "string" }
+      },
+      "extras": { "conditions": [ { "operator": "equals", "value": "delayed" } ], "match": "all" }
+    },
+    "n3": {
+      "instanceId": "n3",
+      "ruleId": "filter-join-demo",
+      "bindings": {
+        "left": { "kind": "path", "path": "$.passengers" },
+        "leftKey": { "kind": "literal", "value": "id" },
+        "rightKey": { "kind": "literal", "value": "paxId" },
+        "as": { "kind": "literal", "value": "delayedFlights" },
+        "mode": { "kind": "literal", "value": "collect" },
+        "onlyMatched": { "kind": "literal", "value": true }
+      }
+    }
+  },
+  "tests": [
+    {
+      "id": "filter-join-3pax",
+      "name": "3 passengers, mixed flight statuses",
+      "description": "Alice + Bob each have a delayed flight; Carol only has an on-time flight, so she drops out.",
+      "tags": ["filterList", "join"],
+      "payload": {
+        "passengers": [
+          { "id": "P1", "name": "Alice" },
+          { "id": "P2", "name": "Bob" },
+          { "id": "P3", "name": "Carol" }
+        ],
+        "flights": [
+          { "paxId": "P1", "flightNo": "EK1", "status": "delayed" },
+          { "paxId": "P1", "flightNo": "EK2", "status": "ontime" },
+          { "paxId": "P2", "flightNo": "EK9", "status": "delayed" },
+          { "paxId": "P3", "flightNo": "EK5", "status": "ontime" }
+        ]
+      },
+      "updatedAt": "2026-06-16T00:00:00.000Z"
+    }
+  ],
+  "updatedAt": "2026-06-16T00:00:00.000Z"
+}
