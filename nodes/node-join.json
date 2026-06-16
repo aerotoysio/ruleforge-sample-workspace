@@ -1,0 +1,30 @@
+{
+  "id": "node-join",
+  "name": "Join / Enrich",
+  "description": "Enrich a list with matching items from another list, correlated by a key — e.g. attach each passenger's flights where flight.paxId = passenger.id. Outputs the left list, each item carrying its matches under a new field.",
+  "category": "join",
+  "ports": {
+    "inputs": [
+      { "name": "left",  "type": "object-array", "required": true,  "description": "The list to enrich, e.g. $.passengers.", "bindingKinds": ["path"] },
+      { "name": "right", "type": "object-array", "required": false, "description": "The related list to pull matches from, e.g. $.flights. Leave blank to use the upstream node's output.", "bindingKinds": ["path"] }
+    ],
+    "params": [
+      { "name": "leftKey",  "type": "string", "required": true, "description": "Field on each left item to match on (e.g. id).", "bindingKinds": ["literal"] },
+      { "name": "rightKey", "type": "string", "required": true, "description": "Field on each right item to match on (e.g. paxId).", "bindingKinds": ["literal"] },
+      { "name": "as",       "type": "string", "required": true, "description": "Name of the field to attach the matches under (e.g. flights).", "bindingKinds": ["literal"] },
+      {
+        "name": "mode", "type": "string", "required": false,
+        "description": "How many matches to attach.",
+        "enum": [
+          { "value": "collect", "label": "Collect all matches", "description": "Attach an array of every matching right item." },
+          { "value": "first",   "label": "First match only",    "description": "Attach a single matching right item (or null)." }
+        ],
+        "bindingKinds": ["literal"]
+      }
+    ],
+    "outputs": [{ "name": "out", "branch": "default" }]
+  },
+  "ui": { "badge": "JOIN", "icon": "git-merge", "accent": "#7c3aed" },
+  "tags": ["join", "enrich", "correlate", "array"],
+  "updatedAt": "2026-06-09T00:00:00.000Z"
+}

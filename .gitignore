@@ -4,3 +4,6 @@
 
 # Engine-fixture staging — regenerated on every /api/test invocation
 .engine-staging/
+
+# Stray npm artifact — this is a data workspace, not a node project
+package-lock.json

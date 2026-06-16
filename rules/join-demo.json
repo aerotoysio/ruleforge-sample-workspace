@@ -1,0 +1,45 @@
+{
+  "id": "join-demo",
+  "name": "Join demo — passengers × flights (scratch)",
+  "description": "Scratch: enrich each passenger with their flights, joined on passenger.id = flight.paxId. Safe to delete.",
+  "endpoint": "/v1/scratch/join",
+  "method": "POST",
+  "status": "draft",
+  "currentVersion": 1,
+  "category": "Scratch",
+  "instances": [
+    { "instanceId": "n1", "nodeId": "node-input",  "position": { "x": 80,  "y": 240 }, "label": "Request" },
+    { "instanceId": "n2", "nodeId": "node-join",   "position": { "x": 360, "y": 240 }, "label": "Passengers + flights" },
+    { "instanceId": "n3", "nodeId": "node-output", "position": { "x": 680, "y": 240 }, "label": "Result" }
+  ],
+  "edges": [
+    { "id": "e1", "source": "n1", "target": "n2", "branch": "default" },
+    { "id": "e2", "source": "n2", "target": "n3", "branch": "default" }
+  ],
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "passengers": { "type": "array", "items": { "type": "object", "properties": { "id": { "type": "string" }, "name": { "type": "string" } } } },
+      "flights":    { "type": "array", "items": { "type": "object", "properties": { "paxId": { "type": "string" }, "flightNo": { "type": "string" } } } }
+    },
+    "required": ["passengers", "flights"]
+  },
+  "outputSchema": { "type": "array" },
+  "contextSchema": { "type": "object", "properties": {} },
+  "bindings": {
+    "n2": {
+      "instanceId": "n2",
+      "ruleId": "join-demo",
+      "bindings": {
+        "left":     { "kind": "path", "path": "$.passengers" },
+        "right":    { "kind": "path", "path": "$.flights" },
+        "leftKey":  { "kind": "literal", "value": "id" },
+        "rightKey": { "kind": "literal", "value": "paxId" },
+        "as":       { "kind": "literal", "value": "flights" },
+        "mode":     { "kind": "literal", "value": "collect" }
+      }
+    }
+  },
+  "tests": [],
+  "updatedAt": "2026-06-09T00:00:00.000Z"
+}

@@ -1,0 +1,80 @@
+{
+  "id": "join-ssr-demo",
+  "name": "Join demo — SSRs → passengers",
+  "description": "Parse an array of SSR strings, then JOIN them onto the passengers they belong to (passenger.id = ssr.paxRef). Each passenger comes back with their SSRs nested. Showcases For-each + Parse + Collect + Join.",
+  "endpoint": "/v1/demo/join-ssr",
+  "method": "POST",
+  "status": "draft",
+  "currentVersion": 1,
+  "category": "Demo",
+  "instances": [
+    { "instanceId": "n1", "nodeId": "node-input",        "position": { "x": 60,   "y": 240 }, "label": "Request" },
+    { "instanceId": "n2", "nodeId": "node-iterator",     "position": { "x": 300,  "y": 240 }, "label": "For each SSR" },
+    { "instanceId": "n3", "nodeId": "node-parse-string", "position": { "x": 540,  "y": 240 }, "label": "Parse SSR" },
+    { "instanceId": "n4", "nodeId": "node-merge",        "position": { "x": 800,  "y": 240 }, "label": "Collect SSRs" },
+    { "instanceId": "n5", "nodeId": "node-join",         "position": { "x": 1040, "y": 240 }, "label": "Attach to passengers" },
+    { "instanceId": "n6", "nodeId": "node-output",       "position": { "x": 1320, "y": 240 }, "label": "Passengers + SSRs" }
+  ],
+  "edges": [
+    { "id": "e1", "source": "n1", "target": "n2", "branch": "default" },
+    { "id": "e2", "source": "n2", "target": "n3", "branch": "default" },
+    { "id": "e3", "source": "n3", "target": "n4", "branch": "default" },
+    { "id": "e4", "source": "n4", "target": "n5", "branch": "default" },
+    { "id": "e5", "source": "n5", "target": "n6", "branch": "default" }
+  ],
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "passengers": { "type": "array", "items": { "type": "object", "properties": { "id": { "type": "string" }, "name": { "type": "string" } } } },
+      "ssrs": { "type": "array", "items": { "type": "string" } }
+    },
+    "required": ["passengers", "ssrs"]
+  },
+  "outputSchema": { "type": "array" },
+  "contextSchema": { "type": "object", "properties": {} },
+  "bindings": {
+    "n2": { "instanceId": "n2", "ruleId": "join-ssr-demo", "bindings": { "source": { "kind": "path", "path": "$.ssrs" }, "as": { "kind": "literal", "value": "item" } } },
+    "n3": {
+      "instanceId": "n3",
+      "ruleId": "join-ssr-demo",
+      "bindings": {
+        "source": { "kind": "path", "path": "$item" },
+        "pattern": { "kind": "literal", "value": "{ssr} {type} {paxRef} {class} {detail}" },
+        "mapping": { "kind": "literal", "value": { "type": "type", "paxRef": "paxRef", "detail": "detail" } }
+      }
+    },
+    "n4": { "instanceId": "n4", "ruleId": "join-ssr-demo", "bindings": { "from": { "kind": "path", "path": "$item" }, "mode": { "kind": "literal", "value": "collect" } } },
+    "n5": {
+      "instanceId": "n5",
+      "ruleId": "join-ssr-demo",
+      "bindings": {
+        "left": { "kind": "path", "path": "$.passengers" },
+        "leftKey": { "kind": "literal", "value": "id" },
+        "rightKey": { "kind": "literal", "value": "paxRef" },
+        "as": { "kind": "literal", "value": "ssrs" },
+        "mode": { "kind": "literal", "value": "collect" }
+      }
+    }
+  },
+  "tests": [
+    {
+      "id": "join-ssr-2pax-3ssr",
+      "name": "2 passengers, 3 SSRs",
+      "description": "Alice (P1) has a bike + golf bag; Bob (P2) has a surfboard.",
+      "tags": ["join", "ssr"],
+      "payload": {
+        "passengers": [
+          { "id": "P1", "name": "Alice" },
+          { "id": "P2", "name": "Bob" }
+        ],
+        "ssrs": [
+          "SSR BIKE P1 F OVERSIZE",
+          "SSR GOLF P1 J HEAVY",
+          "SSR SURF P2 Y FRAGILE"
+        ]
+      },
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    }
+  ],
+  "updatedAt": "2026-06-09T00:00:00.000Z"
+}

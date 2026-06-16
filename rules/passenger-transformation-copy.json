@@ -1,12 +1,12 @@
 {
   "id": "passenger-transformation-copy",
-  "name": "Passenger Transformation (copy)",
+  "name": "Bulk Passenger Transformation  (SSR)",
   "category": "Transformation",
   "endpoint": "/v1/transformation/passenger",
   "method": "POST",
   "status": "draft",
   "currentVersion": 1,
-  "updatedAt": "2026-06-09T11:17:39.652Z",
+  "updatedAt": "2026-06-10T04:19:04.784Z",
   "inputSchema": {
     "type": "array",
     "items": {
@@ -302,5 +302,6 @@
       "updatedAt": "2026-06-09T10:43:10.310Z",
       "description": "SSR Bike"
     }
-  ]
+  ],
+  "description": "Convert SSR's to meaningful objects"
 }
